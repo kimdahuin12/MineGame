@@ -3,7 +3,6 @@
 	//#include <my_global.h>
 	//#include <mysql.h>
 
-#include <thread> //스레드
 #include <conio.h>//키 입력 관련 헤더
 
 //db연동
@@ -22,6 +21,7 @@ void gotoXY(int x, int y);
 void cursorVisibleFalse();
 void Update();
 void Render();
+
 
 
 //음악
@@ -61,7 +61,7 @@ int main() {
 
 	//창 크기
 	system("mode con: cols=180 lines=40");
-	system("title 제목");
+	system("title MIneGame");
 
 	//음악
 	//openBgm.lpstrElementName = L"D:\\cppProject\\playGame\\Debug\\sound\\bgSound.wav"; //파일 오픈
@@ -77,6 +77,41 @@ int main() {
 	int sel; //선택용 변수
 	int selX;
 	int selY;
+	/*HFONT font;
+	LOGFONT log_font;
+	log_font.lfHeight = FW_NORMAL;
+	cout << "안녕하세용ㅇ오ㅗ오오ㅗ오ㅗ오오오오오" << endl;
+	cout << "안녕하세용ㅇ오ㅗ오오ㅗ오ㅗ오오오오오" << endl;
+	cout << "안녕하세용ㅇ오ㅗ오오ㅗ오ㅗ오오오오오" << endl;
+	cout << "안녕하세용ㅇ오ㅗ오오ㅗ오ㅗ오오오오오" << endl;
+
+	strcpy((char*)(log_font.lfFaceName), "Gulim");
+	font = CreateFontIndirect(&log_font);*/
+
+	LOGFONT lf;
+
+	HFONT font, oldfont;
+
+	lf.lfHeight = 100;
+	lf.lfWidth = 100;
+	lf.lfEscapement = 0;
+	lf.lfOrientation = 0;
+	lf.lfWeight = 0;
+	lf.lfItalic = 0;
+	lf.lfUnderline = 0;
+	lf.lfStrikeOut = 0;
+	lf.lfCharSet = HANGEUL_CHARSET;
+	lf.lfOutPrecision = 0;
+	lf.lfClipPrecision = 0;
+	lf.lfQuality = 0;
+	wcscpy(lf.lfFaceName, L"Gulim");
+	
+	font = CreateFontIndirect(&lf);
+	
+	cout << "안녕하세용ㅇ오ㅗ오오ㅗ오ㅗ오오오오오" << endl;
+	cout << "안녕하세용ㅇ오ㅗ오오ㅗ오ㅗ오오오오오" << endl;
+	cout << "안녕하세용ㅇ오ㅗ오오ㅗ오ㅗ오오오오오" << endl;
+	cout << "안녕하세용ㅇ오ㅗ오오ㅗ오ㅗ오오오오오" << endl;
 
 	while (true) {
 		selX = 57;
@@ -168,7 +203,6 @@ int main() {
 			cout << endl;
 			system("pause"); system("cls"); playingShuffleSound();
 		}
-
 	}
 
 
@@ -309,27 +343,8 @@ void StartGame()
 
 }
 
-enum COLOR {
-	BLACK,
-	DARK_BLUE,
-	DARK_GREEN,
-	DARK_SKYBLUE,
-	DARK_RED,
-	DARK_VOILET,
-	DAKR_YELLOW,
-	GRAY,
-	DARK_GRAY,
-	BLUE,
-	GREEN,
-	SKYBLUE,
-	RED,
-	VIOLET,
-	YELLOW,
-	EMPTY,
-};
-
-string ground[35][70]; //
-int item[35][70];
+string ground[GAMEPLAY_SCREEN_HEIGHT][GAMEPLAY_SCREEN_WIDTH]; //
+int item[GAMEPLAY_SCREEN_HEIGHT][GAMEPLAY_SCREEN_WIDTH];
 int playerX = 0;
 int playerY = 0;
 int input = 0;
@@ -373,18 +388,43 @@ clock_t prevTime_render;
 clock_t currentTime_render;
 int renderTime = 3;
 int renderTimeCheck;
+string playerCharacter = "○";
 void GoMining()
 {
+
 	cursorVisibleFalse(); //커서 안보이게 하기
 	srand(time(NULL)); //랜덤수 랜덤하게 발생시키기
 
-
-	for (int i = 0; i < 35; i++) {
-		for (int j = 0; j < 70; j++) {
+	cout << "수확한 광물>>" << endl << endl;
+	
+	//게임 플레이 부분의 모든 곳을 초기화
+	for (int i = 0; i < GAMEPLAY_SCREEN_HEIGHT; i++) {
+		for (int j = 0; j < GAMEPLAY_SCREEN_WIDTH; j++) {
 			ground[i][j] = "  ";
 			item[i][j] = EMPTY;
 		}
 	}
+
+	//벽을 생성!
+	for (int i = -1; i < GAMEPLAY_SCREEN_HEIGHT + 1; i++) {
+		gotoXY((COORDINATE_LEFT - 1) * 2, COORDINATE_TOP + i);
+		cout << "◆";
+		gotoXY((COORDINATE_LEFT + GAMEPLAY_SCREEN_WIDTH) * 2, COORDINATE_TOP + i);
+		cout << "◆";
+	}
+	for (int i = -1; i < GAMEPLAY_SCREEN_WIDTH + 1; i++) {
+		gotoXY((COORDINATE_LEFT + i) * 2, COORDINATE_TOP - 1);
+		cout << "◆";
+		gotoXY((COORDINATE_LEFT + i) * 2, COORDINATE_TOP + GAMEPLAY_SCREEN_HEIGHT);
+		cout << "◆";
+	}
+	
+	//플레이어의 위치를 세팅
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), YELLOW);
+	ground[playerY][playerX] = playerCharacter;
+	gotoXY((COORDINATE_LEFT +playerX)*2, COORDINATE_TOP + playerY);
+	cout << playerCharacter;
+
 	prevTime_render = clock(); //시작했을 때의 시간 체크
 	while (true) {
 		//키 입력, 움직임 관련 구간
@@ -392,12 +432,37 @@ void GoMining()
 			input = _getch();
 			if (input == 224) {
 				input = _getch();
-				if ((input == UP) && ((playerY - 1) != -1)) { ground[playerY][playerX] = "  "; playerY--; }
-				else if ((input == DOWN) && ((playerY + 1) != 35)) { ground[playerY][playerX] = "  "; playerY++; }
-				else if ((input == LEFT) && ((playerX - 1) != -1)) { ground[playerY][playerX] = "  "; playerX--; }
-				else if ((input == RIGHT) && ((playerX + 1) != 70)) { ground[playerY][playerX] = "  "; playerX++; }
+				if ((input == UP) && ((playerY - 1) != -1)) { 
+					ground[playerY][playerX] = "  "; 
+					gotoXY((COORDINATE_LEFT + playerX)*2, COORDINATE_TOP + playerY);
+					cout << ground[playerY][playerX];
+					playerY-=1;
+				}
+				else if ((input == DOWN) && ((playerY + 1) != GAMEPLAY_SCREEN_HEIGHT)) { 
+					ground[playerY][playerX] = "  ";
+					gotoXY((COORDINATE_LEFT + playerX) * 2, COORDINATE_TOP + playerY);
+					cout << ground[playerY][playerX];
+					playerY+=1;
+				}
+				else if ((input == LEFT) && ((playerX - 1) != -1)) {
+					ground[playerY][playerX] = "  ";
+					gotoXY((COORDINATE_LEFT + playerX) * 2, COORDINATE_TOP + playerY);
+					cout << ground[playerY][playerX];
+					playerX-=1;
+				}
+				else if ((input == RIGHT) && ((playerX + 1) != GAMEPLAY_SCREEN_WIDTH)) { 
+					ground[playerY][playerX] = "  "; 
+					gotoXY((COORDINATE_LEFT + playerX) * 2, COORDINATE_TOP + playerY);
+					cout << ground[playerY][playerX];
+					playerX+=1;
+				}
+				Sleep(1);
+				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), YELLOW);
+				ground[playerY][playerX] = playerCharacter;
+				gotoXY((COORDINATE_LEFT + playerX)*2, COORDINATE_TOP + playerY);
+				cout << ground[playerY][playerX];
 			}
-			if (input == 27)break; //esc가 눌리면 메뉴로 이동
+			if (input == 27) break; //esc가 눌리면 메뉴로 이동
 			//키 입력, 움직임 관련 구간 END
 		}
 		else {
@@ -406,8 +471,10 @@ void GoMining()
 		}
 	}
 
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), EMPTY);
 }
-
+int mineX = 0;
+int mineY = 0;
 void Update()
 {
 	currentTime_render = clock();
@@ -422,11 +489,10 @@ void Update()
 		//생성
 		//x, y값을 생성하고 item은 실제 광물의 역할을 하며 번호에 따른 색이 부여됨.
 		//그리고 ground는 땅의 출력을 할 때 사용되는 정도
-		int x = rand() % 70;
-		int y = rand() % 35;
-		ground[y][x] = "■";
-		item[y][x] = (rand() % 6) + 1; //1~6
-
+		mineX = rand() % 70;
+		mineY = rand() % 35;
+		ground[mineY][mineX] = "■";
+		item[mineY][mineX] = (rand() % 6) + 1; //1~6
 	}
 
 
@@ -436,24 +502,31 @@ void Update()
 void Render()
 {
 	//출력 관련
-	system("cls");
-	cout << endl;
-	cout << "수확한 광물>>" << mine << endl << endl;
-	strcpy(mine, "광물 2");
 
-	item[playerY][playerX] = YELLOW;
-	ground[playerY][playerX] = "□";
-
-	for (int i = 0; i < 35; i++) {
-		for (int j = 0; j < 70; j++) {
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), item[i][j]);
-			cout << ground[i][j];
-		}
+	/*if (수확을 했다면) {
+	* 
+		system("cls");
 		cout << endl;
-	}
+		cout << "수확한 광물>>" << mine << endl << endl;
+		strcpy(mine, "광물 2");
+	}*/
+
+	/*item[playerY][playerX] = YELLOW;
+	ground[playerY][playerX] = "□";*/
+
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), item[mineY][mineX]);
+	gotoXY((COORDINATE_LEFT + mineX)*2, COORDINATE_TOP + mineY);
+	cout << ground[mineY][mineX];
+
+	//for (int i = 0; i < GAMEPLAY_SCREEN_HEIGHT; i++) {
+	//	for (int j = 0; j < GAMEPLAY_SCREEN_WIDTH; j++) {
+	//		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), item[i][j]);
+	//		cout << ground[i][j];
+	//	}
+	//	cout << endl;
+	//}
 	//출력 관련 END
 }
-
 
 //회원가입.
 void CreateAccount() {
