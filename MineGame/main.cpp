@@ -77,43 +77,10 @@ int main() {
 	int sel; //선택용 변수
 	int selX;
 	int selY;
-	/*HFONT font;
-	LOGFONT log_font;
-	log_font.lfHeight = FW_NORMAL;
-	cout << "안녕하세용ㅇ오ㅗ오오ㅗ오ㅗ오오오오오" << endl;
-	cout << "안녕하세용ㅇ오ㅗ오오ㅗ오ㅗ오오오오오" << endl;
-	cout << "안녕하세용ㅇ오ㅗ오오ㅗ오ㅗ오오오오오" << endl;
-	cout << "안녕하세용ㅇ오ㅗ오오ㅗ오ㅗ오오오오오" << endl;
-
-	strcpy((char*)(log_font.lfFaceName), "Gulim");
-	font = CreateFontIndirect(&log_font);*/
-
-	LOGFONT lf;
-
-	HFONT font, oldfont;
-
-	lf.lfHeight = 100;
-	lf.lfWidth = 100;
-	lf.lfEscapement = 0;
-	lf.lfOrientation = 0;
-	lf.lfWeight = 0;
-	lf.lfItalic = 0;
-	lf.lfUnderline = 0;
-	lf.lfStrikeOut = 0;
-	lf.lfCharSet = HANGEUL_CHARSET;
-	lf.lfOutPrecision = 0;
-	lf.lfClipPrecision = 0;
-	lf.lfQuality = 0;
-	wcscpy(lf.lfFaceName, L"Gulim");
 	
-	font = CreateFontIndirect(&lf);
-	
-	cout << "안녕하세용ㅇ오ㅗ오오ㅗ오ㅗ오오오오오" << endl;
-	cout << "안녕하세용ㅇ오ㅗ오오ㅗ오ㅗ오오오오오" << endl;
-	cout << "안녕하세용ㅇ오ㅗ오오ㅗ오ㅗ오오오오오" << endl;
-	cout << "안녕하세용ㅇ오ㅗ오오ㅗ오ㅗ오오오오오" << endl;
-
 	while (true) {
+		//아래와 같이 할 수 있는 그런..
+		//x, y 좌표를 설정해주면 간격 2로 차례대로 나올 수 있도록 했으면 좋겠다.
 		selX = 57;
 		selY = 12;
 		cout << endl;
