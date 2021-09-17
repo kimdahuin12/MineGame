@@ -20,12 +20,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="global.h" />
+    <ClInclude Include="Mineral.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="setting.h" />
     <ClInclude Include="UserAccount.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mineral.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="setting.cpp" />
     <ClCompile Include="UserAccount.cpp" />
