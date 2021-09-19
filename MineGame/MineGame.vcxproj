@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="global.h" />
     <ClInclude Include="Mineral.h" />
+    <ClInclude Include="mineralInfo.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="setting.h" />
     <ClInclude Include="UserAccount.h" />

@@ -20,13 +20,26 @@
 using namespace std;
 
 
+//key입력 아스키코드
+//224 -> KEYBOARD
+
+enum KEYBOARD {
+	UP = 72,
+	LEFT = 75,
+	RIGHT = 77,
+	DOWN = 80
+
+};
+
+//key입력 enum END
+
 enum COLOR {
 	BLACK,
 	DARK_BLUE,
 	DARK_GREEN,
 	DARK_SKYBLUE,
 	DARK_RED,
-	DARK_VOILET,
+	DARK_VIOLET,
 	DAKR_YELLOW,
 	GRAY,
 	DARK_GRAY,

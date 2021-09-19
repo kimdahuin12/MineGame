@@ -27,10 +27,13 @@
     <ClInclude Include="UserAccount.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
+    <ClInclude Include="Mineral.h">
       <Filter>소스 파일\GamePlay</Filter>
     </ClInclude>
-    <ClInclude Include="Mineral.h">
+    <ClInclude Include="mineralInfo.h">
+      <Filter>소스 파일\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,10 +47,10 @@
     <ClCompile Include="UserAccount.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="Mineral.cpp">
       <Filter>소스 파일\GamePlay</Filter>
     </ClCompile>
-    <ClCompile Include="Mineral.cpp">
+    <ClCompile Include="Player.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

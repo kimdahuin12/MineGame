@@ -2,7 +2,10 @@
 class Player
 {
 private:
-	int playerX;
-	int playerY;
+	//돈
+	//가지고 있는 광물
+	//순위
+	//아이디
+	//등등
 };
 

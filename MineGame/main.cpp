@@ -1,7 +1,7 @@
 #include "global.h"
 #include "UserAccount.h"
-	//#include <my_global.h>
-	//#include <mysql.h>
+//#include <my_global.h>
+//#include <mysql.h>
 
 #include <conio.h>//키 입력 관련 헤더
 
@@ -23,7 +23,6 @@ void Update();
 void Render();
 
 
-
 //음악
 MCI_OPEN_PARMS openBgm;
 MCI_PLAY_PARMS playBgm;
@@ -43,18 +42,7 @@ void playingShuffleSound(void) {
 }
 //음악 END
 
-//key입력 아스키코드
-//224 -> KEYBOARD
 
-enum KEYBOARD {
-	UP = 72,
-	LEFT = 75,
-	RIGHT = 77,
-	DOWN = 80
-
-};
-
-//key입력 enum END
 
 // https://kiffblog.tistory.com/151
 int main() {
@@ -310,11 +298,6 @@ void StartGame()
 
 }
 
-string ground[GAMEPLAY_SCREEN_HEIGHT][GAMEPLAY_SCREEN_WIDTH]; //
-int item[GAMEPLAY_SCREEN_HEIGHT][GAMEPLAY_SCREEN_WIDTH];
-int playerX = 0;
-int playerY = 0;
-int input = 0;
 
 //음..
 
@@ -350,15 +333,22 @@ int input = 0;
 //	
 //	}
 //}
+
+string ground[GAMEPLAY_SCREEN_HEIGHT][GAMEPLAY_SCREEN_WIDTH]; //광물을 수집하는 구역
+int item[GAMEPLAY_SCREEN_HEIGHT][GAMEPLAY_SCREEN_WIDTH]; //광물의 색을 저장하는 구역. 
+
 char mine[30] = "광물 1";
 clock_t prevTime_render;
 clock_t currentTime_render;
 int renderTime = 3;
 int renderTimeCheck;
 string playerCharacter = "○";
+
 void GoMining()
 {
-
+	int playerX = 0;
+	int playerY = 0;
+	int input = 0;
 	cursorVisibleFalse(); //커서 안보이게 하기
 	srand(time(NULL)); //랜덤수 랜덤하게 발생시키기
 
@@ -374,16 +364,12 @@ void GoMining()
 
 	//벽을 생성!
 	for (int i = -1; i < GAMEPLAY_SCREEN_HEIGHT + 1; i++) {
-		gotoXY((COORDINATE_LEFT - 1) * 2, COORDINATE_TOP + i);
-		cout << "◆";
-		gotoXY((COORDINATE_LEFT + GAMEPLAY_SCREEN_WIDTH) * 2, COORDINATE_TOP + i);
-		cout << "◆";
+		gotoXY((COORDINATE_LEFT - 1) * 2, COORDINATE_TOP + i); cout << "◆";
+		gotoXY((COORDINATE_LEFT + GAMEPLAY_SCREEN_WIDTH) * 2, COORDINATE_TOP + i); cout << "◆";
 	}
 	for (int i = -1; i < GAMEPLAY_SCREEN_WIDTH + 1; i++) {
-		gotoXY((COORDINATE_LEFT + i) * 2, COORDINATE_TOP - 1);
-		cout << "◆";
-		gotoXY((COORDINATE_LEFT + i) * 2, COORDINATE_TOP + GAMEPLAY_SCREEN_HEIGHT);
-		cout << "◆";
+		gotoXY((COORDINATE_LEFT + i) * 2, COORDINATE_TOP - 1); cout << "◆";
+		gotoXY((COORDINATE_LEFT + i) * 2, COORDINATE_TOP + GAMEPLAY_SCREEN_HEIGHT); cout << "◆";
 	}
 	
 	//플레이어의 위치를 세팅
@@ -423,7 +409,6 @@ void GoMining()
 					cout << ground[playerY][playerX];
 					playerX+=1;
 				}
-				Sleep(1);
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), YELLOW);
 				ground[playerY][playerX] = playerCharacter;
 				gotoXY((COORDINATE_LEFT + playerX)*2, COORDINATE_TOP + playerY);
@@ -456,8 +441,8 @@ void Update()
 		//생성
 		//x, y값을 생성하고 item은 실제 광물의 역할을 하며 번호에 따른 색이 부여됨.
 		//그리고 ground는 땅의 출력을 할 때 사용되는 정도
-		mineX = rand() % 70;
-		mineY = rand() % 35;
+		mineX = rand() % GAMEPLAY_SCREEN_WIDTH;
+		mineY = rand() % GAMEPLAY_SCREEN_HEIGHT;
 		ground[mineY][mineX] = "■";
 		item[mineY][mineX] = (rand() % 6) + 1; //1~6
 	}

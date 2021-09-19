@@ -1,9 +1,6 @@
 ﻿  main.cpp
-D:\cppProject\MineGame\MineGame\main.cpp(195,12): warning C4244: '초기화 중': 'std::streamoff'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\cppProject\MineGame\MineGame\main.cpp(363,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\cppProject\MineGame\MineGame\main.cpp(603,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-D:\cppProject\MineGame\MineGame\main.cpp(603,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-  Mineral.cpp
-  코드를 생성하고 있습니다...
-  LINK : D:\cppProject\MineGame\Debug\MineGame.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
+D:\cppProject\MineGame\MineGame\main.cpp(183,12): warning C4244: '초기화 중': 'std::streamoff'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\cppProject\MineGame\MineGame\main.cpp(353,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\cppProject\MineGame\MineGame\main.cpp(589,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
+D:\cppProject\MineGame\MineGame\main.cpp(589,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
   MineGame.vcxproj -> D:\cppProject\MineGame\Debug\MineGame.exe
