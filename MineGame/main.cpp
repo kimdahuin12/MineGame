@@ -5,8 +5,11 @@
 
 #include <conio.h>//키 입력 관련 헤더
 
+#include "MineralManager.h" //광물을 추가할때 사용된다.
+
 //db연동
 //#pragma comment(lib, "libmySQL.lib")
+
 
 //함수 선언
 string fileRead(string fileName);
@@ -22,6 +25,8 @@ void cursorVisibleFalse();
 void Update();
 void Render();
 
+//클래스 선언
+MineralManager mineralManager;
 
 //음악
 MCI_OPEN_PARMS openBgm;
@@ -334,51 +339,58 @@ void StartGame()
 //	}
 //}
 
-string ground[GAMEPLAY_SCREEN_HEIGHT][GAMEPLAY_SCREEN_WIDTH]; //광물을 수집하는 구역
-int item[GAMEPLAY_SCREEN_HEIGHT][GAMEPLAY_SCREEN_WIDTH]; //광물의 색을 저장하는 구역. 
+const char* ground[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH]; //광물을 수집하는 구역
+int item[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH]; //광물의 색을 저장하는 구역. 
 
 char mine[30] = "광물 1";
 clock_t prevTime_render;
 clock_t currentTime_render;
 int renderTime = 3;
 int renderTimeCheck;
-string playerCharacter = "○";
-
-void GoMining()
-{
-	int playerX = 0;
-	int playerY = 0;
-	int input = 0;
+const char* playerCharacter = "○";
+int playerX = 0;
+int playerY = 0;
+int input = 0;
+void GameInit() {
+	
 	cursorVisibleFalse(); //커서 안보이게 하기
 	srand(time(NULL)); //랜덤수 랜덤하게 발생시키기
 
+	gotoXY(0, 0);
 	cout << "수확한 광물>>" << endl << endl;
-	
+
 	//게임 플레이 부분의 모든 곳을 초기화
-	for (int i = 0; i < GAMEPLAY_SCREEN_HEIGHT; i++) {
-		for (int j = 0; j < GAMEPLAY_SCREEN_WIDTH; j++) {
+	for (int i = 0; i < GAMEPLAY_GROUND_HEIGHT; i++) {
+		for (int j = 0; j < GAMEPLAY_GROUND_WIDTH; j++) {
 			ground[i][j] = "  ";
 			item[i][j] = EMPTY;
 		}
 	}
 
 	//벽을 생성!
-	for (int i = -1; i < GAMEPLAY_SCREEN_HEIGHT + 1; i++) {
+	for (int i = -1; i < GAMEPLAY_GROUND_HEIGHT + 1; i++) {
 		gotoXY((COORDINATE_LEFT - 1) * 2, COORDINATE_TOP + i); cout << "◆";
-		gotoXY((COORDINATE_LEFT + GAMEPLAY_SCREEN_WIDTH) * 2, COORDINATE_TOP + i); cout << "◆";
+		gotoXY((COORDINATE_LEFT + GAMEPLAY_GROUND_WIDTH) * 2, COORDINATE_TOP + i); cout << "◆";
 	}
-	for (int i = -1; i < GAMEPLAY_SCREEN_WIDTH + 1; i++) {
+	for (int i = -1; i < GAMEPLAY_GROUND_WIDTH + 1; i++) {
 		gotoXY((COORDINATE_LEFT + i) * 2, COORDINATE_TOP - 1); cout << "◆";
-		gotoXY((COORDINATE_LEFT + i) * 2, COORDINATE_TOP + GAMEPLAY_SCREEN_HEIGHT); cout << "◆";
+		gotoXY((COORDINATE_LEFT + i) * 2, COORDINATE_TOP + GAMEPLAY_GROUND_HEIGHT); cout << "◆";
 	}
-	
+
 	//플레이어의 위치를 세팅
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), YELLOW);
 	ground[playerY][playerX] = playerCharacter;
-	gotoXY((COORDINATE_LEFT +playerX)*2, COORDINATE_TOP + playerY);
+	gotoXY((COORDINATE_LEFT + playerX) * 2, COORDINATE_TOP + playerY);
 	cout << playerCharacter;
 
 	prevTime_render = clock(); //시작했을 때의 시간 체크
+
+
+}
+
+void GoMining()
+{
+	GameInit();
 	while (true) {
 		//키 입력, 움직임 관련 구간
 		if (_kbhit() != 0) {//_kbhit()는 키보드가 눌렸는지 체크해주는 함수이다. 눌리면 0 이외의 값을 리턴
@@ -391,7 +403,7 @@ void GoMining()
 					cout << ground[playerY][playerX];
 					playerY-=1;
 				}
-				else if ((input == DOWN) && ((playerY + 1) != GAMEPLAY_SCREEN_HEIGHT)) { 
+				else if ((input == DOWN) && ((playerY + 1) != GAMEPLAY_GROUND_HEIGHT)) {
 					ground[playerY][playerX] = "  ";
 					gotoXY((COORDINATE_LEFT + playerX) * 2, COORDINATE_TOP + playerY);
 					cout << ground[playerY][playerX];
@@ -403,14 +415,24 @@ void GoMining()
 					cout << ground[playerY][playerX];
 					playerX-=1;
 				}
-				else if ((input == RIGHT) && ((playerX + 1) != GAMEPLAY_SCREEN_WIDTH)) { 
+				else if ((input == RIGHT) && ((playerX + 1) != GAMEPLAY_GROUND_WIDTH)) {
 					ground[playerY][playerX] = "  "; 
 					gotoXY((COORDINATE_LEFT + playerX) * 2, COORDINATE_TOP + playerY);
 					cout << ground[playerY][playerX];
 					playerX+=1;
 				}
+				if (strcmp(ground[playerY][playerX], "■") == 0) {
+					//플레이어의 위치가 광물이 있는 위치라면
+					//플레이어가 어떤 광물에 닿으면 그 광물이 어느 위치에 있는지 체크.
+					strcpy(mine, mineralManager.MineralCheck(playerX, playerY));
+					//출력
+					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), EMPTY);
+					gotoXY(15, 0);
+					cout << mine;
+				}
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), YELLOW);
 				ground[playerY][playerX] = playerCharacter;
+				item[playerY][playerX] = EMPTY;
 				gotoXY((COORDINATE_LEFT + playerX)*2, COORDINATE_TOP + playerY);
 				cout << ground[playerY][playerX];
 			}
@@ -429,6 +451,7 @@ int mineX = 0;
 int mineY = 0;
 void Update()
 {
+
 	currentTime_render = clock();
 
 	renderTimeCheck = (currentTime_render - prevTime_render) / CLOCKS_PER_SEC;
@@ -441,10 +464,11 @@ void Update()
 		//생성
 		//x, y값을 생성하고 item은 실제 광물의 역할을 하며 번호에 따른 색이 부여됨.
 		//그리고 ground는 땅의 출력을 할 때 사용되는 정도
-		mineX = rand() % GAMEPLAY_SCREEN_WIDTH;
-		mineY = rand() % GAMEPLAY_SCREEN_HEIGHT;
+		mineX = rand() % GAMEPLAY_GROUND_WIDTH;
+		mineY = rand() % GAMEPLAY_GROUND_HEIGHT;
 		ground[mineY][mineX] = "■";
 		item[mineY][mineX] = (rand() % 6) + 1; //1~6
+		mineralManager.AddMineral("광물추가test", mineX, mineY);
 	}
 
 

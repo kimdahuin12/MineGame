@@ -1,99 +1,92 @@
 #include "Mineral.h"
-Mineral::Mineral(int mineralItem) {
+Mineral::Mineral(const char* mineralName, int x, int y) {
+	this->x = x;
+	this->y = y;
+	this->name = new char[strlen(mineralName)];
+	strcpy(this->name, mineralName);
+	////뭔가 바꿔야할 것 같다.ㅁ
 
-	//뭔가 바꿔야할 것 같다.
+	////광물의 색에 따라 광물을 랜덤으로 생성한다.
+	//int randomIdx;
+	////srand(time(NULL));는 메인에..
+	//switch (mineralItem) {
+	//case 1:
+	//	//DARK_BLUE
 
-	//광물의 색에 따라 광물을 랜덤으로 생성한다.
-	int randomIdx;
-	//srand(time(NULL));는 메인에..
-	switch (mineralItem) {
-	case 1:
-		//DARK_BLUE
+	//	//랜덤 인덱스 생성
+	//	randomIdx = 1;//rand() % BlueMineralCount; // 파란색 광물의 갯수 사이에서 랜덤하게 생성
 
-		//랜덤 인덱스 생성
-		randomIdx = rand() % BlueMineralCount; // 파란색 광물의 갯수 사이에서 랜덤하게 생성
+	//	//이름 
+	//	this->name = new char[strlen(BlueMineralName[randomIdx])];
+	//	strcpy(this->name, BlueMineralName[randomIdx]);
+	//	////가격
+	//	//this->price = BlueMineralPrice[randomIdx];
+	//	////희귀도
+	//	//this->rarity = BlueMineralRarity[randomIdx];
+	//	////몇 초 뒤 사라지는지
+	//	//this->deleteTime = BlueMineralDelTime[randomIdx];
 
-		//이름 
-		this->name = new char[strlen(BlueMineralName[randomIdx])];
-		strcpy(this->name, BlueMineralName[randomIdx]);
-		//가격
-		this->price = BlueMineralPrice[randomIdx];
-		//희귀도
-		this->rarity = BlueMineralRarity[randomIdx];
-		//몇 초 뒤 사라지는지
-		this->deleteTime = BlueMineralDelTime[randomIdx];
+	//	break;
+	//case 2:
+	//	//DARK_GREEN
 
-		break;
-	case 2:
-		//DARK_GREEN
+	//	randomIdx = rand() % GreenMineralCount;
 
-		randomIdx = rand() % GreenMineralCount;
+	//	this->name = new char[strlen(GreenMineralName[randomIdx])];
+	//	strcpy(this->name, GreenMineralName[randomIdx]);
 
-		this->name = new char[strlen(GreenMineralName[randomIdx])];
-		strcpy(this->name, GreenMineralName[randomIdx]);
+	//	break;
+	//case 3:
+	//	//DARK_SKYBLUE
 
-		this->price = GreenMineralPrice[randomIdx];
-		this->rarity = GreenMineralRarity[randomIdx];
-		this->deleteTime = GreenMineralDelTime[randomIdx];
+	//	randomIdx = rand() % SkyBlueMineralCount;
 
-		break;
-	case 3:
-		//DARK_SKYBLUE
+	//	this->name = new char[strlen(SkyBlueMineralName[randomIdx])];
+	//	strcpy(this->name, SkyBlueMineralName[randomIdx]);
 
-		randomIdx = rand() % SkyBlueMineralCount;
+	//	break;
+	//case 4:
+	//	//DARK_RED
 
-		this->name = new char[strlen(SkyBlueMineralName[randomIdx])];
-		strcpy(this->name, SkyBlueMineralName[randomIdx]);
+	//	randomIdx = rand() % RedMineralCount;
 
-		this->price = SkyBlueMineralPrice[randomIdx];
-		this->rarity = SkyBlueMineralRarity[randomIdx];
-		this->deleteTime = SkyBlueMineralDelTime[randomIdx];
+	//	this->name = new char[strlen(RedMineralName[randomIdx])];
+	//	strcpy(this->name, RedMineralName[randomIdx]);
 
-		break;
-	case 4:
-		//DARK_RED
+	//	break;
+	//case 5:
+	//	//DARK_VIOLET
 
-		randomIdx = rand() % RedMineralCount;
+	//	randomIdx = rand() % VioletMineralCount;
 
-		this->name = new char[strlen(RedMineralName[randomIdx])];
-		strcpy(this->name, RedMineralName[randomIdx]);
+	//	this->name = new char[strlen(VioletMineralName[randomIdx])];
+	//	strcpy(this->name, VioletMineralName[randomIdx]);
 
-		this->price = RedMineralPrice[randomIdx];
-		this->rarity = RedMineralRarity[randomIdx];
-		this->deleteTime = RedMineralDelTime[randomIdx];
+	//	break;
+	//case 6:
+	//	//DAKR_YELLOW
 
-		break;
-	case 5:
-		//DARK_VIOLET
+	//	randomIdx = rand() % YellowMineralCount;
 
-		randomIdx = rand() % VioletMineralCount;
+	//	this->name = new char[strlen(YellowMineralName[randomIdx])];
+	//	strcpy(this->name, YellowMineralName[randomIdx]);
 
-		this->name = new char[strlen(VioletMineralName[randomIdx])];
-		strcpy(this->name, VioletMineralName[randomIdx]);
-
-		this->price = VioletMineralPrice[randomIdx];
-		this->rarity = VioletMineralRarity[randomIdx];
-		this->deleteTime = VioletMineralDelTime[randomIdx];
-
-		break;
-	case 6:
-		//DAKR_YELLOW
-
-		randomIdx = rand() % YellowMineralCount;
-
-		this->name = new char[strlen(YellowMineralName[randomIdx])];
-		strcpy(this->name, YellowMineralName[randomIdx]);
-
-		this->price = YellowMineralPrice[randomIdx];
-		this->rarity = YellowMineralRarity[randomIdx];
-		this->deleteTime = YellowMineralDelTime[randomIdx];
-
-		break;
-	}
+	//	break;
+	//}
 }
 
 Mineral::~Mineral() {
 	delete name; //이름을 동적으로 생성함.
 }
 
+
+int Mineral::getX() {
+	return x;
+}
+int Mineral::getY() {
+	return y;
+}
+char* Mineral::getName() {
+	return name;
+}
 

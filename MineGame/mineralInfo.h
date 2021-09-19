@@ -1,4 +1,7 @@
 #pragma once
+
+#define MINERAL_ITEM_COUNT 6 //±¤¹° »ö Á¾·ù °¹¼ö
+
 //±¤¹°ÀÇ Á¤º¸µé
 
 /*

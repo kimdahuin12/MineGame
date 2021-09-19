@@ -36,6 +36,9 @@
     <ClInclude Include="Player.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="MineralManager.h">
+      <Filter>소스 파일\GamePlay</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -52,6 +55,9 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MineralManager.cpp">
+      <Filter>소스 파일\GamePlay</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
