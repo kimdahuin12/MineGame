@@ -39,6 +39,15 @@
     <ClInclude Include="MineralManager.h">
       <Filter>소스 파일\GamePlay</Filter>
     </ClInclude>
+    <ClInclude Include="ProductItem.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductMineralItem.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MyItem.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -58,6 +67,15 @@
     </ClCompile>
     <ClCompile Include="MineralManager.cpp">
       <Filter>소스 파일\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductItem.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductMineralItem.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MyItem.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -5,7 +5,9 @@
 
 #include <conio.h>//키 입력 관련 헤더
 
+#include "mineralInfo.h"//광물의 정보들이 배열에 저장되어있다.
 #include "MineralManager.h" //광물을 추가할때 사용된다.
+#include "Player.h"
 
 //db연동
 //#pragma comment(lib, "libmySQL.lib")
@@ -27,6 +29,7 @@ void Render();
 
 //클래스 선언
 MineralManager mineralManager;
+Player player;
 
 //음악
 MCI_OPEN_PARMS openBgm;
@@ -421,15 +424,17 @@ void GoMining()
 					cout << ground[playerY][playerX];
 					playerX+=1;
 				}
+
 				if (strcmp(ground[playerY][playerX], "■") == 0) {
 					//플레이어의 위치가 광물이 있는 위치라면
 					//플레이어가 어떤 광물에 닿으면 그 광물이 어느 위치에 있는지 체크.
 					strcpy(mine, mineralManager.MineralCheck(playerX, playerY));
-					//출력
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), EMPTY);
-					gotoXY(15, 0);
-					cout << mine;
+					gotoXY(0, 0);
+					cout << "수확한 광물>>  " << mine <<"                              ";
+					
 				}
+
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), YELLOW);
 				ground[playerY][playerX] = playerCharacter;
 				item[playerY][playerX] = EMPTY;
@@ -447,6 +452,77 @@ void GoMining()
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), EMPTY);
 }
+
+
+char* randomMineral(int mineralItem) {
+	//광물의 색에 따라 광물을 랜덤으로 생성한다.
+	int randomIdx;
+	char* mineName;
+	//srand(time(NULL));는 메인에..
+	switch (mineralItem) {
+	case 1:
+		//DARK_BLUE
+
+		//랜덤 인덱스 생성
+		randomIdx = 1;//rand() % BlueMineralCount; // 파란색 광물의 갯수 사이에서 랜덤하게 생성
+
+		//이름 
+		mineName = new char[strlen(BlueMineralName[randomIdx])];
+		strcpy(mineName, BlueMineralName[randomIdx]);
+		break;
+	case 2:
+		//DARK_GREEN
+
+		randomIdx = rand() % GreenMineralCount;
+
+		mineName = new char[strlen(GreenMineralName[randomIdx])];
+		strcpy(mineName, GreenMineralName[randomIdx]);
+
+		break;
+	case 3:
+		//DARK_SKYBLUE
+
+		randomIdx = rand() % SkyBlueMineralCount;
+
+		mineName = new char[strlen(SkyBlueMineralName[randomIdx])];
+		strcpy(mineName, SkyBlueMineralName[randomIdx]);
+
+		break;
+	case 4:
+		//DARK_RED
+
+		randomIdx = rand() % RedMineralCount;
+
+		mineName = new char[strlen(RedMineralName[randomIdx])];
+		strcpy(mineName, RedMineralName[randomIdx]);
+
+		break;
+	case 5:
+		//DARK_VIOLET
+
+		randomIdx = rand() % VioletMineralCount;
+
+		mineName = new char[strlen(VioletMineralName[randomIdx])];
+		strcpy(mineName, VioletMineralName[randomIdx]);
+
+		break;
+	case 6:
+		//DAKR_YELLOW
+
+		randomIdx = rand() % YellowMineralCount;
+
+		mineName = new char[strlen(YellowMineralName[randomIdx])];
+		strcpy(mineName, YellowMineralName[randomIdx]);
+
+		break;
+	default:
+		mineName = new char[strlen("알 수 없는 광물(오류)")];
+		strcpy(mineName, "알 수 없는 광물(오류)");
+	}
+	return mineName;
+}
+
+
 int mineX = 0;
 int mineY = 0;
 void Update()
@@ -458,7 +534,7 @@ void Update()
 
 	if (renderTime <= renderTimeCheck) {
 		//랜덤한 시간이 지나면(처음은 3초) 생성을 한다.
-		renderTime = rand() % 10;//0 ~ 9초 사이의 랜덤한 생성
+		renderTime = rand() % 10+5;//5 ~ 14초 사이의 랜덤한 생성
 		prevTime_render = clock();
 
 		//생성
@@ -468,7 +544,9 @@ void Update()
 		mineY = rand() % GAMEPLAY_GROUND_HEIGHT;
 		ground[mineY][mineX] = "■";
 		item[mineY][mineX] = (rand() % 6) + 1; //1~6
-		mineralManager.AddMineral("광물추가test", mineX, mineY);
+		strcpy(mine, randomMineral(item[mineY][mineX]));
+		mineralManager.AddMineral(mine, mineX, mineY);
+		player.AddMineral(mine);
 	}
 
 

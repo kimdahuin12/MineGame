@@ -23,7 +23,10 @@
     <ClInclude Include="Mineral.h" />
     <ClInclude Include="mineralInfo.h" />
     <ClInclude Include="MineralManager.h" />
+    <ClInclude Include="MyItem.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="ProductItem.h" />
+    <ClInclude Include="ProductMineralItem.h" />
     <ClInclude Include="setting.h" />
     <ClInclude Include="UserAccount.h" />
   </ItemGroup>
@@ -31,7 +34,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mineral.cpp" />
     <ClCompile Include="MineralManager.cpp" />
+    <ClCompile Include="MyItem.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ProductItem.cpp" />
+    <ClCompile Include="ProductMineralItem.cpp" />
     <ClCompile Include="setting.cpp" />
     <ClCompile Include="UserAccount.cpp" />
   </ItemGroup>
