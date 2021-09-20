@@ -54,9 +54,16 @@ void playingShuffleSound(void) {
 
 // https://kiffblog.tistory.com/151
 int main() {
-
+	////창 최대
+	//HWND hwnd = GetForegroundWindow();
+	//int cx = GetSystemMetrics(SM_CXSCREEN);            /* Screen width pixels */
+	//int cy = GetSystemMetrics(SM_CYSCREEN);            /* Screen Height Pixel */
+	//LONG l_WinStyle = GetWindowLong(hwnd, GWL_STYLE);   /* Get window information */
+	///* Set window information to maximize the removal of title bar and border*/
+	//SetWindowLong(hwnd, GWL_STYLE, (l_WinStyle | WS_POPUP | WS_MAXIMIZE) & ~WS_CAPTION & ~WS_THICKFRAME & ~WS_BORDER);
+	//SetWindowPos(hwnd, HWND_TOP, 0, 0, cx, cy, 0);
 	//창 크기
-	system("mode con: cols=180 lines=40");
+	system("mode con: cols=160 lines=40");
 	system("title MIneGame");
 
 	//음악
@@ -291,6 +298,7 @@ void StartGame()
 		case 3:
 			system("pause"); system("cls"); playingShuffleSound(); cout << endl;
 			//MyInfo
+			player.Inventory();
 			cout << endl; system("pause"); system("cls");
 			break;
 		case 4:
@@ -425,14 +433,14 @@ void GoMining()
 					playerX+=1;
 				}
 
-				if (strcmp(ground[playerY][playerX], "■") == 0) {
+				if (strcmp(ground[playerY][playerX], "■") == 0) { //광물을 먹었다면
 					//플레이어의 위치가 광물이 있는 위치라면
 					//플레이어가 어떤 광물에 닿으면 그 광물이 어느 위치에 있는지 체크.
 					strcpy(mine, mineralManager.MineralCheck(playerX, playerY));
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), EMPTY);
 					gotoXY(0, 0);
 					cout << "수확한 광물>>  " << mine <<"                              ";
-					
+					player.AddMineral(mine);
 				}
 
 				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), YELLOW);
@@ -534,7 +542,7 @@ void Update()
 
 	if (renderTime <= renderTimeCheck) {
 		//랜덤한 시간이 지나면(처음은 3초) 생성을 한다.
-		renderTime = rand() % 10+5;//5 ~ 14초 사이의 랜덤한 생성
+		renderTime = rand() % 10+1;//1 ~ 10초 사이의 랜덤한 생성
 		prevTime_render = clock();
 
 		//생성
@@ -544,9 +552,7 @@ void Update()
 		mineY = rand() % GAMEPLAY_GROUND_HEIGHT;
 		ground[mineY][mineX] = "■";
 		item[mineY][mineX] = (rand() % 6) + 1; //1~6
-		strcpy(mine, randomMineral(item[mineY][mineX]));
-		mineralManager.AddMineral(mine, mineX, mineY);
-		player.AddMineral(mine);
+		mineralManager.AddMineral(randomMineral(item[mineY][mineX]), mineX, mineY);//랜덤 광물 생성해서 생성된 광물 추가
 	}
 
 

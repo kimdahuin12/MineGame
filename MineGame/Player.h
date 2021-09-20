@@ -16,6 +16,8 @@ public:
 	Player();
 	~Player();
 
+	//아이템 삭제 부분도 할 예정
 	void AddMineral(char* mineralName);
+	void Inventory();
 };
 

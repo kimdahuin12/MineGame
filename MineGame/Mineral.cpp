@@ -2,7 +2,7 @@
 Mineral::Mineral(const char* mineralName, int x, int y) {
 	this->x = x;
 	this->y = y;
-	this->name = new char[strlen(mineralName)];
+	this->name = new char[strlen(mineralName)+1];
 	strcpy(this->name, mineralName);
 	////¹º°¡ ¹Ù²ã¾ßÇÒ °Í °°´Ù.¤±
 
