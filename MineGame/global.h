@@ -1,11 +1,12 @@
 #pragma once
-#define _CRT_SECURE_NO_WARNINGS
+//#define _CRT_SECURE_NO_WARNINGS
 #define GAMEPLAY_GROUND_WIDTH 35
 #define GAMEPLAY_GROUND_HEIGHT 35
 #define COORDINATE_TOP 3  //°ÔÀÓ ÁÂÇ¥ÀÇ ¸Ç À§ ÁÂÇ¥ ±âº». 
 #define COORDINATE_LEFT 25  //°ÔÀÓ ÁÂÇ¥ÀÇ ¸Ç ¿ÞÂÊ ÁÂÇ¥ ±âº». 
 #include <iostream>
 #include <fstream>
+#include <stdio.h>
 
 #include <windows.h>
 

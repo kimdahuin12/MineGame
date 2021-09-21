@@ -1,16 +1,20 @@
+//db연동
+#define _CRT_SECURE_NO_WARNINGS
+//db관련
+#pragma comment(lib, "libmySQL.lib")
+#include <my_global.h>
+#include <mysql.h>
+
 #include "global.h"
+
 #include "UserAccount.h"
-//#include <my_global.h>
-//#include <mysql.h>
+
 
 #include <conio.h>//키 입력 관련 헤더
 
 #include "mineralInfo.h"//광물의 정보들이 배열에 저장되어있다.
 #include "MineralManager.h" //광물을 추가할때 사용된다.
 #include "Player.h"
-
-//db연동
-//#pragma comment(lib, "libmySQL.lib")
 
 
 //함수 선언
@@ -51,7 +55,6 @@ void playingShuffleSound(void) {
 //음악 END
 
 
-
 // https://kiffblog.tistory.com/151
 int main() {
 	////창 최대
@@ -81,6 +84,8 @@ int main() {
 	int selX;
 	int selY;
 	
+	printf("MySQL Client Version: %s\n", mysql_get_client_info());
+
 	while (true) {
 		//아래와 같이 할 수 있는 그런..
 		//x, y 좌표를 설정해주면 간격 2로 차례대로 나올 수 있도록 했으면 좋겠다.

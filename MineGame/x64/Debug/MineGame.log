@@ -1,4 +1,8 @@
-﻿  main.cpp
+﻿  Mineral.cpp
+  MineralManager.cpp
+  MyItem.cpp
+  Player.cpp
+  main.cpp
 C:\Programming\cppProject\MineGame\mineralInfo.h(21,60): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
 C:\Programming\cppProject\MineGame\mineralInfo.h(29,63): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
 C:\Programming\cppProject\MineGame\mineralInfo.h(37,67): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
@@ -11,15 +15,11 @@ C:\Programming\cppProject\MineGame\main.cpp(47,77): warning C4311: '형식 캐�
 C:\Programming\cppProject\MineGame\main.cpp(47,77): warning C4302: '형식 캐스트': 'LPVOID'에서 'DWORD'(으)로 잘립니다.
 C:\Programming\cppProject\MineGame\main.cpp(49,71): warning C4311: '형식 캐스트': 'LPVOID'에서 'DWORD'(으)로 포인터가 잘립니다.
 C:\Programming\cppProject\MineGame\main.cpp(49,71): warning C4302: '형식 캐스트': 'LPVOID'에서 'DWORD'(으)로 잘립니다.
-C:\Programming\cppProject\MineGame\main.cpp(191,12): warning C4244: '초기화 중': 'std::streamoff'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Programming\cppProject\MineGame\main.cpp(360,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Programming\cppProject\MineGame\main.cpp(690,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Programming\cppProject\MineGame\main.cpp(690,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-  Mineral.cpp
-  MineralManager.cpp
-  MyItem.cpp
-  Player.cpp
-  ProductMineralItem.cpp
+C:\Programming\cppProject\MineGame\main.cpp(198,12): warning C4244: '초기화 중': 'std::streamoff'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Programming\cppProject\MineGame\main.cpp(368,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Programming\cppProject\MineGame\main.cpp(696,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
+C:\Programming\cppProject\MineGame\main.cpp(696,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
   코드를 생성하고 있습니다...
 C:\Programming\cppProject\MineGame\MineralManager.cpp(48): warning C4715: 'MineralManager::MineralCheck': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  LINK : C:\Programming\cppProject\x64\Debug\MineGame.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
   MineGame.vcxproj -> C:\Programming\cppProject\x64\Debug\MineGame.exe

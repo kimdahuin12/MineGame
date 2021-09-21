@@ -1,0 +1,37 @@
+MySQL 버젼 : 5.5.50
+
+MySQL 커뮤니티 서버 설치
+
+위에 선언
+#pragma comment(lib, "libmySQL.lib")
+#include <my_global.h>
+#include <mysql.h>
+
+프로젝트 -> 속성 -> VS++디렉터리 -> 포함 디렉터리 -> 편집 -> 'C:\Program Files %28x86%29\MySQL\MySQL Server 5.5\include' 추가
+프로젝트 -> 속성 -> VS++디렉터리 -> 포함 디렉터리 -> 편집 -> 'C:\Program Files %28x86%29\MySQL\MySQL Server 5.5\bin' 추가
+링커 -> 입력 -> 추가 종속성 -> 'libmysql.lib' 추가
+
+테스트
+printf("MySQL Client Version: %s\n", mysql_get_client_info());
+
+
+MineGame 데이터베이스
+데이터베이스명
+MineGameDatabase
+
+테이블
+
+
+내가 데이터베이스에 저장할 것.
+사용자가 가지고 있는 돈
+사용자가 가지고 있는 광물, 물약 등 모든 아이템(아이템 이름, 분류(EX:광물 ,물약))
+상점의 모든 아이템
+ - 광물: 아이템이름, 아이템 가격, 아이템 희귀도, 
+
+
+
+
+
+
+
+
