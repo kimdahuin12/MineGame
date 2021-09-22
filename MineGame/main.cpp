@@ -6,15 +6,12 @@
 #include <mysql.h>
 
 #include "global.h"
+#include "gameGlobal.h"
 
 #include "UserAccount.h"
-
-
-#include <conio.h>//키 입력 관련 헤더
-
-#include "mineralInfo.h"//광물의 정보들이 배열에 저장되어있다.
-#include "MineralManager.h" //광물을 추가할때 사용된다.
 #include "Player.h"
+
+#include "Mine.h"
 
 
 //함수 선언
@@ -32,8 +29,8 @@ void Update();
 void Render();
 
 //클래스 선언
-MineralManager mineralManager;
 Player player;
+Mine* mine = nullptr;
 
 //음악
 MCI_OPEN_PARMS openBgm;
@@ -70,11 +67,11 @@ int main() {
 	system("title MIneGame");
 
 	//음악
-	//openBgm.lpstrElementName = L"D:\\cppProject\\playGame\\Debug\\sound\\bgSound.wav"; //파일 오픈
-	//openBgm.lpstrDeviceType = L"mpegvideo"; //mp3 형식
-	//mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)&openBgm);
-	//dwID = openBgm.wDeviceID;
-	//mciSendCommand(dwID, MCI_PLAY, MCI_DGV_PLAY_REPEAT, (DWORD)(LPVOID)&openBgm); //음악 반복 재생
+	openBgm.lpstrElementName = L"D:\\cppProject\\playGame\\Debug\\sound\\bgSound.wav"; //파일 오픈
+	openBgm.lpstrDeviceType = L"mpegvideo"; //mp3 형식
+	mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)&openBgm);
+	dwID = openBgm.wDeviceID;
+	mciSendCommand(dwID, MCI_PLAY, MCI_DGV_PLAY_REPEAT, (DWORD)(LPVOID)&openBgm); //음악 반복 재생
 	//음악 END
 
 	//밑줄(커서)가 보이지 않게 해주는 함수.
@@ -320,141 +317,101 @@ void StartGame()
 }
 
 
-//음..
 
-//void PlayerMove()
-//{
-//	//밑줄을 보이지 않게 하는 코드
-//	CONSOLE_CURSOR_INFO cif;
-//	cif.dwSize = 1;
-//	cif.bVisible = FALSE;
-//	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cif);
-//	//END
-//	srand(time(NULL));
-//	while (true) {
-//		if (input == 27)break;
-//		system("cls"); cout << endl;
-//		cout << "수확한 광물>>" << "여기" << endl << endl;
-//
-//		for (int i = 0; i < 35; i++) {
-//			for (int j = 0; j < 70; j++) {
-//				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), item[i][j]);
-//				cout << ground[i][j];
-//			}
-//			cout << endl;
-//		}
-//
-//		Sleep((rand() % 4001) + 1000);//1~5초정도 지나면 광물 생성 + 화면 갱신
-//		int x = rand() % 70;
-//		int y = rand() % 35;
-//		ground[y][x] = "■";
-//		//
-//		item[y][x] = (rand() % 6)+1; //1~6
-//
-//	
-//	}
-//}
-
-const char* ground[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH]; //광물을 수집하는 구역
-int item[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH]; //광물의 색을 저장하는 구역. 
-
-char mine[30] = "광물 1";
-clock_t prevTime_render;
-clock_t currentTime_render;
-int renderTime = 3;
-int renderTimeCheck;
-const char* playerCharacter = "○";
-int playerX = 0;
-int playerY = 0;
-int input = 0;
 void GameInit() {
 	
 	cursorVisibleFalse(); //커서 안보이게 하기
 	srand(time(NULL)); //랜덤수 랜덤하게 발생시키기
 
-	gotoXY(0, 0);
-	cout << "수확한 광물>>" << endl << endl;
-
-	//게임 플레이 부분의 모든 곳을 초기화
-	for (int i = 0; i < GAMEPLAY_GROUND_HEIGHT; i++) {
-		for (int j = 0; j < GAMEPLAY_GROUND_WIDTH; j++) {
-			ground[i][j] = "  ";
-			item[i][j] = EMPTY;
-		}
-	}
-
-	//벽을 생성!
-	for (int i = -1; i < GAMEPLAY_GROUND_HEIGHT + 1; i++) {
-		gotoXY((COORDINATE_LEFT - 1) * 2, COORDINATE_TOP + i); cout << "◆";
-		gotoXY((COORDINATE_LEFT + GAMEPLAY_GROUND_WIDTH) * 2, COORDINATE_TOP + i); cout << "◆";
-	}
-	for (int i = -1; i < GAMEPLAY_GROUND_WIDTH + 1; i++) {
-		gotoXY((COORDINATE_LEFT + i) * 2, COORDINATE_TOP - 1); cout << "◆";
-		gotoXY((COORDINATE_LEFT + i) * 2, COORDINATE_TOP + GAMEPLAY_GROUND_HEIGHT); cout << "◆";
-	}
-
-	//플레이어의 위치를 세팅
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), YELLOW);
-	ground[playerY][playerX] = playerCharacter;
-	gotoXY((COORDINATE_LEFT + playerX) * 2, COORDINATE_TOP + playerY);
-	cout << playerCharacter;
-
-	prevTime_render = clock(); //시작했을 때의 시간 체크
+	mine->MineInit();
 
 
 }
 
 void GoMining()
 {
+	//어느 광산에 들어갈지
+	int sel; //선택용 변수
+	int selX;
+	int selY;
+
+	while (true) {
+		selX = 57; selY = 12;
+
+		gotoXY(selX, selY);
+		cout << "> 1. 일반 광산" << endl;
+		gotoXY(selX, selY + 4);
+		cout << "  2. 중급 광산" << endl;
+		gotoXY(selX, selY + 8);
+		cout << "  3. 고급 광산" << endl;
+		gotoXY(selX, selY + 12);
+		cout << "  4. 나가기" << endl;
+		gotoXY(35, 32);
+		cout << "선택 (SpaceBar) >> ";
+		gotoXY(55, 32);
+		cout << '1'; sel = 1;
+		//메뉴 선택 방향 이동과 메뉴 선택 번호 업데이트 관련
+		int keyCheck = -1;
+		while (keyCheck != 32) { //스페이스바가 눌러질 때까지 계속 위아래 방향을 이동하며 sel을 업데이트한다.
+			keyCheck = _getch();
+			if (keyCheck == 224) { //방향키는 224 -> 방향키 UP, DOWN.만 체크할 것이다.
+				keyCheck = _getch();
+				switch (keyCheck) {
+				case UP:
+					if (selY > 12) { //12는 가장 위의 위치이므로 y값이 더 커야 위로 올라갈 수 있음
+						gotoXY(selX, selY); cout << "  "; //원래 자리 비우기
+						gotoXY(selX, selY -= 4); cout << "> "; //이동하기
+					}
+					break;
+				case DOWN:
+					if (selY < 12 + 12) { //18은 가장 아래 위치이므로 더 작아야 아래로 내려갈 수 있음.
+						gotoXY(selX, selY); cout << "  ";
+						gotoXY(selX, selY += 4); cout << "> ";
+					}
+					break;
+				}
+				//위아래 움직임에 따른 현재 선택 번호 표시 & sel 업데이트
+				gotoXY(55, 32);
+				switch (selY) {
+				case 12: cout << '1'; sel = 1; break;
+				case 16: cout << '2'; sel = 2; break;
+				case 20: cout << '3'; sel = 3; break;
+				case 24: cout << '4'; sel = 4; break;
+				}
+			}
+		}
+		cout << endl;
+		//메뉴 선택 방향 이동과 메뉴 선택 번호 업데이트 관련 END
+		if (sel == 4) {
+			playingShuffleSound();
+			return; 
+		}
+		//들어갈 수 있는지 확인
+		char* mineName = player.MineAuthorityCheck(sel);
+
+		if (!strcmp(mineName, "\0")) {
+			system("pause"); system("cls"); playingShuffleSound();
+			gotoXY(50, 50);
+			cout << "들어갈 수 없는 광산" << endl;
+			system("pause"); system("cls");
+		}
+		else {
+			//광산 생성
+			mine = new Mine(mineName, player);
+			break;
+		}
+	}
+	system("pause"); system("cls");
+
 	GameInit();
 	while (true) {
 		//키 입력, 움직임 관련 구간
 		if (_kbhit() != 0) {//_kbhit()는 키보드가 눌렸는지 체크해주는 함수이다. 눌리면 0 이외의 값을 리턴
-			input = _getch();
-			if (input == 224) {
-				input = _getch();
-				if ((input == UP) && ((playerY - 1) != -1)) { 
-					ground[playerY][playerX] = "  "; 
-					gotoXY((COORDINATE_LEFT + playerX)*2, COORDINATE_TOP + playerY);
-					cout << ground[playerY][playerX];
-					playerY-=1;
-				}
-				else if ((input == DOWN) && ((playerY + 1) != GAMEPLAY_GROUND_HEIGHT)) {
-					ground[playerY][playerX] = "  ";
-					gotoXY((COORDINATE_LEFT + playerX) * 2, COORDINATE_TOP + playerY);
-					cout << ground[playerY][playerX];
-					playerY+=1;
-				}
-				else if ((input == LEFT) && ((playerX - 1) != -1)) {
-					ground[playerY][playerX] = "  ";
-					gotoXY((COORDINATE_LEFT + playerX) * 2, COORDINATE_TOP + playerY);
-					cout << ground[playerY][playerX];
-					playerX-=1;
-				}
-				else if ((input == RIGHT) && ((playerX + 1) != GAMEPLAY_GROUND_WIDTH)) {
-					ground[playerY][playerX] = "  "; 
-					gotoXY((COORDINATE_LEFT + playerX) * 2, COORDINATE_TOP + playerY);
-					cout << ground[playerY][playerX];
-					playerX+=1;
-				}
-
-				if (strcmp(ground[playerY][playerX], "■") == 0) { //광물을 먹었다면
-					//플레이어의 위치가 광물이 있는 위치라면
-					//플레이어가 어떤 광물에 닿으면 그 광물이 어느 위치에 있는지 체크.
-					strcpy(mine, mineralManager.MineralCheck(playerX, playerY));
-					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), EMPTY);
-					gotoXY(0, 0);
-					cout << "수확한 광물>>  " << mine <<"                              ";
-					player.AddMineral(mine);
-				}
-
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), YELLOW);
-				ground[playerY][playerX] = playerCharacter;
-				item[playerY][playerX] = EMPTY;
-				gotoXY((COORDINATE_LEFT + playerX)*2, COORDINATE_TOP + playerY);
-				cout << ground[playerY][playerX];
-			}
-			if (input == 27) break; //esc가 눌리면 메뉴로 이동
+			int input = mine->KeyInputRelated();//키 관련 처리를 하고 입력된 값을 반환해준다.
+			if (input == 27) {
+				delete mine;
+				break;
+			}//esc가 눌리면 메뉴로 이동
 			//키 입력, 움직임 관련 구간 END
 		}
 		else {
@@ -467,129 +424,16 @@ void GoMining()
 }
 
 
-char* randomMineral(int mineralItem) {
-	//광물의 색에 따라 광물을 랜덤으로 생성한다.
-	int randomIdx;
-	char* mineName;
-	//srand(time(NULL));는 메인에..
-	switch (mineralItem) {
-	case 1:
-		//DARK_BLUE
-
-		//랜덤 인덱스 생성
-		randomIdx = 1;//rand() % BlueMineralCount; // 파란색 광물의 갯수 사이에서 랜덤하게 생성
-
-		//이름 
-		mineName = new char[strlen(BlueMineralName[randomIdx])];
-		strcpy(mineName, BlueMineralName[randomIdx]);
-		break;
-	case 2:
-		//DARK_GREEN
-
-		randomIdx = rand() % GreenMineralCount;
-
-		mineName = new char[strlen(GreenMineralName[randomIdx])];
-		strcpy(mineName, GreenMineralName[randomIdx]);
-
-		break;
-	case 3:
-		//DARK_SKYBLUE
-
-		randomIdx = rand() % SkyBlueMineralCount;
-
-		mineName = new char[strlen(SkyBlueMineralName[randomIdx])];
-		strcpy(mineName, SkyBlueMineralName[randomIdx]);
-
-		break;
-	case 4:
-		//DARK_RED
-
-		randomIdx = rand() % RedMineralCount;
-
-		mineName = new char[strlen(RedMineralName[randomIdx])];
-		strcpy(mineName, RedMineralName[randomIdx]);
-
-		break;
-	case 5:
-		//DARK_VIOLET
-
-		randomIdx = rand() % VioletMineralCount;
-
-		mineName = new char[strlen(VioletMineralName[randomIdx])];
-		strcpy(mineName, VioletMineralName[randomIdx]);
-
-		break;
-	case 6:
-		//DAKR_YELLOW
-
-		randomIdx = rand() % YellowMineralCount;
-
-		mineName = new char[strlen(YellowMineralName[randomIdx])];
-		strcpy(mineName, YellowMineralName[randomIdx]);
-
-		break;
-	default:
-		mineName = new char[strlen("알 수 없는 광물(오류)")];
-		strcpy(mineName, "알 수 없는 광물(오류)");
-	}
-	return mineName;
-}
-
-
-int mineX = 0;
-int mineY = 0;
 void Update()
 {
+	mine->Update();
 
-	currentTime_render = clock();
-
-	renderTimeCheck = (currentTime_render - prevTime_render) / CLOCKS_PER_SEC;
-
-	if (renderTime <= renderTimeCheck) {
-		//랜덤한 시간이 지나면(처음은 3초) 생성을 한다.
-		renderTime = rand() % 10+1;//1 ~ 10초 사이의 랜덤한 생성
-		prevTime_render = clock();
-
-		//생성
-		//x, y값을 생성하고 item은 실제 광물의 역할을 하며 번호에 따른 색이 부여됨.
-		//그리고 ground는 땅의 출력을 할 때 사용되는 정도
-		mineX = rand() % GAMEPLAY_GROUND_WIDTH;
-		mineY = rand() % GAMEPLAY_GROUND_HEIGHT;
-		ground[mineY][mineX] = "■";
-		item[mineY][mineX] = (rand() % 6) + 1; //1~6
-		mineralManager.AddMineral(randomMineral(item[mineY][mineX]), mineX, mineY);//랜덤 광물 생성해서 생성된 광물 추가
-	}
-
-
-	//어떤 광물을 먹으면 수확한 광물의 이름을 변경
-	//
 }
 void Render()
 {
 	//출력 관련
+	mine->Render();
 
-	/*if (수확을 했다면) {
-	* 
-		system("cls");
-		cout << endl;
-		cout << "수확한 광물>>" << mine << endl << endl;
-		strcpy(mine, "광물 2");
-	}*/
-
-	/*item[playerY][playerX] = YELLOW;
-	ground[playerY][playerX] = "□";*/
-
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), item[mineY][mineX]);
-	gotoXY((COORDINATE_LEFT + mineX)*2, COORDINATE_TOP + mineY);
-	cout << ground[mineY][mineX];
-
-	//for (int i = 0; i < GAMEPLAY_SCREEN_HEIGHT; i++) {
-	//	for (int j = 0; j < GAMEPLAY_SCREEN_WIDTH; j++) {
-	//		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), item[i][j]);
-	//		cout << ground[i][j];
-	//	}
-	//	cout << endl;
-	//}
 	//출력 관련 END
 }
 
@@ -697,10 +541,6 @@ void Destroy()
 
 }
 
-void gotoXY(int x, int y) {
-	COORD pos = { x, y };
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
-}
 
 void cursorVisibleFalse() {
 	//밑줄을 보이지 않게 하는 코드

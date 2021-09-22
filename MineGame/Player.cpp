@@ -15,6 +15,10 @@ Player::~Player() {
 	}
 }
 
+const char* Player::getCharacter() {
+	return playerCharacter;
+}
+
 void Player::AddMineral(char* mineralName) {
 	//광물 이름이 같은 myMineral의 count를 1 증가시킨다.
 	for (int i = 0; i < ItemCount; i++) {
@@ -36,4 +40,44 @@ void Player::Inventory() {
 		std::cout << std::endl;
 	}
 	
+}
+
+char* Player::MineAuthorityCheck(int mineIdx) {
+	//광산에 들어갈 수 있는지 체크
+	// 0 : 일반 광산 1: 중급 광산 3: 고급 광산
+	
+	char mineName[10] = "\0";
+	if (mineIdx == 1) {
+		//일반광산. 누구나 들어갈 수 있음
+		strcpy(mineName, "일반 광산");
+	}
+	else {
+
+		//모든 아이템 갯수를 구한다.
+		int allItemCount = 0;
+		for (int i = 0; i < ItemCount; i++) {
+			allItemCount += inventory[i]->getCount();
+		}
+
+		switch (mineIdx)
+		{
+		case 2:
+			//중급 광산
+			if (allItemCount >= 10) {
+				strcpy(mineName, "중급 광산");
+			}
+			break;
+		case 3:
+			//고급 광산
+			if (allItemCount >= 20) {
+				strcpy(mineName, "고급 광산");
+			}
+			break;
+		default:
+			std::cout << "오류" << std::endl;
+			break;
+		}
+	}
+
+	return mineName;
 }

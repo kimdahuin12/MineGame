@@ -48,6 +48,12 @@
     <ClInclude Include="MyItem.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="gameGlobal.h">
+      <Filter>소스 파일\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Mine.h">
+      <Filter>소스 파일\GamePlay</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -76,6 +82,12 @@
     </ClCompile>
     <ClCompile Include="MyItem.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="gameGlobal.cpp">
+      <Filter>소스 파일\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="Mine.cpp">
+      <Filter>소스 파일\GamePlay</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

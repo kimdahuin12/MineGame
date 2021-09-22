@@ -19,7 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="gameGlobal.h" />
     <ClInclude Include="global.h" />
+    <ClInclude Include="Mine.h" />
     <ClInclude Include="Mineral.h" />
     <ClInclude Include="mineralInfo.h" />
     <ClInclude Include="MineralManager.h" />
@@ -31,7 +33,9 @@
     <ClInclude Include="UserAccount.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="gameGlobal.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mine.cpp" />
     <ClCompile Include="Mineral.cpp" />
     <ClCompile Include="MineralManager.cpp" />
     <ClCompile Include="MyItem.cpp" />
