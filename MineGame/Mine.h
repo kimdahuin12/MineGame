@@ -35,7 +35,7 @@ private:
 	int mineralY = 0;
 
 	//플레이어 정보
-	Player player;
+	Player* player;
 	int playerX;
 	int playerY;
 
@@ -48,7 +48,7 @@ private:
 	int renderTime_delete = 10;
 	int renderTimeCheck_delete;
 public:
-	Mine(const char* mineName, Player &player);
+	Mine(const char* mineName, Player* player);
 	~Mine();
 	void MineInit();
 	int KeyInputRelated();

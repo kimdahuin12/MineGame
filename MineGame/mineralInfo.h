@@ -12,7 +12,7 @@
 */
 
 //파란색 광물
-static const char* BlueMineralName[] = { "BLUE광물-1", "BLUE광물-2", "BLUE광물-3"}; //포인터배열. 포인터를 담고 있는 배열.
+static const char* BlueMineralName[] = { "◆ BLUE광물-1", "◎ BLUE광물-2", "▲ BLUE광물-3"}; //포인터배열. 포인터를 담고 있는 배열.
 static const int BlueMineralCount = sizeof(BlueMineralName) / sizeof(char*);
 
 static unsigned int BlueMineralPrice[BlueMineralCount] = { 200, 300, 400};
@@ -20,7 +20,7 @@ static float BlueMineralRarity[BlueMineralCount] = { 1.4, 2.3, 4.3};
 static int BlueMineralDelTime[BlueMineralCount] = { 2, 3, 4}; //없애고 희귀도에 따라 해도 될 듯하다.
 
 //초록색 광물
-static const char* GreenMineralName[] = { "GREEN광물-1", "GREEN광물-2", "GREEN광물-3" }; //포인터배열. 포인터를 담고 있는 배열.
+static const char* GreenMineralName[] = { "◀ GREEN광물-1", "♣ GREEN광물-2", "※ GREEN광물-3" }; //포인터배열. 포인터를 담고 있는 배열.
 static const int GreenMineralCount = sizeof(GreenMineralName) / sizeof(char*);
 
 static unsigned int GreenMineralPrice[GreenMineralCount] = { 200, 300, 400 };

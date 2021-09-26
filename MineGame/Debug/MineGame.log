@@ -1,3 +1,4 @@
 ﻿  Player.cpp
-D:\cppProject\MineGame\MineGame\Player.cpp(82): warning C4172: 지역 변수 또는 임시: mineName의 주소를 반환하고 있습니다.
+D:\cppProject\MineGame\MineGame\Player.cpp(39,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+D:\cppProject\MineGame\MineGame\Player.cpp(85): warning C4172: 지역 변수 또는 임시: mineName의 주소를 반환하고 있습니다.
   MineGame.vcxproj -> D:\cppProject\MineGame\Debug\MineGame.exe

@@ -35,8 +35,11 @@ void Player::AddMineral(char* mineralName) {
 
 void Player::Inventory() {
 	for(int i = 0; i < ItemCount; i++){
-		std::cout << "±¤¹° ÀÌ¸§ : " << inventory[i]->getName() << std::endl;
-		std::cout << "±¤¹° °¹¼ö : " << inventory[i]->getCount() << std::endl;
+		std::cout << inventory[i]->getName();
+		for (int i = 0; i < (40 - strlen(inventory[i]->getName())); i++) {
+			std::cout << " ";
+		}
+		std::cout << inventory[i]->getCount()<<"°³";
 		std::cout << std::endl;
 	}
 	

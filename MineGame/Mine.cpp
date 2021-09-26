@@ -1,5 +1,5 @@
 #include "Mine.h"
-Mine::Mine(const char* mineName, Player &player) {
+Mine::Mine(const char* mineName, Player* player) {
 	this->player = player;
 	playerX = 0;
 	playerY = 0;
@@ -70,9 +70,9 @@ void Mine::MineInit() {
 
 	//플레이어의 위치를 세팅
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), YELLOW);
-	ground[playerY][playerX] = player.getCharacter();
+	ground[playerY][playerX] = (*player).getCharacter();
 	gotoXY((COORDINATE_LEFT + playerX) * 2, COORDINATE_TOP + playerY); //왼쪽 위
-	cout << player.getCharacter();
+	cout << (*player).getCharacter();
 
 	prevTime_render = clock(); //시작했을 때의 시간 체크
 }
@@ -99,11 +99,11 @@ int Mine::KeyInputRelated() {
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), EMPTY);
 			gotoXY(0, 0);
 			cout << "수확한 광물>>  " << mineral << "                              ";
-			player.AddMineral(mineral); //플레이어에게 그 광물을 추가한다.
+			(*player).AddMineral(mineral); //플레이어에게 그 광물을 추가한다.
 		}
 		//플레이어가 움직인 곳으로 세팅
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), YELLOW);
-		ground[playerY][playerX] = player.getCharacter();
+		ground[playerY][playerX] = (*player).getCharacter();
 		item[playerY][playerX] = EMPTY;
 		gotoXY((COORDINATE_LEFT + playerX) * 2, COORDINATE_TOP + playerY);
 		cout << ground[playerY][playerX];
@@ -207,7 +207,7 @@ void Mine::Update() {
 
 	if (renderTime_delete <= renderTimeCheck_delete) {
 		//랜덤한 시간이 지나면(처음은 10초) 삭제를 한다.
-		renderTime_delete = rand() % deleteMineralSec + 1;//1 ~ deleteMineralSec초 사이의 랜덤한 삭제
+		renderTime_delete = rand() % deleteMineralSec + 5;//5 ~ deleteMineralSec+4초 사이의 랜덤한 삭제
 		prevTime_render_delete = clock(); //이전 시간을 기록
 
 		//랜덤한 광물을 삭제

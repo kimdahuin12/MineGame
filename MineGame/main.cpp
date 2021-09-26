@@ -11,6 +11,7 @@
 #include "UserAccount.h"
 #include "Player.h"
 
+#include "MyItem.h"
 #include "Mine.h"
 
 
@@ -67,11 +68,11 @@ int main() {
 	system("title MIneGame");
 
 	//음악
-	openBgm.lpstrElementName = L"D:\\cppProject\\playGame\\Debug\\sound\\bgSound.wav"; //파일 오픈
-	openBgm.lpstrDeviceType = L"mpegvideo"; //mp3 형식
-	mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)&openBgm);
-	dwID = openBgm.wDeviceID;
-	mciSendCommand(dwID, MCI_PLAY, MCI_DGV_PLAY_REPEAT, (DWORD)(LPVOID)&openBgm); //음악 반복 재생
+	//openBgm.lpstrElementName = L"D:\\cppProject\\playGame\\Debug\\sound\\bgSound.wav"; //파일 오픈
+	//openBgm.lpstrDeviceType = L"mpegvideo"; //mp3 형식
+	//mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)&openBgm);
+	//dwID = openBgm.wDeviceID;
+	//mciSendCommand(dwID, MCI_PLAY, MCI_DGV_PLAY_REPEAT, (DWORD)(LPVOID)&openBgm); //음악 반복 재생
 	//음악 END
 
 	//밑줄(커서)가 보이지 않게 해주는 함수.
@@ -243,7 +244,7 @@ void StartGame()
 		gotoXY(selX, selY + 2);
 		cout << "  2. 상점" << endl;
 		gotoXY(selX, selY + 4);
-		cout << "  3. 내 정보" << endl;
+		cout << "  3. 내 가방" << endl;
 		gotoXY(selX, selY + 6);
 		cout << "  4. 게임 나가기" << endl;
 		gotoXY(55, 22);
@@ -397,7 +398,7 @@ void GoMining()
 		}
 		else {
 			//광산 생성
-			mine = new Mine(mineName, player);
+			mine = new Mine(mineName, &player);
 			break;
 		}
 	}
