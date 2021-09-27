@@ -22,11 +22,10 @@ private:
 	const char* ground[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH]; //광물을 수집하는 구역
 	int item[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH]; //광물의 색을 저장하는 구역
 
-	char* mineName;									//광산 이름
+	char* mineName;										//광산 이름
 	int produceMineralSec = 1;							//몇초사이마다 랜덤으로 광물이 나오게할지
 	int deleteMineralSec = 1;							//몇초사이마다 랜덤으로 광물을 삭제할지
-	//MINERAL_ITEM_COUNT은 광물 색 갯수.
-	float mineralPercentage[MINERAL_ITEM_COUNT+1];	//광물 색에 따른 확률 저장(인덱스 의 색)
+	float mineralPercentage[MINERAL_ITEM_COUNT+1];	//광물 색에 따른 확률 저장(인덱스 의 색) //MINERAL_ITEM_COUNT은 광물 색 갯수.
 	
 	//광물 관련
 	MineralManager mineralManager;

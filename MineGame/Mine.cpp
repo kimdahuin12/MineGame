@@ -7,10 +7,11 @@ Mine::Mine(const char* mineName, Player* player) {
 	//±¤»ê ÀÌ¸§
 	this->mineName = new char[strlen(mineName) + 1];
 	strcpy(this->mineName, mineName);
-	
+	cout << "Çï·Î¿ì" << endl;
 	if (!strcmp(mineName, "ÀÏ¹Ý ±¤»ê")) {
 		produceMineralSec = 3;
 		deleteMineralSec = 10;
+		//±¤¹° »ö¿¡ µû¸¥ È®·ü.
 		mineralPercentage[DARK_BLUE] = 45.0f;
 		mineralPercentage[DARK_VIOLET] = 45.0f;
 		mineralPercentage[DARK_RED] = 4.9f;
@@ -174,7 +175,7 @@ char* Mine::randomMineral(int mineralItem) {
 
 		break;
 	default:
-		res_mineralName = new char[strlen("¾Ë ¼ö ¾ø´Â ±¤¹°(¿À·ù)")];
+		res_mineralName = new char[strlen("¾Ë ¼ö ¾ø´Â ±¤¹°(¿À·ù)")+1];
 		strcpy(res_mineralName, "¾Ë ¼ö ¾ø´Â ±¤¹°(¿À·ù)");
 	}
 	return res_mineralName;
@@ -198,7 +199,16 @@ void Mine::Update() {
 		mineralX = rand() % GAMEPLAY_GROUND_WIDTH;
 		mineralY = rand() % GAMEPLAY_GROUND_HEIGHT;
 		ground[mineralY][mineralX] = "¡á";
-		item[mineralY][mineralX] = (rand() % 6) + 1; //1~6
+
+		//item(±¤¹°ÀÇ »ö)À» ·£´ýÀ¸·Î Á¤ÇØÁÜ
+		float randomItem = rand() % 10001; //0 ~ 10000
+		if (randomItem <= (mineralPercentage[DARK_SKYBLUE]*100)) { item[mineralY][mineralX] = DARK_SKYBLUE; } //°¡Àå Èñ±ÍÇÑ ±¤¹°
+		else if (randomItem <= (mineralPercentage[DAKR_YELLOW] * 100)) { item[mineralY][mineralX] = DAKR_YELLOW; }
+		else if (randomItem <= (mineralPercentage[DARK_GREEN] * 100)) { item[mineralY][mineralX] = DARK_GREEN; }
+		else if (randomItem <= (mineralPercentage[DARK_RED] * 100)) { item[mineralY][mineralX] = DARK_RED; }
+		else if (randomItem <= (mineralPercentage[DARK_VIOLET] * 100)) { item[mineralY][mineralX] = DARK_VIOLET; }
+		else{ item[mineralY][mineralX] = DARK_BLUE; }
+
 		mineralManager.AddMineral(randomMineral(item[mineralY][mineralX]), mineralX, mineralY);//·£´ý ±¤¹° »ý¼ºÇØ¼­ »ý¼ºµÈ ±¤¹° Ãß°¡
 	}
 

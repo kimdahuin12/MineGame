@@ -36,10 +36,12 @@ void Player::AddMineral(char* mineralName) {
 void Player::Inventory() {
 	for(int i = 0; i < ItemCount; i++){
 		std::cout << inventory[i]->getName();
-		for (int i = 0; i < (40 - strlen(inventory[i]->getName())); i++) {
-			std::cout << " ";
-		}
-		std::cout << inventory[i]->getCount()<<"개";
+
+		//공백,
+		int nameLen = strlen(inventory[i]->getName());
+		for (int i = 0; i < (30 - nameLen); i++) { std::cout << " "; }
+		
+		std::cout << inventory[i]->getCount()<<"개"<<std::endl;
 		std::cout << std::endl;
 	}
 	
@@ -49,9 +51,10 @@ char* Player::MineAuthorityCheck(int mineIdx) {
 	//광산에 들어갈 수 있는지 체크
 	// 0 : 일반 광산 1: 중급 광산 3: 고급 광산
 	
-	char mineName[10] = "\0";
+	char* mineName = nullptr;
 	if (mineIdx == 1) {
 		//일반광산. 누구나 들어갈 수 있음
+		mineName = new char[strlen("일반 광산") + 1];
 		strcpy(mineName, "일반 광산");
 	}
 	else {
@@ -67,12 +70,14 @@ char* Player::MineAuthorityCheck(int mineIdx) {
 		case 2:
 			//중급 광산
 			if (allItemCount >= 10) {
+				mineName = new char[strlen("중급 광산") + 1];
 				strcpy(mineName, "중급 광산");
 			}
 			break;
 		case 3:
 			//고급 광산
 			if (allItemCount >= 20) {
+				mineName = new char[strlen("고급 광산") + 1];
 				strcpy(mineName, "고급 광산");
 			}
 			break;
