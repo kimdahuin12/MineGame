@@ -79,6 +79,8 @@ void Mine::MineInit() {
 }
 
 int Mine::KeyInputRelated() {
+	//키 관련된 처리
+
 	int input = _getch();
 	if (input == 224) { //224는 방향키임을 알려주는 아스키코드값
 		input = _getch();
@@ -114,7 +116,7 @@ int Mine::KeyInputRelated() {
 
 
 char* Mine::randomMineral(int mineralItem) {
-	//광물의 색에 따라 광물을 랜덤으로 생성한다.
+	//광물의 색에 따라 그 광물의 색인 광물을 랜덤으로 생성한다.
 	int randomIdx;
 	char* res_mineralName;
 	//srand(time(NULL));는 메인에..
@@ -123,7 +125,7 @@ char* Mine::randomMineral(int mineralItem) {
 		//DARK_BLUE
 
 		//랜덤 인덱스 생성
-		randomIdx = 1;//rand() % BlueMineralCount; // 파란색 광물의 갯수 사이에서 랜덤하게 생성
+		randomIdx = rand() % BlueMineralCount; // 파란색 광물의 갯수 사이에서 랜덤하게 생성
 
 		//이름 
 		res_mineralName = new char[strlen(BlueMineralName[randomIdx])];

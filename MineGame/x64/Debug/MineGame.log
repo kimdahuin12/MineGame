@@ -1,19 +1,2 @@
-﻿  gameGlobal.cpp
-D:\cppProject\MineGame\MineGame\gameGlobal.cpp(3,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-D:\cppProject\MineGame\MineGame\gameGlobal.cpp(3,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-  main.cpp
+﻿  main.cpp
 D:\cppProject\MineGame\MineGame\main.cpp(5,10): fatal error C1083: 포함 파일을 열 수 없습니다. 'my_global.h': No such file or directory
-  Mine.cpp
-D:\cppProject\MineGame\MineGame\mineralInfo.h(19,67): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(27,70): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(35,74): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(44,66): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(52,72): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(60,72): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-  MineralManager.cpp
-  MyItem.cpp
-  Player.cpp
-  setting.cpp
-  코드를 생성하고 있습니다...
-D:\cppProject\MineGame\MineGame\Player.cpp(82): warning C4172: 지역 변수 또는 임시: mineName의 주소를 반환하고 있습니다.
-D:\cppProject\MineGame\MineGame\MineralManager.cpp(71): warning C4715: 'MineralManager::MineralCheck': 모든 제어 경로에서 값을 반환하지는 않습니다.

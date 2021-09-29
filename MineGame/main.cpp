@@ -390,7 +390,7 @@ void GoMining()
 		//들어갈 수 있는지 확인
 		char* mineName = player.MineAuthorityCheck(sel);
 
-		if (!strcmp(mineName, "\0")) {
+		if (mineName == nullptr) {
 			system("pause"); system("cls"); playingShuffleSound();
 			gotoXY(50, 50);
 			cout << "들어갈 수 없는 광산" << endl;
