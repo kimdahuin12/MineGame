@@ -1,6 +1,5 @@
-//db연동
 #define _CRT_SECURE_NO_WARNINGS
-//db관련
+//db연동
 #pragma comment(lib, "libmySQL.lib")
 #include <my_global.h>
 #include <mysql.h>
@@ -66,7 +65,9 @@ int main() {
 	//창 크기
 	system("mode con: cols=160 lines=40");
 	system("title MIneGame");
-
+	cout << "helllo~~dsfdsfdsfsd" << endl;
+	cout << "helllo~~dsfdsfdsfsd" << endl;
+	cout << "helllo~~dsfdsfdsfsd" << endl;
 	//음악
 	//openBgm.lpstrElementName = L"D:\\cppProject\\playGame\\Debug\\sound\\bgSound.wav"; //파일 오픈
 	//openBgm.lpstrDeviceType = L"mpegvideo"; //mp3 형식
