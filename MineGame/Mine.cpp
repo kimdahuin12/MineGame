@@ -7,10 +7,9 @@ Mine::Mine(const char* mineName, Player* player) {
 	//광산 이름
 	this->mineName = new char[strlen(mineName) + 1];
 	strcpy(this->mineName, mineName);
-	cout << "헬로우" << endl;
 	if (!strcmp(mineName, "일반 광산")) {
-		produceMineralSec = 3;
-		deleteMineralSec = 10;
+		produceMineralSec = 8;
+		deleteMineralSec = 5;
 		//광물 색에 따른 확률.
 		mineralPercentage[DARK_BLUE] = 45.0f;
 		mineralPercentage[DARK_VIOLET] = 45.0f;
@@ -21,8 +20,8 @@ Mine::Mine(const char* mineName, Player* player) {
 		
 	}
 	else if (!strcmp(mineName, "중급 광산")) {
-		produceMineralSec = 4;
-		deleteMineralSec = 8;
+		produceMineralSec = 8;
+		deleteMineralSec = 4;
 		mineralPercentage[DARK_BLUE] = 35.0f;
 		mineralPercentage[DARK_VIOLET] = 35.0f;
 		mineralPercentage[DARK_RED] = 23.5f;
@@ -31,8 +30,8 @@ Mine::Mine(const char* mineName, Player* player) {
 		mineralPercentage[DARK_SKYBLUE] = 0.5f;
 	}
 	else if (!strcmp(mineName, "고급 광산")) {
-		produceMineralSec = 5;
-		deleteMineralSec = 6;
+		produceMineralSec = 8;
+		deleteMineralSec = 3;
 		mineralPercentage[DARK_BLUE] = 30.0f;
 		mineralPercentage[DARK_VIOLET] = 30.0f;
 		mineralPercentage[DARK_RED] = 29.0f;
@@ -101,7 +100,7 @@ int Mine::KeyInputRelated() {
 			strcpy(mineral, mineralManager.MineralCheck(playerX, playerY)); //그 위치에 있는 광물의 이름을 받아온다.
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), EMPTY);
 			gotoXY(0, 0);
-			cout << "수확한 광물>>  " << mineral << "                              ";
+			cout << "수확한 광물>>  " << mineral << "                                                       ";
 			(*player).AddMineral(mineral); //플레이어에게 그 광물을 추가한다.
 		}
 		//플레이어가 움직인 곳으로 세팅
@@ -195,7 +194,7 @@ void Mine::Update() {
 		renderTime = rand() % produceMineralSec + 1;//1 ~ produceMineralSec초 사이의 랜덤한 생성
 		prevTime_render = clock();
 
-		//생성
+		//생성(광물의 생성을 벽이 있다면 그곳에 생성을 못하도록 하기)
 		//x, y값을 생성하고 item은 실제 광물의 역할을 하며 번호에 따른 색이 부여됨.
 		//그리고 ground는 땅의 출력을 할 때 사용되는 정도
 		mineralX = rand() % GAMEPLAY_GROUND_WIDTH;
@@ -219,7 +218,7 @@ void Mine::Update() {
 
 	if (renderTime_delete <= renderTimeCheck_delete) {
 		//랜덤한 시간이 지나면(처음은 10초) 삭제를 한다.
-		renderTime_delete = rand() % deleteMineralSec + 5;//5 ~ deleteMineralSec+4초 사이의 랜덤한 삭제
+		renderTime_delete = rand() % deleteMineralSec + 1;//1 ~ deleteMineralSec초 사이의 랜덤한 삭제
 		prevTime_render_delete = clock(); //이전 시간을 기록
 
 		//랜덤한 광물을 삭제

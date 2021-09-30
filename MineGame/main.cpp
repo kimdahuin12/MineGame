@@ -1,9 +1,9 @@
 //db연동
 #define _CRT_SECURE_NO_WARNINGS
-//db관련
-#pragma comment(lib, "libmySQL.lib")
-#include <my_global.h>
-#include <mysql.h>
+////db관련
+//#pragma comment(lib, "libmySQL.lib")
+//#include <my_global.h>
+//#include <mysql.h>
 
 #include "global.h"
 #include "gameGlobal.h"
@@ -14,6 +14,17 @@
 #include "MyItem.h"
 #include "Mine.h"
 
+//db에 넣을거
+//광물 테이블
+//(광물 이름, 광물 가격)
+//포션
+
+//맵에 장애물이 추가가 된다.
+//광산을 더 추가하자
+//광산에 따라 모양을 다르게 하고 싶다.
+//
+
+//
 
 //함수 선언
 string fileRead(string fileName);
@@ -41,7 +52,7 @@ MCI_PLAY_PARMS playShuffleSound;
 
 int dwID;
 void playingShuffleSound(void) {
-	//효과움
+	//효과음
 	openShuffleSound.lpstrElementName = L"D:\\cppProject\\playGame\\Debug\\sound\\click.wav"; //파일 오픈
 	openShuffleSound.lpstrDeviceType = L"mpegvideo"; //mp3 형식
 	mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)&openShuffleSound);
@@ -51,7 +62,6 @@ void playingShuffleSound(void) {
 	mciSendCommand(dwID, MCI_SEEK, MCI_SEEK_TO_START, (DWORD)(LPVOID)NULL); //음원 재생 위치를 처음으로 초기화
 }
 //음악 END
-
 
 // https://kiffblog.tistory.com/151
 int main() {
@@ -66,7 +76,6 @@ int main() {
 	//창 크기
 	system("mode con: cols=160 lines=40");
 	system("title MIneGame");
-
 	//음악
 	//openBgm.lpstrElementName = L"D:\\cppProject\\playGame\\Debug\\sound\\bgSound.wav"; //파일 오픈
 	//openBgm.lpstrDeviceType = L"mpegvideo"; //mp3 형식
@@ -82,9 +91,9 @@ int main() {
 	int selX;
 	int selY;
 	
-	printf("MySQL Client Version: %s\n", mysql_get_client_info());
-
-	while (true) {
+	//printf("MySQL Client Version: %s\n", mysql_get_client_info());
+	cout << fileRead("test.txt") << endl;
+	while (false) {
 		//아래와 같이 할 수 있는 그런..
 		//x, y 좌표를 설정해주면 간격 2로 차례대로 나올 수 있도록 했으면 좋겠다.
 		selX = 57;
@@ -189,7 +198,7 @@ string fileRead(string fileName) {
 
 	//파일 불러오기
 	fstream readFile(fileName);
-	string fileContent;
+	char* fileContent = nullptr;
 
 	if (readFile.is_open()) {
 		//파일 읽어오기 성공
@@ -201,18 +210,38 @@ string fileRead(string fileName) {
 		int size = readFile.tellg();
 
 		//size만큼 문자열의 공간을 정해줌
-		fileContent.resize(size);
+		fileContent = new char[size+1];
+		for (int i = 0; i < size + 1; i++) { fileContent[i] = 0; }
 
 		//파일의 맨 처음 위치로 이동
 		readFile.seekg(0, ios::beg);
 
 		//파일의 전체 내용을 fileContent에 저장
 		readFile.read(&fileContent[0], size);
+
+		//이부분은 게임 관련 텍스트 이미지를 위한 부분이다.
+		//따로 만들거나 여부를 선택해서 해도 될 것 같다
+		if (true) {
+			for (int i = 0; i < size + 1; i++) {
+				if (fileContent[i] == '0') {
+					fileContent[i] = 'O';
+				}
+				else if (fileContent[i] == '1') {
+					fileContent[i] = 'F';
+				}
+				else if (fileContent[i] == '2') {
+					fileContent[i] = ' ';
+				}
+			}
+		}
 	}
 	else {
 		//파일 읽어오기 실패
-		fileContent = "파일을 찾을 수 없습니다.";
+		strcpy(fileContent, "파일을 찾을 수 없습니다.");
 	}
+
+
+	//fileContent()
 
 	return fileContent;
 }
