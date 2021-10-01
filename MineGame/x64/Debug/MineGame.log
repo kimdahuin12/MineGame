@@ -1,2 +1,25 @@
 ﻿  main.cpp
-D:\cppProject\MineGame\MineGame\main.cpp(5,10): fatal error C1083: 포함 파일을 열 수 없습니다. 'my_global.h': No such file or directory
+D:\cppProject\MineGame\MineGame\mineralInfo.h(19,67): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
+D:\cppProject\MineGame\MineGame\mineralInfo.h(27,70): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
+D:\cppProject\MineGame\MineGame\mineralInfo.h(35,74): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
+D:\cppProject\MineGame\MineGame\mineralInfo.h(44,66): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
+D:\cppProject\MineGame\MineGame\mineralInfo.h(52,72): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
+D:\cppProject\MineGame\MineGame\mineralInfo.h(60,72): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
+D:\cppProject\MineGame\MineGame\main.cpp(58,96): warning C4311: '형식 캐스트': 'LPVOID'에서 'DWORD'(으)로 포인터가 잘립니다.
+D:\cppProject\MineGame\MineGame\main.cpp(58,96): warning C4302: '형식 캐스트': 'LPVOID'에서 'DWORD'(으)로 잘립니다.
+D:\cppProject\MineGame\MineGame\main.cpp(60,77): warning C4311: '형식 캐스트': 'LPVOID'에서 'DWORD'(으)로 포인터가 잘립니다.
+D:\cppProject\MineGame\MineGame\main.cpp(60,77): warning C4302: '형식 캐스트': 'LPVOID'에서 'DWORD'(으)로 잘립니다.
+D:\cppProject\MineGame\MineGame\main.cpp(62,71): warning C4311: '형식 캐스트': 'LPVOID'에서 'DWORD'(으)로 포인터가 잘립니다.
+D:\cppProject\MineGame\MineGame\main.cpp(62,71): warning C4302: '형식 캐스트': 'LPVOID'에서 'DWORD'(으)로 잘립니다.
+D:\cppProject\MineGame\MineGame\main.cpp(250,12): warning C4244: '초기화 중': 'std::streamoff'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\cppProject\MineGame\MineGame\main.cpp(394,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+main.obj : error LNK2019: mysql_errormain 함수에서 참조되는 확인할 수 없는 외부 기호
+main.obj : error LNK2019: mysql_initmain 함수에서 참조되는 확인할 수 없는 외부 기호
+main.obj : error LNK2019: mysql_real_connectmain 함수에서 참조되는 확인할 수 없는 외부 기호
+main.obj : error LNK2019: mysql_querymain 함수에서 참조되는 확인할 수 없는 외부 기호
+main.obj : error LNK2019: mysql_store_resultmain 함수에서 참조되는 확인할 수 없는 외부 기호
+main.obj : error LNK2019: mysql_free_resultmain 함수에서 참조되는 확인할 수 없는 외부 기호
+main.obj : error LNK2019: mysql_fetch_rowmain 함수에서 참조되는 확인할 수 없는 외부 기호
+main.obj : error LNK2019: mysql_closemain 함수에서 참조되는 확인할 수 없는 외부 기호
+C:\Program Files (x86)\MySQL\MySQL Server 5.5\lib\libmysql.lib : warning LNK4272: 'x86' 라이브러리 컴퓨터 종류가 'x64' 대상 컴퓨터 종류와 충돌합니다.
+D:\cppProject\MineGame\x64\Debug\MineGame.exe : fatal error LNK1120: 8개의 확인할 수 없는 외부 참조입니다.

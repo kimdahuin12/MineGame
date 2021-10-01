@@ -1,31 +1,10 @@
-﻿  Mine.cpp
+﻿  main.cpp
 D:\cppProject\MineGame\MineGame\mineralInfo.h(19,67): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
 D:\cppProject\MineGame\MineGame\mineralInfo.h(27,70): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
 D:\cppProject\MineGame\MineGame\mineralInfo.h(35,74): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
 D:\cppProject\MineGame\MineGame\mineralInfo.h(44,66): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
 D:\cppProject\MineGame\MineGame\mineralInfo.h(52,72): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
 D:\cppProject\MineGame\MineGame\mineralInfo.h(60,72): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\Mine.cpp(205,20): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Mineral.cpp
-  MineralManager.cpp
-  MyItem.cpp
-  Player.cpp
-  ProductItem.cpp
-  ProductMineralItem.cpp
-  UserAccount.cpp
-  gameGlobal.cpp
-D:\cppProject\MineGame\MineGame\gameGlobal.cpp(3,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-D:\cppProject\MineGame\MineGame\gameGlobal.cpp(3,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-  main.cpp
-D:\cppProject\MineGame\MineGame\mineralInfo.h(19,67): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(27,70): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(35,74): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(44,66): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(52,72): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(60,72): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\main.cpp(210,12): warning C4244: '초기화 중': 'std::streamoff'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\cppProject\MineGame\MineGame\main.cpp(354,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  setting.cpp
-  코드를 생성하고 있습니다...
-D:\cppProject\MineGame\MineGame\MineralManager.cpp(71): warning C4715: 'MineralManager::MineralCheck': 모든 제어 경로에서 값을 반환하지는 않습니다.
+D:\cppProject\MineGame\MineGame\main.cpp(252,12): warning C4244: '초기화 중': 'std::streamoff'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\cppProject\MineGame\MineGame\main.cpp(396,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   MineGame.vcxproj -> D:\cppProject\MineGame\Debug\MineGame.exe

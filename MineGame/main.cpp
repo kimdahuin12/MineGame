@@ -1,9 +1,9 @@
 //db연동
 #define _CRT_SECURE_NO_WARNINGS
-////db관련
-//#pragma comment(lib, "libmySQL.lib")
-//#include <my_global.h>
-//#include <mysql.h>
+//db관련
+#pragma comment(lib, "libmysql.lib")
+#include <my_global.h>
+#include <mysql.h>
 
 #include "global.h"
 #include "gameGlobal.h"
@@ -27,7 +27,7 @@
 //
 
 //함수 선언
-string fileRead(string fileName);
+char* fileRead(string fileName);
 void StartGame();
 void GoMining();
 //void PlayerMove();
@@ -63,8 +63,14 @@ void playingShuffleSound(void) {
 }
 //음악 END
 
+//database
+MYSQL* connection = NULL, conn;
+
 // https://kiffblog.tistory.com/151
 int main() {
+
+	
+
 	////창 최대
 	//HWND hwnd = GetForegroundWindow();
 	//int cx = GetSystemMetrics(SM_CXSCREEN);            /* Screen width pixels */
@@ -91,8 +97,51 @@ int main() {
 	int selX;
 	int selY;
 	
+	//mysql test
+	MYSQL* connection = NULL, conn;
+	MYSQL_RES* sql_res;
+	MYSQL_ROW sql_row;
+	int query_stat;
+	mysql_init(connection, conn); //mysql 연결
+	void mysql_init(MYSQL* connection, MYSQL* conn) {
+		//초기화
+		mysql_init(&conn);
+
+		//DB연결
+		connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
+		if (connection == NULL) {
+			fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
+			return 1;
+		}
+
+		//한글 사용하기 위해 추가하기
+		mysql_query(connection, "set session character_set_connection=euckr;");
+		mysql_query(connection, "set session character_set_results=euckr;");
+		mysql_query(connection, "set session character_set_client=euckr;");
+	}
+
+	
+
+	//select쿼리문
+	const char* query = "SELECT * FROM test_table";
+	query_stat = mysql_query(connection, query);
+	if (query_stat != 0) {
+		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
+		return 1;
+	}
+
+	//결과 출력
+	sql_res = mysql_store_result(connection);
+	while ((sql_row = mysql_fetch_row(sql_res)) != NULL) {
+		printf("%2s\n", sql_row[0]);
+	}
+	mysql_free_result(sql_res);
+
+	//DB 연결 닫기
+	mysql_close(connection);
+	//DB끝
+
 	//printf("MySQL Client Version: %s\n", mysql_get_client_info());
-	cout << fileRead("test.txt") << endl;
 	while (false) {
 		//아래와 같이 할 수 있는 그런..
 		//x, y 좌표를 설정해주면 간격 2로 차례대로 나올 수 있도록 했으면 좋겠다.
@@ -194,7 +243,7 @@ int main() {
 //함수 정의
 //
 
-string fileRead(string fileName) {
+char* fileRead(string fileName) {
 
 	//파일 불러오기
 	fstream readFile(fileName);
@@ -227,7 +276,7 @@ string fileRead(string fileName) {
 					fileContent[i] = 'O';
 				}
 				else if (fileContent[i] == '1') {
-					fileContent[i] = 'F';
+					fileContent[i] = 'I';
 				}
 				else if (fileContent[i] == '2') {
 					fileContent[i] = ' ';
