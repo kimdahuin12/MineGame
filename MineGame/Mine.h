@@ -1,8 +1,10 @@
+//광산. 게임의 부분
 #pragma once
 #include "gameGlobal.h"
 #include "mineralInfo.h"
 #include "MineralManager.h" //광물을 추가할때 사용된다.
 #include "Player.h"
+#include "global.h"
 
 void gotoXY(int x, int y);
 
@@ -19,7 +21,7 @@ class Mine
 	DAKR_YELLOW
 	*/
 private:
-	const char* ground[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH]; //광물을 수집하는 구역
+	const char* ground[GAMEPLAY_GROUND_HEIGHT*GAMEPLAY_GROUND_WIDTH]; //광물을 수집하는 구역
 	int item[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH]; //광물의 색을 저장하는 구역
 
 	char* mineName;										//광산 이름
@@ -28,7 +30,7 @@ private:
 	float mineralPercentage[MINERAL_ITEM_COUNT+1];	//광물 색에 따른 확률 저장(인덱스 의 색) //MINERAL_ITEM_COUNT은 광물 색 갯수.
 	
 	//광물 관련
-	MineralManager mineralManager;
+	MineralManager mineralManager; //광물 관리 생성
 	char mineral[30] = "";
 	int mineralX = 0;
 	int mineralY = 0;
@@ -46,6 +48,8 @@ private:
 	clock_t prevTime_render_delete;
 	int renderTime_delete = 10;
 	int renderTimeCheck_delete;
+	//맵 관련
+	const char* fileName;
 public:
 	Mine(const char* mineName, Player* player);
 	~Mine();

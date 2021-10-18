@@ -1,8 +1,8 @@
 #include "Mine.h"
 Mine::Mine(const char* mineName, Player* player) {
 	this->player = player;
-	playerX = 0;
-	playerY = 0;
+	playerX = 25;
+	playerY = 5;
 
 	//광산 이름
 	this->mineName = new char[strlen(mineName) + 1];
@@ -17,7 +17,7 @@ Mine::Mine(const char* mineName, Player* player) {
 		mineralPercentage[DARK_GREEN] = 2.5f;
 		mineralPercentage[DAKR_YELLOW] = 2.5f;
 		mineralPercentage[DARK_SKYBLUE] = 0.1f;
-		
+		fileName = "test.txt";
 	}
 	else if (!strcmp(mineName, "중급 광산")) {
 		produceMineralSec = 8;
@@ -47,31 +47,66 @@ Mine::~Mine() {
 void Mine::MineInit() {
 	//광산을 세팅한다.
 
-	gotoXY(0, 0);
-	cout << "수확한 광물>>" << endl << endl;
+	//광산의 배경을 불러온다.
+	//파일 불러오기
+	fstream readFile(fileName);
+	char* fileContent = nullptr;
+	if (readFile.is_open()) {
+		//파일 읽어오기 성공
+
+		//맨끝으로 위치 이동
+		readFile.seekg(0, ios::end);
+		//맨 처음 위치부터 현재위치(파일 맨 끝)까지의 크기를 반환
+		int size = readFile.tellg();
+		//size만큼 문자열의 공간을 정해줌
+		fileContent = new char[size + 1];
+		//파일의 맨 처음 위치로 이동
+		readFile.seekg(0, ios::beg);
+		//파일의 전체 내용을 fileContent에 저장
+		readFile.read(&fileContent[0], size);
+		//이부분은 게임 관련 텍스트 이미지를 위한 부분이다.
+		if (true) {
+			gotoXY(0, 0);
+			cout << "수확한 광물>>" << endl << endl;
+			int cnt = 0;
+			for (int i = 0; i <= size; i++) {
+				if (fileContent[i] == '0') {
+					//C9A1
+					ground[cnt++] = "▤";
+				}
+				else if (fileContent[i] == '1') {
+					ground[cnt++] = "＠";
+				}
+				else if (fileContent[i] == '2') {
+					ground[cnt++] = "  ";
+				}
+			}
+			cout << cnt;
+			for (int i = 0; i < GAMEPLAY_GROUND_HEIGHT; i++) {
+				for (int j = 0; j < GAMEPLAY_GROUND_WIDTH; j++) {
+					gotoXY(j*2, i + COORDINATE_TOP);
+					cout << ground[i * GAMEPLAY_GROUND_WIDTH + j];
+				}
+			}
+		}
+	}
+	else {
+		//파일 읽어오기 실패
+		strcpy(fileContent, "파일을 찾을 수 없습니다.");
+	}
+	
 
 	//게임 플레이 부분의 모든 곳을 초기화
 	for (int i = 0; i < GAMEPLAY_GROUND_HEIGHT; i++) {
 		for (int j = 0; j < GAMEPLAY_GROUND_WIDTH; j++) {
-			ground[i][j] = "  ";
 			item[i][j] = EMPTY;
 		}
 	}
 
-	//벽을 생성
-	for (int i = -1; i < GAMEPLAY_GROUND_HEIGHT + 1; i++) {
-		gotoXY((COORDINATE_LEFT - 1) * 2, COORDINATE_TOP + i); cout << "◆";
-		gotoXY((COORDINATE_LEFT + GAMEPLAY_GROUND_WIDTH) * 2, COORDINATE_TOP + i); cout << "◆";
-	}
-	for (int i = -1; i < GAMEPLAY_GROUND_WIDTH + 1; i++) {
-		gotoXY((COORDINATE_LEFT + i) * 2, COORDINATE_TOP - 1); cout << "◆";
-		gotoXY((COORDINATE_LEFT + i) * 2, COORDINATE_TOP + GAMEPLAY_GROUND_HEIGHT); cout << "◆";
-	}
-
 	//플레이어의 위치를 세팅
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), YELLOW);
-	ground[playerY][playerX] = (*player).getCharacter();
-	gotoXY((COORDINATE_LEFT + playerX) * 2, COORDINATE_TOP + playerY); //왼쪽 위
+	ground[playerY*GAMEPLAY_GROUND_WIDTH + playerX] = (*player).getCharacter();
+	gotoXY(playerX * 2, COORDINATE_TOP + playerY); //왼쪽 위
 	cout << (*player).getCharacter();
 
 	prevTime_render = clock(); //시작했을 때의 시간 체크
@@ -85,16 +120,16 @@ int Mine::KeyInputRelated() {
 		input = _getch();
 
 		//지나간 자리를 다시 되돌린다.
-		ground[playerY][playerX] = "  ";
+		ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX] = "  ";
 		item[playerY][playerX] = EMPTY;
-		gotoXY((COORDINATE_LEFT + playerX) * 2, COORDINATE_TOP + playerY);
-		cout << ground[playerY][playerX];
-		if ((input == UP) && ((playerY - 1) != -1)) { playerY -= 1; }
-		else if ((input == DOWN) && ((playerY + 1) != GAMEPLAY_GROUND_HEIGHT)) { playerY += 1; }
-		else if ((input == LEFT) && ((playerX - 1) != -1)) { playerX -= 1; }
-		else if ((input == RIGHT) && ((playerX + 1) != GAMEPLAY_GROUND_WIDTH)) { playerX += 1; }
-
-		if (strcmp(ground[playerY][playerX], "■") == 0) { //움직였는데 광물을 먹었다면
+		gotoXY(playerX * 2, COORDINATE_TOP + playerY);
+		cout << ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX];
+		if ((input == UP) && (ground[(playerY-1) * GAMEPLAY_GROUND_WIDTH + playerX] == "  ")) { playerY -= 1; }
+		else if ((input == DOWN) && (ground[(playerY+1) * GAMEPLAY_GROUND_WIDTH + playerX] == "  ")) { playerY += 1; }
+		else if ((input == LEFT) && (ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX-1] == "  ")) { playerX -= 1; }
+		else if ((input == RIGHT) && (ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX+1] == "  ")) { playerX += 1; }
+		
+		if (ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX] == "■") { //움직였는데 광물을 먹었다면
 			//플레이어의 위치가 광물이 있는 위치라면
 			//플레이어가 어떤 광물에 닿으면 그 광물이 어느 위치에 있는지 체크.
 			strcpy(mineral, mineralManager.MineralCheck(playerX, playerY)); //그 위치에 있는 광물의 이름을 받아온다.
@@ -105,10 +140,10 @@ int Mine::KeyInputRelated() {
 		}
 		//플레이어가 움직인 곳으로 세팅
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), YELLOW);
-		ground[playerY][playerX] = (*player).getCharacter();
+		ground[playerY* GAMEPLAY_GROUND_WIDTH + playerX] = (*player).getCharacter();
 		item[playerY][playerX] = EMPTY;
-		gotoXY((COORDINATE_LEFT + playerX) * 2, COORDINATE_TOP + playerY);
-		cout << ground[playerY][playerX];
+		gotoXY(playerX * 2, COORDINATE_TOP + playerY);
+		cout << ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX];
 	}
 	return input;
 }
@@ -197,9 +232,14 @@ void Mine::Update() {
 		//생성(광물의 생성을 벽이 있다면 그곳에 생성을 못하도록 하기)
 		//x, y값을 생성하고 item은 실제 광물의 역할을 하며 번호에 따른 색이 부여됨.
 		//그리고 ground는 땅의 출력을 할 때 사용되는 정도
-		mineralX = rand() % GAMEPLAY_GROUND_WIDTH;
-		mineralY = rand() % GAMEPLAY_GROUND_HEIGHT;
-		ground[mineralY][mineralX] = "■";
+		do {
+			mineralX = rand() % GAMEPLAY_GROUND_WIDTH;
+			mineralY = rand() % GAMEPLAY_GROUND_HEIGHT;
+			if (ground[mineralY * GAMEPLAY_GROUND_WIDTH + mineralX] == "  ") {
+				ground[mineralY * GAMEPLAY_GROUND_WIDTH + mineralX] = "■";
+				break;
+			}
+		} while (ground[mineralY * GAMEPLAY_GROUND_WIDTH + mineralX] != "■");
 
 		//item(광물의 색)을 랜덤으로 정해줌
 		float randomItem = rand() % 10001; //0 ~ 10000
@@ -228,6 +268,6 @@ void Mine::Update() {
 
 void Mine::Render() {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), item[mineralY][mineralX]);
-	gotoXY((COORDINATE_LEFT + mineralX) * 2, COORDINATE_TOP + mineralY);
-	cout << ground[mineralY][mineralX];
+	gotoXY(mineralX * 2, COORDINATE_TOP + mineralY);
+	cout << ground[mineralY*GAMEPLAY_GROUND_WIDTH+mineralX];
 }

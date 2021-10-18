@@ -22,10 +22,10 @@ void LoadMineralInfo(const char* filename) {
 
 }
 
-
 MineralManager::MineralManager() {
 	mineralIdx = 0;
 }
+
 MineralManager::~MineralManager() {
 	for (int i = 0; i < mineralIdx; i++) {
 		delete mineralManager[i];
@@ -35,7 +35,7 @@ MineralManager::~MineralManager() {
 void MineralManager::AddMineral(const char* mineralName, int x, int y) {
 	mineralManager[mineralIdx++] = new Mineral(mineralName, x, y);
 }
-void MineralManager::RandomMineralDel(const char* ground[][GAMEPLAY_GROUND_WIDTH], int item[][GAMEPLAY_GROUND_WIDTH]) {
+void MineralManager::RandomMineralDel(const char* ground[], int item[][GAMEPLAY_GROUND_WIDTH]) {
 	//있는 광물중 랜덤으로 삭제를 시킨다.
 	if (mineralIdx != 0) { //광물이 하나보다 많이 있을 때 가능.
 		int randomIdx = rand() % mineralIdx; //0 ~ mineralIdx-1
@@ -52,9 +52,9 @@ void MineralManager::RandomMineralDel(const char* ground[][GAMEPLAY_GROUND_WIDTH
 		mineralIdx--;
 
 		//삭제한 광물의 자리를 초기화
-		ground[y][x] = "  ";
+		ground[y * GAMEPLAY_GROUND_WIDTH + x] = "  ";
 		item[y][x] = EMPTY;
-		gotoXY((COORDINATE_LEFT + x) * 2, COORDINATE_TOP + y);
+		gotoXY(x * 2, COORDINATE_TOP + y);
 		std::cout << ground[y][x];
 	}
 }

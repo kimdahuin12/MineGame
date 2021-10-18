@@ -1,8 +1,8 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
-#define GAMEPLAY_GROUND_WIDTH 160
+#define GAMEPLAY_GROUND_WIDTH 80//160이지만 캐릭터나 광물 등등 가로를 2를 차지하기 때문에 80으로 설정
 #define GAMEPLAY_GROUND_HEIGHT 37
-#define COORDINATE_TOP 3  //게임 좌표의 맨 위 좌표 기본. 
+#define COORDINATE_TOP 2  //게임 좌표의 맨 위 좌표 기본. 
 #define COORDINATE_LEFT 25  //게임 좌표의 맨 왼쪽 좌표 기본. 
 #define MINERAL_ITEM_COUNT 6 //광물 색 갯수
 #define MINE_COUNT 3

@@ -11,15 +11,23 @@ D:\cppProject\MineGame\MineGame\main.cpp(60,77): warning C4311: '형식 캐스�
 D:\cppProject\MineGame\MineGame\main.cpp(60,77): warning C4302: '형식 캐스트': 'LPVOID'에서 'DWORD'(으)로 잘립니다.
 D:\cppProject\MineGame\MineGame\main.cpp(62,71): warning C4311: '형식 캐스트': 'LPVOID'에서 'DWORD'(으)로 포인터가 잘립니다.
 D:\cppProject\MineGame\MineGame\main.cpp(62,71): warning C4302: '형식 캐스트': 'LPVOID'에서 'DWORD'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\main.cpp(250,12): warning C4244: '초기화 중': 'std::streamoff'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\cppProject\MineGame\MineGame\main.cpp(394,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-main.obj : error LNK2019: mysql_errormain 함수에서 참조되는 확인할 수 없는 외부 기호
-main.obj : error LNK2019: mysql_initmain 함수에서 참조되는 확인할 수 없는 외부 기호
-main.obj : error LNK2019: mysql_real_connectmain 함수에서 참조되는 확인할 수 없는 외부 기호
-main.obj : error LNK2019: mysql_querymain 함수에서 참조되는 확인할 수 없는 외부 기호
-main.obj : error LNK2019: mysql_store_resultmain 함수에서 참조되는 확인할 수 없는 외부 기호
-main.obj : error LNK2019: mysql_free_resultmain 함수에서 참조되는 확인할 수 없는 외부 기호
-main.obj : error LNK2019: mysql_fetch_rowmain 함수에서 참조되는 확인할 수 없는 외부 기호
-main.obj : error LNK2019: mysql_closemain 함수에서 참조되는 확인할 수 없는 외부 기호
-C:\Program Files (x86)\MySQL\MySQL Server 5.5\lib\libmysql.lib : warning LNK4272: 'x86' 라이브러리 컴퓨터 종류가 'x64' 대상 컴퓨터 종류와 충돌합니다.
-D:\cppProject\MineGame\x64\Debug\MineGame.exe : fatal error LNK1120: 8개의 확인할 수 없는 외부 참조입니다.
+D:\cppProject\MineGame\MineGame\main.cpp(105,29): error C2660: 'mysql_init': 함수는 2개의 인수를 사용하지 않습니다.
+C:\Program Files (x86)\MySQL\MySQL Server 5.5\include\mysql.h(380,18): message : 'mysql_init' 선언을 참조하십시오.
+D:\cppProject\MineGame\MineGame\main.cpp(106,50): error C2601: 'mysql_init': 지역 함수 정의가 잘못되었습니다.
+D:\cppProject\MineGame\MineGame\main.cpp(70): message : 이 줄에 짝이 되지 않는 '{'가 들어 있습니다.
+D:\cppProject\MineGame\MineGame\main.cpp(108,1): error C2664: 'MYSQL *mysql_init(MYSQL *)': 인수 1을(를) 'MYSQL **'에서 'MYSQL *'(으)로 변환할 수 없습니다.
+D:\cppProject\MineGame\MineGame\main.cpp(108,14): message : 가리킨 형식이 관련이 없습니다. 변환하려면 reinterpret_cast, C 스타일 캐스트 또는 함수 스타일 캐스트가 필요합니다.
+C:\Program Files (x86)\MySQL\MySQL Server 5.5\include\mysql.h(380,18): message : 'mysql_init' 선언을 참조하십시오.
+D:\cppProject\MineGame\MineGame\main.cpp(111,1): error C2664: 'MYSQL *mysql_real_connect(MYSQL *,const char *,const char *,const char *,const char *,unsigned int,const char *,unsigned long)': 인수 1을(를) 'MYSQL **'에서 'MYSQL *'(으)로 변환할 수 없습니다.
+D:\cppProject\MineGame\MineGame\main.cpp(111,35): message : 가리킨 형식이 관련이 없습니다. 변환하려면 reinterpret_cast, C 스타일 캐스트 또는 함수 스타일 캐스트가 필요합니다.
+C:\Program Files (x86)\MySQL\MySQL Server 5.5\include\mysql.h(387,18): message : 'mysql_real_connect' 선언을 참조하십시오.
+D:\cppProject\MineGame\MineGame\main.cpp(113,1): error C2664: 'const char *mysql_error(MYSQL *)': 인수 1을(를) 'MYSQL **'에서 'MYSQL *'(으)로 변환할 수 없습니다.
+D:\cppProject\MineGame\MineGame\main.cpp(113,63): message : 가리킨 형식이 관련이 없습니다. 변환하려면 reinterpret_cast, C 스타일 캐스트 또는 함수 스타일 캐스트가 필요합니다.
+C:\Program Files (x86)\MySQL\MySQL Server 5.5\include\mysql.h(372,22): message : 'mysql_error' 선언을 참조하십시오.
+D:\cppProject\MineGame\MineGame\main.cpp(113,20): warning C4473: 'fprintf': 서식 문자열에 대한 인수가 충분하게 전달되지 않았습니다.
+D:\cppProject\MineGame\MineGame\main.cpp(113,20): message : 자리 표시자 및 해당 매개 변수에는 variadic 인수가 1개 필요하지만 0개가 제공되었습니다.
+D:\cppProject\MineGame\MineGame\main.cpp(113,20): message : 누락된 variadic 인수 1이(가) 서식 문자열 '%s'에 필요합니다.
+D:\cppProject\MineGame\MineGame\main.cpp(114,4): error C2562: 'mysql_init': 'void' 함수에서 값을 반환하고 있습니다.
+D:\cppProject\MineGame\MineGame\main.cpp(106): message : 'mysql_init' 선언을 참조하십시오.
+D:\cppProject\MineGame\MineGame\main.cpp(259,12): warning C4244: '초기화 중': 'std::streamoff'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\cppProject\MineGame\MineGame\main.cpp(403,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
