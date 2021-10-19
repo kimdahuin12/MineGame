@@ -1,4 +1,7 @@
 #include "Mine.h"
+
+//광산의 벽부분?에 닿으면 돈이 감소되는 ㄴ
+
 Mine::Mine(const char* mineName, Player* player) {
 	this->player = player;
 	playerX = 25;
@@ -8,8 +11,8 @@ Mine::Mine(const char* mineName, Player* player) {
 	this->mineName = new char[strlen(mineName) + 1];
 	strcpy(this->mineName, mineName);
 	if (!strcmp(mineName, "일반 광산")) {
-		produceMineralSec = 8;
-		deleteMineralSec = 5;
+		produceMineralSec =1;
+		deleteMineralSec = 1;
 		//광물 색에 따른 확률.
 		mineralPercentage[DARK_BLUE] = 45.0f;
 		mineralPercentage[DARK_VIOLET] = 45.0f;
@@ -17,10 +20,10 @@ Mine::Mine(const char* mineName, Player* player) {
 		mineralPercentage[DARK_GREEN] = 2.5f;
 		mineralPercentage[DAKR_YELLOW] = 2.5f;
 		mineralPercentage[DARK_SKYBLUE] = 0.1f;
-		fileName = "test.txt";
+		fileName = "test1.txt";
 	}
 	else if (!strcmp(mineName, "중급 광산")) {
-		produceMineralSec = 8;
+		produceMineralSec = 4;
 		deleteMineralSec = 4;
 		mineralPercentage[DARK_BLUE] = 35.0f;
 		mineralPercentage[DARK_VIOLET] = 35.0f;
@@ -28,16 +31,40 @@ Mine::Mine(const char* mineName, Player* player) {
 		mineralPercentage[DARK_GREEN] = 3.0f;
 		mineralPercentage[DAKR_YELLOW] = 3.0f;
 		mineralPercentage[DARK_SKYBLUE] = 0.5f;
+		fileName = "test2.txt";
 	}
 	else if (!strcmp(mineName, "고급 광산")) {
-		produceMineralSec = 8;
-		deleteMineralSec = 3;
+		produceMineralSec = 5;
+		deleteMineralSec = 5;
 		mineralPercentage[DARK_BLUE] = 30.0f;
 		mineralPercentage[DARK_VIOLET] = 30.0f;
 		mineralPercentage[DARK_RED] = 29.0f;
 		mineralPercentage[DARK_GREEN] = 5.0f;
 		mineralPercentage[DAKR_YELLOW] = 5.0f;
 		mineralPercentage[DARK_SKYBLUE] = 1.0f;
+		fileName = "test3.txt";
+	}
+	else if (!strcmp(mineName, "테스트1 광산")) {
+		produceMineralSec = 5;
+		deleteMineralSec = 5;
+		mineralPercentage[DARK_BLUE] = 30.0f;
+		mineralPercentage[DARK_VIOLET] = 30.0f;
+		mineralPercentage[DARK_RED] = 29.0f;
+		mineralPercentage[DARK_GREEN] = 5.0f;
+		mineralPercentage[DAKR_YELLOW] = 5.0f;
+		mineralPercentage[DARK_SKYBLUE] = 1.0f;
+		fileName = "test3.txt";
+	}
+	else if (!strcmp(mineName, "테스트2 광산")) {
+		produceMineralSec = 5;
+		deleteMineralSec = 5;
+		mineralPercentage[DARK_BLUE] = 30.0f;
+		mineralPercentage[DARK_VIOLET] = 30.0f;
+		mineralPercentage[DARK_RED] = 29.0f;
+		mineralPercentage[DARK_GREEN] = 5.0f;
+		mineralPercentage[DAKR_YELLOW] = 5.0f;
+		mineralPercentage[DARK_SKYBLUE] = 1.0f;
+		fileName = "test3.txt";
 	}
 }
 Mine::~Mine() {
@@ -72,10 +99,10 @@ void Mine::MineInit() {
 			for (int i = 0; i <= size; i++) {
 				if (fileContent[i] == '0') {
 					//C9A1
-					ground[cnt++] = "▤";
+					ground[cnt++] = "▼";
 				}
 				else if (fileContent[i] == '1') {
-					ground[cnt++] = "＠";
+					ground[cnt++] = "◇";
 				}
 				else if (fileContent[i] == '2') {
 					ground[cnt++] = "  ";
@@ -124,10 +151,10 @@ int Mine::KeyInputRelated() {
 		item[playerY][playerX] = EMPTY;
 		gotoXY(playerX * 2, COORDINATE_TOP + playerY);
 		cout << ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX];
-		if ((input == UP) && (ground[(playerY-1) * GAMEPLAY_GROUND_WIDTH + playerX] == "  ")) { playerY -= 1; }
-		else if ((input == DOWN) && (ground[(playerY+1) * GAMEPLAY_GROUND_WIDTH + playerX] == "  ")) { playerY += 1; }
-		else if ((input == LEFT) && (ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX-1] == "  ")) { playerX -= 1; }
-		else if ((input == RIGHT) && (ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX+1] == "  ")) { playerX += 1; }
+		if ((input == UP) && (ground[(playerY-1) * GAMEPLAY_GROUND_WIDTH + playerX] == "  "|| ground[(playerY - 1) * GAMEPLAY_GROUND_WIDTH + playerX] == "■")) { playerY -= 1; }
+		else if ((input == DOWN) && (ground[(playerY+1) * GAMEPLAY_GROUND_WIDTH + playerX] == "  " || ground[(playerY + 1) * GAMEPLAY_GROUND_WIDTH + playerX] == "■")) { playerY += 1; }
+		else if ((input == LEFT) && (ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX-1] == "  "|| ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX - 1] == "■")) { playerX -= 1; }
+		else if ((input == RIGHT) && (ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX+1] == "  "|| ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX + 1] == "■")) { playerX += 1; }
 		
 		if (ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX] == "■") { //움직였는데 광물을 먹었다면
 			//플레이어의 위치가 광물이 있는 위치라면

@@ -113,8 +113,6 @@ void data_select(const char* tableName) {
 // https://kiffblog.tistory.com/151
 int main() {
 
-	
-
 	////창 최대
 	//HWND hwnd = GetForegroundWindow();
 	//int cx = GetSystemMetrics(SM_CXSCREEN);            /* Screen width pixels */
@@ -127,11 +125,11 @@ int main() {
 	system("mode con: cols=160 lines=40");
 	system("title MIneGame");
 	//음악
-	//openBgm.lpstrElementName = L"D:\\cppProject\\playGame\\Debug\\sound\\bgSound.wav"; //파일 오픈
-	//openBgm.lpstrDeviceType = L"mpegvideo"; //mp3 형식
-	//mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)&openBgm);
-	//dwID = openBgm.wDeviceID;
-	//mciSendCommand(dwID, MCI_PLAY, MCI_DGV_PLAY_REPEAT, (DWORD)(LPVOID)&openBgm); //음악 반복 재생
+	openBgm.lpstrElementName = L"D:\\cppProject\\playGame\\Debug\\sound\\bgSound.wav"; //파일 오픈
+	openBgm.lpstrDeviceType = L"mpegvideo"; //mp3 형식
+	mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)&openBgm);
+	dwID = openBgm.wDeviceID;
+	mciSendCommand(dwID, MCI_PLAY, MCI_DGV_PLAY_REPEAT, (DWORD)(LPVOID)&openBgm); //음악 반복 재생
 	//음악 END
 
 	//밑줄(커서)가 보이지 않게 해주는 함수.
@@ -141,8 +139,6 @@ int main() {
 	int selX;
 	int selY;
 	
-	
-	//printf("MySQL Client Version: %s\n", mysql_get_client_info());
 	while (true) {
 		//아래와 같이 할 수 있는 그런..
 		//x, y 좌표를 설정해주면 간격 2로 차례대로 나올 수 있도록 했으면 좋겠다.
@@ -420,15 +416,19 @@ void GoMining()
 
 		gotoXY(selX, selY);
 		cout << "> 1. 일반 광산" << endl;
-		gotoXY(selX, selY + 4);
+		gotoXY(selX, selY + 2);
 		cout << "  2. 중급 광산" << endl;
-		gotoXY(selX, selY + 8);
+		gotoXY(selX, selY + 4);
 		cout << "  3. 고급 광산" << endl;
-		gotoXY(selX, selY + 12);
-		cout << "  4. 나가기" << endl;
-		gotoXY(35, 32);
+		gotoXY(selX, selY + 6);
+		cout << "  4. 테스트1 광산" << endl;
+		gotoXY(selX, selY + 8);
+		cout << "  5. 테스트2 광산" << endl;
+		gotoXY(selX, selY + 10);
+		cout << "  6. 나가기" << endl;
+		gotoXY(35, 12 + 22);
 		cout << "선택 (SpaceBar) >> ";
-		gotoXY(55, 32);
+		gotoXY(55, 12 + 24);
 		cout << '1'; sel = 1;
 		//메뉴 선택 방향 이동과 메뉴 선택 번호 업데이트 관련
 		int keyCheck = -1;
@@ -440,29 +440,31 @@ void GoMining()
 				case UP:
 					if (selY > 12) { //12는 가장 위의 위치이므로 y값이 더 커야 위로 올라갈 수 있음
 						gotoXY(selX, selY); cout << "  "; //원래 자리 비우기
-						gotoXY(selX, selY -= 4); cout << "> "; //이동하기
+						gotoXY(selX, selY -= 2); cout << "> "; //이동하기
 					}
 					break;
 				case DOWN:
-					if (selY < 12 + 12) { //18은 가장 아래 위치이므로 더 작아야 아래로 내려갈 수 있음.
+					if (selY < 12 + 12) { //12+12은 가장 아래 위치이므로 더 작아야 아래로 내려갈 수 있음.
 						gotoXY(selX, selY); cout << "  ";
-						gotoXY(selX, selY += 4); cout << "> ";
+						gotoXY(selX, selY += 2); cout << "> ";
 					}
 					break;
 				}
 				//위아래 움직임에 따른 현재 선택 번호 표시 & sel 업데이트
-				gotoXY(55, 32);
+				gotoXY(55, 34);
 				switch (selY) {
 				case 12: cout << '1'; sel = 1; break;
-				case 16: cout << '2'; sel = 2; break;
-				case 20: cout << '3'; sel = 3; break;
-				case 24: cout << '4'; sel = 4; break;
+				case 14: cout << '2'; sel = 2; break;
+				case 16: cout << '3'; sel = 3; break;
+				case 18: cout << '4'; sel = 4; break;
+				case 20: cout << '5'; sel = 5; break;
+				case 22: cout << '6'; sel = 6; break;
 				}
 			}
 		}
 		cout << endl;
 		//메뉴 선택 방향 이동과 메뉴 선택 번호 업데이트 관련 END
-		if (sel == 4) {
+		if (sel == 6) {
 			playingShuffleSound();
 			return; 
 		}

@@ -81,6 +81,20 @@ char* Player::MineAuthorityCheck(int mineIdx) {
 				strcpy(mineName, "°í±Þ ±¤»ê");
 			}
 			break;
+		case 4:
+			//°í±Þ ±¤»ê
+			if (allItemCount >= 20) {
+				mineName = new char[strlen("Å×½ºÆ®1 ±¤»ê") + 1];
+				strcpy(mineName, "Å×½ºÆ®1 ±¤»ê");
+			}
+			break;
+		case 5:
+			//°í±Þ ±¤»ê
+			if (allItemCount >= 20) {
+				mineName = new char[strlen("Å×½ºÆ®2 ±¤»ê") + 1];
+				strcpy(mineName, "Å×½ºÆ®2 ±¤»ê");
+			}
+			break;
 		default:
 			std::cout << "¿À·ù" << std::endl;
 			break;
