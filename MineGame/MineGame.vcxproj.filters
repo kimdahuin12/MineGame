@@ -24,9 +24,6 @@
     <ClInclude Include="setting.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="UserAccount.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Mineral.h">
       <Filter>소스 파일\GamePlay</Filter>
     </ClInclude>
@@ -54,15 +51,15 @@
     <ClInclude Include="Mine.h">
       <Filter>소스 파일\GamePlay</Filter>
     </ClInclude>
+    <ClInclude Include="MysqlDatabase.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="setting.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="UserAccount.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Mineral.cpp">
@@ -88,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="Mine.cpp">
       <Filter>소스 파일\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="MysqlDatabase.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

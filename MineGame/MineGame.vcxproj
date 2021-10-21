@@ -26,11 +26,11 @@
     <ClInclude Include="mineralInfo.h" />
     <ClInclude Include="MineralManager.h" />
     <ClInclude Include="MyItem.h" />
+    <ClInclude Include="MysqlDatabase.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ProductItem.h" />
     <ClInclude Include="ProductMineralItem.h" />
     <ClInclude Include="setting.h" />
-    <ClInclude Include="UserAccount.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gameGlobal.cpp" />
@@ -39,11 +39,11 @@
     <ClCompile Include="Mineral.cpp" />
     <ClCompile Include="MineralManager.cpp" />
     <ClCompile Include="MyItem.cpp" />
+    <ClCompile Include="MysqlDatabase.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ProductItem.cpp" />
     <ClCompile Include="ProductMineralItem.cpp" />
     <ClCompile Include="setting.cpp" />
-    <ClCompile Include="UserAccount.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

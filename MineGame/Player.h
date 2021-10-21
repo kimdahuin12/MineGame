@@ -4,6 +4,7 @@
 class Player
 {
 private:
+	const char* id;
 	//돈
 	//가질 수 있는 아이템 갯수.(MINERAL_ITEM_COUNT) 현재는 광물의 갯수인 18로만
 	MyItem* inventory[18];
@@ -18,6 +19,9 @@ public:
 	Player();
 	~Player();
 
+	void setId(const char* id) {
+		this->id = id;
+	}
 	const char* getCharacter();
 	//아이템 삭제 부분도 할 예정
 	void AddMineral(char* mineralName);

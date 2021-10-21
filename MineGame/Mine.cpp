@@ -1,6 +1,7 @@
 #include "Mine.h"
 
 //광산의 벽부분?에 닿으면 돈이 감소되는 ㄴ
+//아니면 광산에 몬스터가 따라와서 몬스터를 피하면서 먹어야하게 하기!!
 
 Mine::Mine(const char* mineName, Player* player) {
 	this->player = player;
@@ -11,8 +12,8 @@ Mine::Mine(const char* mineName, Player* player) {
 	this->mineName = new char[strlen(mineName) + 1];
 	strcpy(this->mineName, mineName);
 	if (!strcmp(mineName, "일반 광산")) {
-		produceMineralSec =1;
-		deleteMineralSec = 1;
+		produceMineralSec = 2;
+		deleteMineralSec = 2;
 		//광물 색에 따른 확률.
 		mineralPercentage[DARK_BLUE] = 45.0f;
 		mineralPercentage[DARK_VIOLET] = 45.0f;
@@ -258,7 +259,7 @@ void Mine::Update() {
 
 		//생성(광물의 생성을 벽이 있다면 그곳에 생성을 못하도록 하기)
 		//x, y값을 생성하고 item은 실제 광물의 역할을 하며 번호에 따른 색이 부여됨.
-		//그리고 ground는 땅의 출력을 할 때 사용되는 정도
+		//그리고 ground는 땅의 출력을 할 때 사용됨
 		do {
 			mineralX = rand() % GAMEPLAY_GROUND_WIDTH;
 			mineralY = rand() % GAMEPLAY_GROUND_HEIGHT;

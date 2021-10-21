@@ -46,7 +46,7 @@ private:
 	int renderTime = 3;
 	int renderTimeCheck;
 	clock_t prevTime_render_delete;
-	int renderTime_delete = 10;
+	clock_t renderTime_delete;
 	int renderTimeCheck_delete;
 	//¸Ê °ü·Ã
 	const char* fileName;

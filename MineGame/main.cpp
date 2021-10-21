@@ -1,14 +1,8 @@
-//db연동
 #define _CRT_SECURE_NO_WARNINGS
-//db관련
-#pragma comment(lib, "libmysql.lib")
-#include <my_global.h>
-#include <mysql.h>
-
+#include "MysqlDatabase.h"
 #include "global.h"
 #include "gameGlobal.h"
 
-#include "UserAccount.h"
 #include "Player.h"
 
 #include "MyItem.h"
@@ -42,7 +36,7 @@ void Render();
 
 //클래스 선언
 Player player;
-Mine* mine = nullptr;
+Mine* mine = nullptr; 
 
 //음악
 MCI_OPEN_PARMS openBgm;
@@ -66,49 +60,7 @@ void playingShuffleSound(void) {
 //database
 
 void data_select(const char* tableName) {
-	//mysql test
-	MYSQL* connection = NULL, conn;
-	MYSQL_RES* sql_res;
-	MYSQL_ROW sql_row;
-	int query_stat;
-
-	//초기화
-	mysql_init(&conn);
-
-	//DB연결
-	connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
-	if (connection == NULL) {
-		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
-		return ;
-	}
-
-	//한글 사용하기 위해 추가하기
-	mysql_query(connection, "set session character_set_connection=euckr;");
-	mysql_query(connection, "set session character_set_results=euckr;");
-	mysql_query(connection, "set session character_set_client=euckr;");
-
-	//select쿼리문
-	char* query = new char[strlen("SELECT * FROM ") * strlen(tableName)];
-	strcpy(query, "SELECT * FROM ");
-	strcpy(query + strlen("SELECT * FROM "), tableName);
-
-	query_stat = mysql_query(connection, query);
-	if (query_stat != 0) {
-		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
-		return;
-	}
-
-	//결과 출력
-	sql_res = mysql_store_result(connection);
-	while ((sql_row = mysql_fetch_row(sql_res)) != NULL) {
-		printf("%2s\n", sql_row[0]);
-	}
-	mysql_free_result(sql_res);
-
-	//DB 연결 닫기
-	mysql_close(connection);
-	delete query;
-	//DB끝
+	
 }
 // https://kiffblog.tistory.com/151
 int main() {
@@ -124,13 +76,13 @@ int main() {
 	//창 크기
 	system("mode con: cols=160 lines=40");
 	system("title MIneGame");
-	//음악
-	openBgm.lpstrElementName = L"D:\\cppProject\\playGame\\Debug\\sound\\bgSound.wav"; //파일 오픈
-	openBgm.lpstrDeviceType = L"mpegvideo"; //mp3 형식
-	mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)&openBgm);
-	dwID = openBgm.wDeviceID;
-	mciSendCommand(dwID, MCI_PLAY, MCI_DGV_PLAY_REPEAT, (DWORD)(LPVOID)&openBgm); //음악 반복 재생
-	//음악 END
+	////음악
+	//openBgm.lpstrElementName = L"D:\\cppProject\\playGame\\Debug\\sound\\bgSound.wav"; //파일 오픈
+	//openBgm.lpstrDeviceType = L"mpegvideo"; //mp3 형식
+	//mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)&openBgm);
+	//dwID = openBgm.wDeviceID;
+	//mciSendCommand(dwID, MCI_PLAY, MCI_DGV_PLAY_REPEAT, (DWORD)(LPVOID)&openBgm); //음악 반복 재생
+	////음악 END
 
 	//밑줄(커서)가 보이지 않게 해주는 함수.
 	cursorVisibleFalse();
@@ -201,7 +153,9 @@ int main() {
 		switch (sel) {
 		case 1:
 			system("pause"); system("cls"); playingShuffleSound(); cout << endl;
-			CreateAccount();
+			//회원가입. (회원가입 후 DB에 저장하는 함수)
+			//MysqlDatabase::create_account("playeraccount");
+			MysqlDatabase::create_account(&player);
 			cout << endl; system("pause"); system("cls");
 			break;
 		case 2:
@@ -214,7 +168,7 @@ int main() {
 			break;
 		case 3:
 			system("pause"); system("cls"); playingShuffleSound(); cout << endl;
-			//allAccountSearch();
+			MysqlDatabase::ranking_print();
 			cout << endl; system("pause"); system("cls");
 			break;
 		case 4:
@@ -519,79 +473,6 @@ void Render()
 	//출력 관련 END
 }
 
-//회원가입.
-void CreateAccount() {
-
-	//아이디는 최대 20까지, 한글X, 영어나 숫자만을 이용하여 만들기
-	//비밀번호도 영어나 숫자만을 이용하여 만들기 최대 20
-
-	char id[50];
-	char pw[50];
-	bool idAndPwCheck;
-
-	while (true) {
-		idAndPwCheck = true;
-
-		cout << "--------회원가입--------" << endl << endl;
-		cout << "아이디, 비밀번호는 모두 영어 소문자와 숫자만을 이용하여 만들 수 있으며\n최대 50자까지 설정 가능합니다." << endl << endl;
-		cout << "아이디 입력 : "; cin >> id;
-		cout << "비밀번호 입력 : "; cin >> pw;
-
-		//id 체크
-		for (int i = 0; id[i] != NULL; i++) {
-			if ((id[i] < 'a' || id[i] > 'z') && (id[i] < '0' || id[i] > '9')) { idAndPwCheck = false; break; }
-		}
-		//pw체크
-		for (int i = 0; pw[i] != NULL; i++) {
-			if ((pw[i] < 'a' || pw[i] > 'z') && (pw[i] < '0' || pw[i] > '9')) { idAndPwCheck = false; break; }
-		}
-
-		//모두 잘 입력하면 while END
-		if (idAndPwCheck == true) { break; }
-
-		system("cls"); cout << endl;
-		cout << "아이디와 비밀번호는 영어 소문자와 숫자만을 이용해서 만들어 주세요." << endl << endl;
-		system("pause"); system("cls");
-
-	}
-	//while END
-
-	int sel; //선택용 변수
-
-	while (true) {
-
-		system("pause"); system("cls"); playingShuffleSound();
-		cout << "계정을 생성하시겠습니까?" << endl << endl;
-		cout << "1. 네" << endl;
-		cout << "2. 아니오" << endl << endl;
-		cout << "번호 선택 >> "; cin >> sel;
-
-		switch (sel) {
-		case 1:
-			system("pause"); system("cls"); playingShuffleSound(); cout << endl;
-			cout << "계정이 생성됩니다." << endl;
-			break;
-			cout << endl; system("pause"); system("cls");
-		case 2:
-			system("pause"); system("cls"); cout << endl;
-			cout << "메인 화면으로 돌아갑니다." << endl;
-			playingShuffleSound();
-			return;
-		default:
-			cout << endl; system("pause"); system("cls"); playingShuffleSound();
-		}
-
-		if (sel == 1) break;
-	}
-	//while END
-
-	//계정 생성
-	cout << "id: " << id << endl;
-	cout << "pw: " << pw << endl;
-	UserAccount accountCreate(id, pw);
-	//db에 정보 저장(userId)
-	cout << "계정 생성 완료" << endl;
-}
 
 ////로그인
 void LogIn()
