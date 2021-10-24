@@ -5,6 +5,7 @@
 #include "MineralManager.h" //광물을 추가할때 사용된다.
 #include "Player.h"
 #include "global.h"
+#include "Enemy.h"
 
 void gotoXY(int x, int y);
 
@@ -40,6 +41,9 @@ private:
 	int playerX;
 	int playerY;
 
+	//몬스터
+	Enemy enemy;
+
 	//시간
 	clock_t prevTime_render;
 	clock_t currentTime_render;
@@ -51,6 +55,9 @@ private:
 	//맵 관련
 	const char* fileName;
 public:
+
+	bool mineBool;//광산
+
 	Mine(const char* mineName, Player* player);
 	~Mine();
 	void MineInit();

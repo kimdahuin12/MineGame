@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="gameGlobal.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="Mine.h" />
@@ -33,6 +34,7 @@
     <ClInclude Include="setting.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="gameGlobal.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mine.cpp" />

@@ -15,10 +15,6 @@ Player::~Player() {
 	}
 }
 
-const char* Player::getCharacter() {
-	return playerCharacter;
-}
-
 void Player::AddMineral(char* mineralName) {
 	//광물 이름이 같은 myMineral의 count를 1 증가시킨다.
 	for (int i = 0; i < ItemCount; i++) {

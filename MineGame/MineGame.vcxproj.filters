@@ -54,6 +54,9 @@
     <ClInclude Include="MysqlDatabase.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>소스 파일\GamePlay</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -88,6 +91,9 @@
     </ClCompile>
     <ClCompile Include="MysqlDatabase.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>소스 파일\GamePlay</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

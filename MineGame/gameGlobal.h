@@ -6,6 +6,8 @@
 #define COORDINATE_LEFT 25  //게임 좌표의 맨 왼쪽 좌표 기본. 
 #define MINERAL_ITEM_COUNT 6 //광물 색 갯수
 #define MINE_COUNT 3
+#define ROAD "  "
+#define PLAYER_CHARACTER "●"
 
 /*
 #define COORDINATE_TOP 4  //게임 좌표의 맨 위 좌표 기본.

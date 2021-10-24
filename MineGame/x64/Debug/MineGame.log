@@ -1,2 +1,10 @@
-﻿  MysqlDatabase.cpp
-  MineGame.vcxproj -> D:\cppProject\MineGame\x64\Debug\MineGame.exe
+﻿MysqlDatabase.obj : error LNK2019: mysql_error"public: static void __cdecl MysqlDatabase::create_account(class Player *)" (?create_account@MysqlDatabase@@SAXPEAVPlayer@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+MysqlDatabase.obj : error LNK2019: mysql_init"public: static void __cdecl MysqlDatabase::create_account(class Player *)" (?create_account@MysqlDatabase@@SAXPEAVPlayer@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+MysqlDatabase.obj : error LNK2019: mysql_real_connect"public: static void __cdecl MysqlDatabase::create_account(class Player *)" (?create_account@MysqlDatabase@@SAXPEAVPlayer@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+MysqlDatabase.obj : error LNK2019: mysql_query"public: static void __cdecl MysqlDatabase::create_account(class Player *)" (?create_account@MysqlDatabase@@SAXPEAVPlayer@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+MysqlDatabase.obj : error LNK2019: mysql_store_result"public: static void __cdecl MysqlDatabase::ranking_print(void)" (?ranking_print@MysqlDatabase@@SAXXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+MysqlDatabase.obj : error LNK2019: mysql_free_result"public: static void __cdecl MysqlDatabase::ranking_print(void)" (?ranking_print@MysqlDatabase@@SAXXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+MysqlDatabase.obj : error LNK2019: mysql_fetch_row"public: static void __cdecl MysqlDatabase::ranking_print(void)" (?ranking_print@MysqlDatabase@@SAXXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
+MysqlDatabase.obj : error LNK2019: mysql_close"public: static void __cdecl MysqlDatabase::create_account(class Player *)" (?create_account@MysqlDatabase@@SAXPEAVPlayer@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+C:\Program Files (x86)\MySQL\MySQL Server 5.5\lib\libmysql.lib : warning LNK4272: 'x86' 라이브러리 컴퓨터 종류가 'x64' 대상 컴퓨터 종류와 충돌합니다.
+D:\cppProject\MineGame\x64\Debug\MineGame.exe : fatal error LNK1120: 8개의 확인할 수 없는 외부 참조입니다.

@@ -7,13 +7,14 @@ Mine::Mine(const char* mineName, Player* player) {
 	this->player = player;
 	playerX = 25;
 	playerY = 5;
+	mineBool = true;
 
 	//광산 이름
 	this->mineName = new char[strlen(mineName) + 1];
 	strcpy(this->mineName, mineName);
 	if (!strcmp(mineName, "일반 광산")) {
 		produceMineralSec = 2;
-		deleteMineralSec = 2;
+		deleteMineralSec = 3;
 		//광물 색에 따른 확률.
 		mineralPercentage[DARK_BLUE] = 45.0f;
 		mineralPercentage[DARK_VIOLET] = 45.0f;
@@ -121,6 +122,7 @@ void Mine::MineInit() {
 	else {
 		//파일 읽어오기 실패
 		strcpy(fileContent, "파일을 찾을 수 없습니다.");
+		return;
 	}
 	
 
@@ -133,9 +135,9 @@ void Mine::MineInit() {
 
 	//플레이어의 위치를 세팅
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), YELLOW);
-	ground[playerY*GAMEPLAY_GROUND_WIDTH + playerX] = (*player).getCharacter();
+	ground[playerY*GAMEPLAY_GROUND_WIDTH + playerX] = PLAYER_CHARACTER;
 	gotoXY(playerX * 2, COORDINATE_TOP + playerY); //왼쪽 위
-	cout << (*player).getCharacter();
+	cout << PLAYER_CHARACTER;
 
 	prevTime_render = clock(); //시작했을 때의 시간 체크
 }
@@ -148,14 +150,23 @@ int Mine::KeyInputRelated() {
 		input = _getch();
 
 		//지나간 자리를 다시 되돌린다.
-		ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX] = "  ";
+		ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX] = ROAD;
 		item[playerY][playerX] = EMPTY;
 		gotoXY(playerX * 2, COORDINATE_TOP + playerY);
 		cout << ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX];
-		if ((input == UP) && (ground[(playerY-1) * GAMEPLAY_GROUND_WIDTH + playerX] == "  "|| ground[(playerY - 1) * GAMEPLAY_GROUND_WIDTH + playerX] == "■")) { playerY -= 1; }
-		else if ((input == DOWN) && (ground[(playerY+1) * GAMEPLAY_GROUND_WIDTH + playerX] == "  " || ground[(playerY + 1) * GAMEPLAY_GROUND_WIDTH + playerX] == "■")) { playerY += 1; }
-		else if ((input == LEFT) && (ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX-1] == "  "|| ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX - 1] == "■")) { playerX -= 1; }
-		else if ((input == RIGHT) && (ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX+1] == "  "|| ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX + 1] == "■")) { playerX += 1; }
+		if ((input == UP) && (ground[(playerY-1) * GAMEPLAY_GROUND_WIDTH + playerX] == ROAD|| ground[(playerY - 1) * GAMEPLAY_GROUND_WIDTH + playerX] == "■")) {
+			playerY -= 1;
+		}
+		else if ((input == DOWN) && (ground[(playerY+1) * GAMEPLAY_GROUND_WIDTH + playerX] == ROAD || ground[(playerY + 1) * GAMEPLAY_GROUND_WIDTH + playerX] == "■")) { 
+			playerY += 1;
+		}
+		else if ((input == LEFT) && (ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX-1] == ROAD|| ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX - 1] == "■")) {
+			playerX -= 1;
+		}
+		else if ((input == RIGHT) && (ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX+1] == ROAD|| ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX + 1] == "■")) { 
+			playerX += 1;
+		}
+		enemy.playerMoveSave(playerX, playerY);
 		
 		if (ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX] == "■") { //움직였는데 광물을 먹었다면
 			//플레이어의 위치가 광물이 있는 위치라면
@@ -168,7 +179,7 @@ int Mine::KeyInputRelated() {
 		}
 		//플레이어가 움직인 곳으로 세팅
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), YELLOW);
-		ground[playerY* GAMEPLAY_GROUND_WIDTH + playerX] = (*player).getCharacter();
+		ground[playerY* GAMEPLAY_GROUND_WIDTH + playerX] = PLAYER_CHARACTER;
 		item[playerY][playerX] = EMPTY;
 		gotoXY(playerX * 2, COORDINATE_TOP + playerY);
 		cout << ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX];
@@ -247,6 +258,7 @@ char* Mine::randomMineral(int mineralItem) {
 
 
 void Mine::Update() {
+	enemy.Update(ground, &mineBool);
 
 	currentTime_render = clock(); //지금 시각
 
@@ -263,7 +275,7 @@ void Mine::Update() {
 		do {
 			mineralX = rand() % GAMEPLAY_GROUND_WIDTH;
 			mineralY = rand() % GAMEPLAY_GROUND_HEIGHT;
-			if (ground[mineralY * GAMEPLAY_GROUND_WIDTH + mineralX] == "  ") {
+			if (ground[mineralY * GAMEPLAY_GROUND_WIDTH + mineralX] == ROAD) {
 				ground[mineralY * GAMEPLAY_GROUND_WIDTH + mineralX] = "■";
 				break;
 			}
@@ -295,6 +307,7 @@ void Mine::Update() {
 }
 
 void Mine::Render() {
+	enemy.Render(ground);
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), item[mineralY][mineralX]);
 	gotoXY(mineralX * 2, COORDINATE_TOP + mineralY);
 	cout << ground[mineralY*GAMEPLAY_GROUND_WIDTH+mineralX];

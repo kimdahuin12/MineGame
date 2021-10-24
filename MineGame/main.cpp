@@ -450,29 +450,19 @@ void GoMining()
 			}//esc가 눌리면 메뉴로 이동
 			//키 입력, 움직임 관련 구간 END
 		}
+		else if (!mine->mineBool) {
+			//광산 삭제
+			delete mine;
+			break;
+		}
 		else {
-			Update();
-			Render();
+			mine->Update();
+			mine->Render();
 		}
 	}
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), EMPTY);
 }
-
-
-void Update()
-{
-	mine->Update();
-
-}
-void Render()
-{
-	//출력 관련
-	mine->Render();
-
-	//출력 관련 END
-}
-
 
 ////로그인
 void LogIn()

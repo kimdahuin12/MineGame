@@ -94,7 +94,7 @@ void MysqlDatabase::create_account(Player* player) {
 
 	//db에 정보 저장(Id, password, money)
 	sprintf(query, "insert into %s values "
-		"('%s', '%s', '0')", //money는 0으로 설정
+		"('%s', '%s', '10000')", //money는 처음에 만원 지급
 		"playeraccount", id, pw);//minegame_db.playeraccount에 데이터 저장
 
 	query_stat = mysql_query(connection, query);

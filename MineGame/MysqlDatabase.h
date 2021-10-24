@@ -20,6 +20,7 @@ public:
 	static void create_account(Player* player); //회원가입을 하고 id, password, money를 데이터 베이스에 저장. id는 중복 x
 	static void ranking_print();//돈이 많은 회원순으로 출력
 	static void login();//test
+	static void moneySave(char* money);
 
 };
 
