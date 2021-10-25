@@ -107,7 +107,7 @@ void Mine::MineInit() {
 					ground[cnt++] = "◇";
 				}
 				else if (fileContent[i] == '2') {
-					ground[cnt++] = "  ";
+					ground[cnt++] = ROAD;
 				}
 			}
 			cout << cnt;
@@ -166,7 +166,7 @@ int Mine::KeyInputRelated() {
 		else if ((input == RIGHT) && (ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX+1] == ROAD|| ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX + 1] == "■")) { 
 			playerX += 1;
 		}
-		enemy.playerMoveSave(playerX, playerY);
+		//enemy.playerMoveSave(playerX, playerY);
 		
 		if (ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX] == "■") { //움직였는데 광물을 먹었다면
 			//플레이어의 위치가 광물이 있는 위치라면
@@ -258,7 +258,7 @@ char* Mine::randomMineral(int mineralItem) {
 
 
 void Mine::Update() {
-	enemy.Update(ground, &mineBool);
+	enemy.Update(playerX, playerY, ground, &mineBool);
 
 	currentTime_render = clock(); //지금 시각
 

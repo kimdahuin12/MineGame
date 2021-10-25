@@ -3,17 +3,17 @@
 Enemy::Enemy() {
 	x = 5;
 	y = 5;
-	playerMoveIdx = 20; //0, 1번방에는 이미 저장해놨기 때문에 2번방부터 플레이어의 위치를 저장해둔다.
+	playerMoveIdx = 0; //0, 1번방에는 이미 저장해놨기 때문에 2번방부터 플레이어의 위치를 저장해둔다.
 	enemyMoveIdx = 0;
 	prevTime = clock();//이전시각
 
-	//처음에 플레이어쪽으로 가도록 설정
-	for (int i = 0; i < playerMoveIdx; i++) {
-		playerMove[i][0] = 6+i;
-		playerMove[i][1] = 5;
-	}
+	////처음에 플레이어쪽으로 가도록 설정
+	//for (int i = 0; i < playerMoveIdx; i++) {
+	//	playerMove[i][0] = 6+i;
+	//	playerMove[i][1] = 5;
+	//}
 
-	//다른 부분은 비워놓기(-1)
+	//비워놓기(-1)
 	for (int i = playerMoveIdx; i < PLAYERMOVE_LENGTH; i++) {
 		playerMove[i][0] = -1;
 		playerMove[i][1] = -1;
@@ -21,9 +21,72 @@ Enemy::Enemy() {
 
 }
 
-void Enemy::Update(const char* ground[], bool* mineBool) {
+void Enemy::Update(int curPlayerX, int curPlayerY, const char* ground[], bool* mineBool) {
 	//플레이어의 위치를 따라감
 	
+	saveLoc = false;//처음에는 false
+
+//enemy가 움직을 좌표들을 플레이어의 좌표에 따라 저장해둔다
+//x좌표를 먼저 움직임.
+	if (curPlayerX > x) { //몬스터의 x좌표가 현재 플레이어의 x좌표보다 작을때
+
+		if ( (ground[y * GAMEPLAY_GROUND_WIDTH + (x+1)] == ROAD) || (ground[y * GAMEPLAY_GROUND_WIDTH + (x + 1)] == PLAYER_CHARACTER) )
+		{ 
+			//저장할 위치가 갈 수 있는 길이면 저장
+			playerMove[playerMoveIdx][0] = x + 1; playerMove[playerMoveIdx][1] = y;
+			saveLoc = true;
+		}
+	}
+
+	if( !saveLoc && curPlayerX < x) { //몬스터의 x좌표가 현재 플레이어의 x좌표보다 클때
+		if ((ground[y * GAMEPLAY_GROUND_WIDTH + (x - 1)] == ROAD) || (ground[y * GAMEPLAY_GROUND_WIDTH + (x - 1)] == PLAYER_CHARACTER))
+		{
+			//저장할 위치가 갈 수 있는 길이면 저장
+			playerMove[playerMoveIdx][0] = x - 1; playerMove[playerMoveIdx][1] = y;
+			saveLoc = true;
+		}
+	}
+
+	if ( !saveLoc && curPlayerY > y) { //몬스터의 y좌표가 현재 플레이어의 y좌표보다 작을때
+		if ((ground[(y+1) * GAMEPLAY_GROUND_WIDTH + x] == ROAD) || (ground[(y+1) * GAMEPLAY_GROUND_WIDTH + x] == PLAYER_CHARACTER))
+		{
+			//저장할 위치가 갈 수 있는 길이면 저장
+			playerMove[playerMoveIdx][0] = x; playerMove[playerMoveIdx][1] = y + 1;
+			saveLoc = true;
+		}
+	}
+	if ( !saveLoc && curPlayerY < y) { //몬스터의 y좌표가 현재 플레이어의 y좌표보다때 클때
+		if ((ground[(y - 1) * GAMEPLAY_GROUND_WIDTH + x] == ROAD) || (ground[(y - 1) * GAMEPLAY_GROUND_WIDTH + x] == PLAYER_CHARACTER))
+		{
+			//저장할 위치가 갈 수 있는 길이면 저장
+			playerMove[playerMoveIdx][0] = x; playerMove[playerMoveIdx][1] = y - 1;
+			saveLoc = true;
+		}
+	}
+
+ ////플레이어의 좌표와 같다면 플레이어의 현재 좌표를 저장
+	//if ( !saveLoc && curPlayerX == x )
+	//{
+	//	playerMove[playerMoveIdx][0] = curPlayerX; playerMove[playerMoveIdx][1] = y;
+	//	saveLoc = true;
+	//}
+	//if (!saveLoc && curPlayerY == y)
+	//{
+	//	playerMove[playerMoveIdx][0] = x; playerMove[playerMoveIdx][1] = curPlayerY;
+	//	saveLoc = true;
+	//}
+
+//enemy(몬스터)가 움직일 위치를 저장했다면 인덱스를 증가
+	if (saveLoc) { 
+		playerMoveIdx++;
+		if (playerMoveIdx == PLAYERMOVE_LENGTH) {
+			playerMoveIdx = 0;
+		}
+	}
+
+	int tempX = playerMove[enemyMoveIdx][0];
+	int tempY = playerMove[enemyMoveIdx][1];
+
 	//땅에 enemy 위치시키기
 	ground[y * GAMEPLAY_GROUND_WIDTH + x] = ENEMY_SHAPE;
 
@@ -33,8 +96,7 @@ void Enemy::Update(const char* ground[], bool* mineBool) {
 		//0.000001초마다 움직임.
 
 		//큐
-		if (playerMove[enemyMoveIdx][0] != -1 || playerMove[enemyMoveIdx][1] != -1) { //playerMove[enemyMoveIdx]배열 중 하나라도 -1이 저장돼있다면(좌표가 저장이 안돼있다는뜻)
-			
+		if (tempX != -1 || tempY != -1) { //playerMove[enemyMoveIdx]배열 중 하나라도 -1이 저장돼있다면(좌표가 저장이 안돼있다는뜻)
 			//현재 위치 비우기
 			ground[y * GAMEPLAY_GROUND_WIDTH + x] = ROAD;
 			gotoXY(x * 2, COORDINATE_TOP + y);
