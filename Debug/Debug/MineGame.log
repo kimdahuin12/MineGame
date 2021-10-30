@@ -1,0 +1,4 @@
+﻿  global.cpp
+D:\cppProject\MineGame\MineGame\global.cpp(21,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
+D:\cppProject\MineGame\MineGame\global.cpp(21,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
+  MineGame.vcxproj -> D:\cppProject\MineGame\Debug\MineGame.exe

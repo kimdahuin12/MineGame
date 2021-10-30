@@ -83,9 +83,6 @@
     <ClCompile Include="MyItem.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="gameGlobal.cpp">
-      <Filter>소스 파일\GamePlay</Filter>
-    </ClCompile>
     <ClCompile Include="Mine.cpp">
       <Filter>소스 파일\GamePlay</Filter>
     </ClCompile>
@@ -94,6 +91,9 @@
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>소스 파일\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="global.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

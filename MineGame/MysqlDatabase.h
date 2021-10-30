@@ -6,6 +6,7 @@
 #include <mysql.h>
 #include <iostream>
 #include "Player.h"
+#include "global.h"
 #define DB_HOST "127.0.0.1"
 #define DB_USER "root"
 #define DB_PASS "0407"
@@ -16,11 +17,13 @@ using namespace std;
 
 class MysqlDatabase
 {
-public:
-	static void create_account(Player* player); //회원가입을 하고 id, password, money를 데이터 베이스에 저장. id는 중복 x
-	static void ranking_print();//돈이 많은 회원순으로 출력
-	static void login();//test
-	static void moneySave(char* money);
+private:
 
+public:
+	static void create_account(); //회원가입을 하고 id, password, money를 데이터 베이스에 저장. id는 중복 x
+	static void ranking_print();//돈이 많은 회원순으로 출력
+	static bool login();//test
+	static void moneySave(char* money);
+	static void playerInit(Player& player);
 };
 

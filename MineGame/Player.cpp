@@ -10,6 +10,7 @@ Player::Player() {
 	//}
 }
 Player::~Player() {
+	ItemCount = 0;
 	for (int i = 0; i < ItemCount; i++) {
 		delete inventory[i];
 	}

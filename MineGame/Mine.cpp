@@ -110,7 +110,6 @@ void Mine::MineInit() {
 					ground[cnt++] = ROAD;
 				}
 			}
-			cout << cnt;
 			for (int i = 0; i < GAMEPLAY_GROUND_HEIGHT; i++) {
 				for (int j = 0; j < GAMEPLAY_GROUND_WIDTH; j++) {
 					gotoXY(j*2, i + COORDINATE_TOP);
@@ -124,7 +123,7 @@ void Mine::MineInit() {
 		strcpy(fileContent, "파일을 찾을 수 없습니다.");
 		return;
 	}
-	
+	readFile.close();
 
 	//게임 플레이 부분의 모든 곳을 초기화
 	for (int i = 0; i < GAMEPLAY_GROUND_HEIGHT; i++) {
@@ -166,7 +165,7 @@ int Mine::KeyInputRelated() {
 		else if ((input == RIGHT) && (ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX+1] == ROAD|| ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX + 1] == "■")) { 
 			playerX += 1;
 		}
-		//enemy.playerMoveSave(playerX, playerY);
+		enemy.playerMoveSave(playerX, playerY);
 		
 		if (ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX] == "■") { //움직였는데 광물을 먹었다면
 			//플레이어의 위치가 광물이 있는 위치라면

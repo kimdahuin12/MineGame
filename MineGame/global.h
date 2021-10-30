@@ -11,6 +11,12 @@
 #include <Digitalv.h>
 #pragma comment(lib, "winmm.lib")
 
+#define SCREEN_WIDTH 160
+#define SCREEN_HEIGHT 40
 
 using namespace std;
 
+void playingShuffleSound();
+void reverseScene();
+void gotoXY(int x, int y);
+void soundPlay();

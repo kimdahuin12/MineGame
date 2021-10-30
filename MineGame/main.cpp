@@ -1,7 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "MysqlDatabase.h"
 #include "global.h"
-#include "gameGlobal.h"
 
 #include "Player.h"
 
@@ -21,7 +20,7 @@
 //
 
 //함수 선언
-char* fileRead(string fileName);
+void fileReadAndPrint(string fileName);
 void StartGame();
 void GoMining();
 //void PlayerMove();
@@ -29,39 +28,32 @@ void CreateAccount();
 void LogIn();
 void LogOut();
 void Destroy();
-void gotoXY(int x, int y);
 void cursorVisibleFalse();
-void Update();
-void Render();
+
 
 //클래스 선언
-Player player;
+Player* player;
 Mine* mine = nullptr; 
 
-//음악
-MCI_OPEN_PARMS openBgm;
-MCI_PLAY_PARMS playBgm;
-MCI_OPEN_PARMS openShuffleSound;
-MCI_PLAY_PARMS playShuffleSound;
+////음악
+//MCI_OPEN_PARMS openBgm;
+//MCI_PLAY_PARMS playBgm;
+//MCI_OPEN_PARMS openShuffleSound;
+//MCI_PLAY_PARMS playShuffleSound;
+//
+//int dwID;
+//void playingShuffleSound(void) {
+//	//효과음
+//	openShuffleSound.lpstrElementName = L"D:\\cppProject\\playGame\\Debug\\sound\\click.wav"; //파일 오픈
+//	openShuffleSound.lpstrDeviceType = L"mpegvideo"; //mp3 형식
+//	mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)&openShuffleSound);
+//	dwID = openShuffleSound.wDeviceID;
+//	mciSendCommand(dwID, MCI_PLAY, MCI_NOTIFY, (DWORD)(LPVOID)&openShuffleSound); //음악을 한 번 재생
+//	Sleep(50); //효과음이 재생될 때까지 정지했다가
+//	mciSendCommand(dwID, MCI_SEEK, MCI_SEEK_TO_START, (DWORD)(LPVOID)NULL); //음원 재생 위치를 처음으로 초기화
+//}
+////음악 END
 
-int dwID;
-void playingShuffleSound(void) {
-	//효과음
-	openShuffleSound.lpstrElementName = L"D:\\cppProject\\playGame\\Debug\\sound\\click.wav"; //파일 오픈
-	openShuffleSound.lpstrDeviceType = L"mpegvideo"; //mp3 형식
-	mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)&openShuffleSound);
-	dwID = openShuffleSound.wDeviceID;
-	mciSendCommand(dwID, MCI_PLAY, MCI_NOTIFY, (DWORD)(LPVOID)&openShuffleSound); //음악을 한 번 재생
-	Sleep(50); //효과음이 재생될 때까지 정지했다가
-	mciSendCommand(dwID, MCI_SEEK, MCI_SEEK_TO_START, (DWORD)(LPVOID)NULL); //음원 재생 위치를 처음으로 초기화
-}
-//음악 END
-
-//database
-
-void data_select(const char* tableName) {
-	
-}
 // https://kiffblog.tistory.com/151
 int main() {
 
@@ -76,13 +68,8 @@ int main() {
 	//창 크기
 	system("mode con: cols=160 lines=40");
 	system("title MIneGame");
-	////음악
-	//openBgm.lpstrElementName = L"D:\\cppProject\\playGame\\Debug\\sound\\bgSound.wav"; //파일 오픈
-	//openBgm.lpstrDeviceType = L"mpegvideo"; //mp3 형식
-	//mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)&openBgm);
-	//dwID = openBgm.wDeviceID;
-	//mciSendCommand(dwID, MCI_PLAY, MCI_DGV_PLAY_REPEAT, (DWORD)(LPVOID)&openBgm); //음악 반복 재생
-	////음악 END
+	
+	soundPlay();
 
 	//밑줄(커서)가 보이지 않게 해주는 함수.
 	cursorVisibleFalse();
@@ -149,27 +136,34 @@ int main() {
 		}
 		cout << endl;
 		//메뉴 선택 방향 이동과 메뉴 선택 번호 업데이트 관련 END
-
 		switch (sel) {
 		case 1:
-			system("pause"); system("cls"); playingShuffleSound(); cout << endl;
+			reverseScene();
 			//회원가입. (회원가입 후 DB에 저장하는 함수)
-			//MysqlDatabase::create_account("playeraccount");
-			MysqlDatabase::create_account(&player);
-			cout << endl; system("pause"); system("cls");
+			MysqlDatabase::create_account();
+			reverseScene();
 			break;
 		case 2:
-			system("pause"); system("cls"); playingShuffleSound(); cout << endl;
+			reverseScene();
 			//로그인 성공하면 게임 시작
-			LogIn();
-			StartGame();
-			LogOut();
-			cout << endl; system("pause"); system("cls");
+			if (MysqlDatabase::login()) {
+				//로그인 성공
+				player = new Player();
+				MysqlDatabase::playerInit(*player); //플레이어 아이템, 돈, 등등 설정하기
+				StartGame();
+				LogOut();
+			}
+			else {
+				gotoXY(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+				cout << "로그인 실패" << endl;
+				reverseScene();
+			}
+			
 			break;
 		case 3:
-			system("pause"); system("cls"); playingShuffleSound(); cout << endl;
+			reverseScene();
 			MysqlDatabase::ranking_print();
-			cout << endl; system("pause"); system("cls");
+			reverseScene();
 			break;
 		case 4:
 			system("pause"); system("cls"); playingShuffleSound(); cout << endl;
@@ -194,7 +188,7 @@ int main() {
 //함수 정의
 //
 
-char* fileRead(string fileName) {
+void fileReadAndPrint(string fileName) {
 
 	//파일 불러오기
 	fstream readFile(fileName);
@@ -205,81 +199,67 @@ char* fileRead(string fileName) {
 
 		//맨끝으로 위치 이동
 		readFile.seekg(0, ios::end);
-
 		//맨 처음 위치부터 현재위치(파일 맨 끝)까지의 크기를 반환
 		int size = readFile.tellg();
-
+		size -= 40;
 		//size만큼 문자열의 공간을 정해줌
-		fileContent = new char[size+1];
-		for (int i = 0; i < size + 1; i++) { fileContent[i] = 0; }
-
+		fileContent = new char[size + 1];
 		//파일의 맨 처음 위치로 이동
 		readFile.seekg(0, ios::beg);
-
 		//파일의 전체 내용을 fileContent에 저장
 		readFile.read(&fileContent[0], size);
-
 		//이부분은 게임 관련 텍스트 이미지를 위한 부분이다.
-		//따로 만들거나 여부를 선택해서 해도 될 것 같다
 		if (true) {
-			for (int i = 0; i < size + 1; i++) {
+			gotoXY(0, 0);
+			int cnt = 0;
+			for (int i = 0; i <= size; i++) {
 				if (fileContent[i] == '0') {
-					fileContent[i] = 'O';
+					//C9A1
+					cout << "▼";
 				}
-				else if (fileContent[i] == '1') {
-					fileContent[i] = 'I';
+				else if (fileContent[i] == 'o') {
+					//C9A1
+					cout << "  ";
 				}
-				else if (fileContent[i] == '2') {
-					fileContent[i] = ' ';
+				else {
+					cout << fileContent[i];
 				}
 			}
+
 		}
 	}
 	else {
 		//파일 읽어오기 실패
 		strcpy(fileContent, "파일을 찾을 수 없습니다.");
 	}
-
-
-	//fileContent()
-
-	return fileContent;
+	readFile.close();
 }
 
 //MINEGAME 시작
 void StartGame()
 {
 	//file로 불러와서 시작화면 띄우기.
-	string startScreen = fileRead("gameStartTextImage.txt");
-	cout << startScreen;
+	
 
-	system("pause");
-	system("cls");
-	playingShuffleSound();
+	//Sleep(1000);
 
 	int sel; //선택용 변수
 	int selX;
 	int selY;
 
 	while (true) {
-
+		fileReadAndPrint("gameStartTextImage.txt");
 		selX = 57;
 		selY = 12;
 		cout << endl;
-		gotoXY(55, 8);
-		cout << "-------------------------MineGameTown-------------------------" << endl;
-		gotoXY(selX, selY);
-		cout << "> 1. 광물 수확" << endl;
-		gotoXY(selX, selY + 2);
-		cout << "  2. 상점" << endl;
-		gotoXY(selX, selY + 4);
-		cout << "  3. 내 가방" << endl;
-		gotoXY(selX, selY + 6);
-		cout << "  4. 게임 나가기" << endl;
-		gotoXY(55, 22);
-		cout << "--------------------------------------------------------------" << endl << endl;
-		gotoXY(55, 24);
-		cout << "선택 (SpaceBar) >> ";
+		//gotoXY(55, 8);
+		//gotoXY(selX, selY); //광물 수확
+		//gotoXY(selX, selY + 2);//상점
+		//gotoXY(selX, selY + 4);//내 가방
+		//gotoXY(selX, selY + 6);//게임 나가기
+		//gotoXY(55, 22);
+		//gotoXY(55, 24);
+		//cout << "선택 (SpaceBar) >> ";
 		gotoXY(75, 24);
 		cout << '1';
 		sel = 1;
@@ -318,44 +298,41 @@ void StartGame()
 
 		switch (sel) {
 		case 1:
-			system("cls"); playingShuffleSound(); cout << endl;
+			reverseScene();
 			GoMining();
 			cout << endl; system("cls");
 			break;
 		case 2:
-			system("pause"); system("cls"); playingShuffleSound(); cout << endl;
+			reverseScene();
 			//Market();
-			cout << endl; system("pause"); system("cls");
+			reverseScene();
 			break;
 		case 3:
-			system("pause"); system("cls"); playingShuffleSound(); cout << endl;
+			reverseScene();
 			//MyInfo
-			player.Inventory();
-			cout << endl; system("pause"); system("cls");
+			player->Inventory();
+			reverseScene();
 			break;
 		case 4:
-			cout << endl; system("pause"); system("cls"); playingShuffleSound();
+			reverseScene();
+			//로그아웃 후 메뉴화면으로 이동
+			delete player;
 			cout << "메뉴 화면으로 이동합니다." << endl;
+			reverseScene();
 			return;
 		default:
 			cout << endl;
 			system("pause"); system("cls"); playingShuffleSound();
 		}
-
 	}
-
 }
 
 
 
 void GameInit() {
-	
 	cursorVisibleFalse(); //커서 안보이게 하기
 	srand(time(NULL)); //랜덤수 랜덤하게 발생시키기
-
 	mine->MineInit();
-
-
 }
 
 void GoMining()
@@ -423,7 +400,7 @@ void GoMining()
 			return; 
 		}
 		//들어갈 수 있는지 확인
-		char* mineName = player.MineAuthorityCheck(sel);
+		char* mineName = player->MineAuthorityCheck(sel);
 
 		if (mineName == nullptr) {
 			system("pause"); system("cls"); playingShuffleSound();
@@ -433,7 +410,7 @@ void GoMining()
 		}
 		else {
 			//광산 생성
-			mine = new Mine(mineName, &player);
+			mine = new Mine(mineName, player);
 			break;
 		}
 	}
@@ -503,5 +480,7 @@ void cursorVisibleFalse() {
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cif);
 	//END
 }
+
+
 
 //함수 정의 END

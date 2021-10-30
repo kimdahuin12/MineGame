@@ -7,8 +7,6 @@
 #include "global.h"
 #include "Enemy.h"
 
-void gotoXY(int x, int y);
-
 //±¤»ê °´Ã¼
 class Mine
 {

@@ -1,6 +1,7 @@
 #pragma once
 #include "gameGlobal.h"
 #define PLAYERMOVE_LENGTH 100 
+
 void gotoXY(int x, int y);
 class Enemy
 {
@@ -11,6 +12,8 @@ private:
 	clock_t prevTime;
 	clock_t currentTime;
 	float lastTime;
+
+	//bool curLocState;
 
 	//플레이어 움직임 저장 관련
 	int playerMove[100][2];//player의 위치를 저장. 

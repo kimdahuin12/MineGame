@@ -13,9 +13,6 @@ private:
 	
 	void LoadMineralInfo(); //광물의 정보를 파일에서 가져온다.
 public:
-	
-	
-	
 	MineralManager();
 	~MineralManager();
 
