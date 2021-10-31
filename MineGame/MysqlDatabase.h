@@ -30,7 +30,11 @@ public:
 	static void moneySave(char* money);
 	static void playerInit(Player* player);
 	static void playerMineralSave(MyItem** items, int itemsCount, const char* playerId);
+	static void playerMoneySave(unsigned long playerMoney, const char* playerId);
 	static int MineralCondition(int id);
 	static void MineInfoSave(Mine& mine, int id);
+	static int GetEntrancePrice(int id);
+	//ªÛ¡°
+	static void Market(Player& player);
 };
 

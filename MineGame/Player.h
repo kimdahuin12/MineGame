@@ -27,9 +27,11 @@ public:
 
 	//아이템 삭제 부분도 할 예정
 	void AddMineral(char* mineralName);
+	bool RemoveMineral(char* mineralName);
 	void Inventory();
 	bool MineAuthorityCheck(int mineralCount);
 	MyItem** getInventory();
 	int getItemCount();
+	int GetMineralCount(char* mineralName);
 };
 

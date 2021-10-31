@@ -15,5 +15,6 @@ public:
 	char* getName();
 	int getCount();
 	void increaseCount();
+	void decreaseCount();
 };
 

@@ -24,7 +24,6 @@ private:
 	int item[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH]; //광물의 색을 저장하는 구역
 	
 	int id;
-	int entrancePrice;
 	char* mineName;										//광산 이름
 	int produceMineralSec = 1;							//몇초사이마다 랜덤으로 광물이 나오게할지
 	int deleteMineralSec = 1;							//몇초사이마다 랜덤으로 광물을 삭제할지
@@ -60,11 +59,10 @@ public:
 
 	Mine(Player* player, int id);
 	~Mine();
-	void SetMineInfo(int price, char* name, int produceSec, int deleteSec, float* percentage);
+	void SetMineInfo(char* name, int produceSec, int deleteSec, float* percentage);
 	void MineInit();
 	int KeyInputRelated();
 	char* randomMineral(int mineralItem);
-	int getEntrancePrice();
 	void Update();
 	void Render();
 

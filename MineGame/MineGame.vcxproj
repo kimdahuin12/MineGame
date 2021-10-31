@@ -29,8 +29,6 @@
     <ClInclude Include="MyItem.h" />
     <ClInclude Include="MysqlDatabase.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="ProductItem.h" />
-    <ClInclude Include="ProductMineralItem.h" />
     <ClInclude Include="setting.h" />
   </ItemGroup>
   <ItemGroup>
@@ -43,8 +41,6 @@
     <ClCompile Include="MyItem.cpp" />
     <ClCompile Include="MysqlDatabase.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="ProductItem.cpp" />
-    <ClCompile Include="ProductMineralItem.cpp" />
     <ClCompile Include="setting.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

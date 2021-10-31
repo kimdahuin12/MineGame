@@ -8,7 +8,7 @@ class Enemy
 private:
 	int x;
 	int y;
-	const char* ENEMY_SHAPE = "¢Â";
+	const char* ENEMY_SHAPE = "¢¼";
 	clock_t prevTime;
 	clock_t currentTime;
 	float lastTime;

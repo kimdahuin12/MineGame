@@ -36,6 +36,7 @@ void MysqlDatabase::create_account() {
 		while (id[0] == 0) {
 			cout << "아이디 입력 : "; fgets(id, 50, stdin); CHOP(id);
 		}
+		Sleep(500);
 		while (pw[0] == 0) {
 			cout << "비밀번호 입력 : "; fgets(pw, 50, stdin); CHOP(pw);
 		}
@@ -335,6 +336,31 @@ void MysqlDatabase::playerMineralSave(MyItem** items, int itemsCount, const char
 	mysql_close(connection);
 }
 
+void MysqlDatabase::playerMoneySave(unsigned long playerMoney, const char* playerId) {
+
+	char query[255];
+	//초기화
+	mysql_init(&conn);
+
+	//DB연결
+	connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
+	if (connection == NULL) {
+		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
+		return;
+	}
+
+	//쿼리
+	sprintf(query, "UPDATE playeraccount SET money=%d WHERE id='%s'", playerMoney, playerId);//minegame_db.playeraccount에 데이터 저장
+
+	query_stat = mysql_query(connection, query);
+	if (query_stat != 0)
+	{
+		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
+		return;
+	}
+	mysql_close(connection);
+}
+
 int MysqlDatabase::MineralCondition(int id) {
 	//광산의 입장 조건에 맞는 광물 갯수를 return
 	char query[255];
@@ -362,7 +388,7 @@ int MysqlDatabase::MineralCondition(int id) {
 	while ((sql_row = mysql_fetch_row(sql_result)) != NULL) {
 		return atoi(sql_row[0]);
 	}
-
+	mysql_close(connection);
 }
 
 void MysqlDatabase::MineInfoSave(Mine& mine, int id) {
@@ -375,7 +401,6 @@ void MysqlDatabase::MineInfoSave(Mine& mine, int id) {
 	percentageS
 	*/
 
-	int price = 0;
 	char* name = 0;
 	int produceSec = 0;
 	int deleteSec = 0;
@@ -393,7 +418,7 @@ void MysqlDatabase::MineInfoSave(Mine& mine, int id) {
 		return;
 	}
 
-	sprintf(query, "SELECT `entrance_price`, `mine_name`, `mineral_produce`, `mineral_delete`, "
+	sprintf(query, "SELECT `mine_name`, `mineral_produce`, `mineral_delete`, "
 		"`yellow_percentage`, `violet_percentage`, `red_percentage`, `green_percentage`, "
 		"`blue_percentage`, `skyblue_percentage` FROM mineinfo where id = '%d'", id);
 
@@ -404,22 +429,191 @@ void MysqlDatabase::MineInfoSave(Mine& mine, int id) {
 	}
 
 	//결과 출력
+	int idx = 0;
 	sql_result = mysql_store_result(connection);
 	while ((sql_row = mysql_fetch_row(sql_result)) != NULL) {
-		price = atoi(sql_row[0]);
-		name = new char[strlen(sql_row[1]) + 1];
-		strcpy(name, sql_row[1]);
-		produceSec = atoi(sql_row[2]);
-		deleteSec = atoi(sql_row[3]);
-		percentages[DARK_YELLOW] = atoi(sql_row[4]);
-		percentages[DARK_VIOLET] = atoi(sql_row[5]);
-		percentages[DARK_RED] = atoi(sql_row[6]);
-		percentages[DARK_GREEN] = atoi(sql_row[7]);
-		percentages[DARK_BLUE] = atoi(sql_row[8]);
-		percentages[DARK_SKYBLUE] = atoi(sql_row[9]);
+		name = new char[strlen(sql_row[idx]) + 1];
+		strcpy(name, sql_row[idx++]);
+		produceSec = atoi(sql_row[idx++]);
+		deleteSec = atoi(sql_row[idx++]);
+		percentages[DARK_YELLOW] = atoi(sql_row[idx++]);
+		percentages[DARK_VIOLET] = atoi(sql_row[idx++]);
+		percentages[DARK_RED] = atoi(sql_row[idx++]);
+		percentages[DARK_GREEN] = atoi(sql_row[idx++]);
+		percentages[DARK_BLUE] = atoi(sql_row[idx++]);
+		percentages[DARK_SKYBLUE] = atoi(sql_row[idx++]);
 	}
 
 
-	mine.SetMineInfo(price, name, produceSec, deleteSec, percentages);
+	mine.SetMineInfo(name, produceSec, deleteSec, percentages);
+	mysql_close(connection);
+}
+
+int MysqlDatabase::GetEntrancePrice(int id) {
+	char query[255];
+
+	//초기화
+	mysql_init(&conn);
+
+	//DB연결
+	connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
+	if (connection == NULL) {
+		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
+		return NULL;
+	}
+
+	sprintf(query, "SELECT `entrance_price` FROM mineinfo where id = '%d'", id);
+
+	query_stat = mysql_query(connection, query);
+	if (query_stat != 0) {
+		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
+		return NULL;
+	}
+
+	//결과 출력
+	sql_result = mysql_store_result(connection);
+	while ((sql_row = mysql_fetch_row(sql_result)) != NULL) {
+		return atoi(sql_row[0]);
+	}
+
+	return NULL;
+
+	mysql_close(connection);
+}
+
+
+void MysqlDatabase::Market(Player& player) {
+	//상점
+	char query[455];
+	char* mineralName[MINERAL_MAX] = {0, };
+	int mineralCount[MINERAL_MAX] = {0,};
+	long mineralPrice[MINERAL_MAX] = {0,};
+	int mineralIdx = 0;
+
+	mysql_init(&conn);
+
+	//DB연결
+	connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
+	if (connection == NULL) {
+		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
+		return;
+	}
+
+	//select쿼리문. 미네랄 이름들 불러와서 저장
+	sprintf(query, "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount' AND column_name not in('id')");
+	query_stat = mysql_query(connection, query);
+	if (query_stat != 0) {
+		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
+		return;
+	}
+
+	//미네랄 이름들을 저장한다.
+	sql_result = mysql_store_result(connection);
+	while ((sql_row = mysql_fetch_row(sql_result)) != NULL) {
+		mineralName[mineralIdx] = new char[strlen(sql_row[0]) + 1];
+		strcpy(mineralName[mineralIdx++], sql_row[0]);
+	}
+
+	//select쿼리문. 상품 갯수를 저장
+	sprintf(query, "SELECT `▲ 스캐폴라이트`, `◈ 스미스소나이트`, `◎ 시트린`, `◆ 플루라이트`, `● 아메지스트`, `▤ 래피도라이트`,"
+		"`▣ 스피넬`, `◐ 루비`, `□ 가넷`, `＠ 터키석`, `＃ 페리도트`, `▶ 에메랄드`, `◀ 아쿠아마린`, `■ 아주라이트`, `¤ 사파이어`,"
+		"`▽ 다이아몬드`, `○ 그란디디어라이트`, `◇ 배니토아이트` FROM mineralCount WHERE id = 'itemCount'");
+	query_stat = mysql_query(connection, query);
+	if (query_stat != 0) {
+		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
+		return;
+	}
+
+	//광물들의 갯수들을 저장
+	sql_result = mysql_store_result(connection);
+	while ((sql_row = mysql_fetch_row(sql_result)) != NULL) {
+		for (mineralIdx = 0; mineralIdx < MINERAL_MAX; mineralIdx++) {
+			mineralCount[mineralIdx] = atoi(sql_row[mineralIdx]);
+		}
+	}
+
+	//select쿼리문. 상품 가격을 저장
+	sprintf(query, "SELECT `▲ 스캐폴라이트`, `◈ 스미스소나이트`, `◎ 시트린`, `◆ 플루라이트`, `● 아메지스트`, `▤ 래피도라이트`,"
+		"`▣ 스피넬`, `◐ 루비`, `□ 가넷`, `＠ 터키석`, `＃ 페리도트`, `▶ 에메랄드`, `◀ 아쿠아마린`, `■ 아주라이트`, `¤ 사파이어`,"
+		"`▽ 다이아몬드`, `○ 그란디디어라이트`, `◇ 배니토아이트` FROM mineralCount WHERE id = 'price'");
+	query_stat = mysql_query(connection, query);
+	if (query_stat != 0) {
+		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
+		return;
+	}
+
+	//광물들의 가격들을 저장
+	mineralIdx = 0;
+	sql_result = mysql_store_result(connection);
+	while ((sql_row = mysql_fetch_row(sql_result)) != NULL) {
+		for (mineralIdx = 0; mineralIdx < MINERAL_MAX; mineralIdx++) {
+			mineralPrice[mineralIdx] = atoi(sql_row[mineralIdx]);
+		}
+	}
+
+	//모두 출력(상품 정보들)
+	for (int i = 0; i < MINERAL_MAX; i++) {
+		printf("%d. 상품명 : %-30s 갯수 : %-20d 가격 : %-20d\n", (i+1), mineralName[i], mineralCount[i], mineralPrice[i]);
+	}
+
+	int sel; //선택용 변수
+	const char* selProduct = "";
+	
+	while (true) {
+		gotoXY(0, 80);
+		cout << "현재 금액 : " << player.getMoney() <<"원"<<endl;
+		gotoXY(0, 81);
+		cout << "판매할 상품 번호 선택(나가려면 0번 선택) : ";
+		cin >> sel;
+		if (sel == 0) {
+			return;
+		}
+		else if (sel <= MINERAL_MAX) {
+			selProduct = mineralName[sel - 1]; //미네랄 이름 저장
+			if (player.RemoveMineral((char*)selProduct)) {
+				player.increaseMoney(mineralPrice[sel - 1]);
+				sprintf(query, "UPDATE mineralCount SET `%s`=%d WHERE id='%s'", selProduct, player.GetMineralCount((char*)selProduct), player.getId());//광물 갯수 업데이트
+				query_stat = mysql_query(connection, query);
+				if (query_stat != 0)
+				{
+					fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
+					return;
+				}
+				sprintf(query, "UPDATE playeraccount SET money=%d WHERE id='%s'", player.getMoney(), player.getId());//플레이어 돈 업데이트
+				query_stat = mysql_query(connection, query);
+				if (query_stat != 0)
+				{
+					fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
+					return;
+				}
+				sprintf(query, "UPDATE mineralCount SET `%s`=%d WHERE id='itemCount'", selProduct, (mineralCount[sel-1]+player.GetMineralCount((char*)selProduct)));//광물 전체 갯수 업데이트
+				query_stat = mysql_query(connection, query);
+				if (query_stat != 0)
+				{
+					fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
+					return;
+				}
+				gotoXY(0, 80);
+				cout << "1개 판매 완료" << endl;
+				gotoXY(0, 81);
+				cout << "                                            " << endl;
+
+			}
+			else {
+				gotoXY(0, 80);
+				cout << "소유하지 않은 광물" << endl;
+				gotoXY(0, 81);
+				cout << "                                            " << endl;
+			}
+		}
+
+		
+	}
+	
+
+	mysql_free_result(sql_result);
+
+	//DB 연결 닫기
+	mysql_close(connection);
 
 }

@@ -26,7 +26,7 @@ unsigned long Player::getMoney() {
 }
 
 bool Player::decreaseMoney(long money) {
-	if (this->money - money >= 0) {
+	if (((long)this->money)-(money) >= 0) {
 		this->money -= money;
 		return true;
 	}
@@ -38,7 +38,7 @@ bool Player::decreaseMoney(long money) {
 	return false;
 }
 void Player::increaseMoney(long money) {
-	money += money;
+	this->money += money;
 }
 
 void Player::AddMineral(char* mineralName) {
@@ -55,6 +55,29 @@ void Player::AddMineral(char* mineralName) {
 	this->inventory[itemCount++] = new MyItem(mineralName);
 }
 
+bool Player::RemoveMineral(char* mineralName) { //삭제할 미네랄 이름
+	//광물 이름이 같은 myMineral의 count를 1 증가시킨다.
+	for (int i = 0; i < itemCount; i++) {
+		if (strcmp(inventory[i]->getName(), mineralName) == 0) {
+			//이미 같은 이름의 광물이 인벤토리에 있다.
+			inventory[i]->decreaseCount(); //그 아이템 갯수 감소.
+			if (inventory[i]->getCount()==0) {//하나도 없으면 삭제
+				delete inventory[i];
+				inventory[i] = nullptr;
+				for (int j = i; j < itemCount - 1; j++) {
+					inventory[j] = inventory[j + 1];
+				}
+				inventory[itemCount - 1] = nullptr;
+				itemCount--;
+			}
+			return true; //함수를 빠져나간다..
+		}
+	}
+
+	//삭제하려는 아이템이 없다. 그냥 끝.
+	return false;
+}
+
 void Player::Inventory() {
 	for(int i = 0; i < itemCount; i++){
 		std::cout << inventory[i]->getName();
@@ -64,7 +87,6 @@ void Player::Inventory() {
 		for (int i = 0; i < (30 - nameLen); i++) { std::cout << " "; }
 		
 		std::cout << inventory[i]->getCount()<<"개"<<std::endl;
-		std::cout << std::endl;
 	}
 }
 
@@ -77,61 +99,6 @@ bool Player::MineAuthorityCheck(int mineralCount) {
 	}
 	if (allItemCount >= mineralCount) { return true; }
 	else { return false; }
-
-
-	// 0 : 일반 광산 1: 중급 광산 3: 고급 광산
-	//
-	//char* mineName = nullptr;
-	//if (mineIdx == 1) {
-	//	//일반광산. 누구나 들어갈 수 있음
-	//	mineName = new char[strlen("일반 광산") + 1];
-	//	strcpy(mineName, "일반 광산");
-	//}
-	//else {
-
-	//	//모든 아이템 갯수를 구한다.
-	//	int allItemCount = 0;
-	//	for (int i = 0; i < itemCount; i++) {
-	//		allItemCount += inventory[i]->getCount();
-	//	}
-
-	//	switch (mineIdx)
-	//	{
-	//	case 2:
-	//		//중급 광산
-	//		if (allItemCount >= 10) {
-	//			mineName = new char[strlen("중급 광산") + 1];
-	//			strcpy(mineName, "중급 광산");
-	//		}
-	//		break;
-	//	case 3:
-	//		//고급 광산
-	//		if (allItemCount >= 20) {
-	//			mineName = new char[strlen("고급 광산") + 1];
-	//			strcpy(mineName, "고급 광산");
-	//		}
-	//		break;
-	//	case 4:
-	//		//고급 광산
-	//		if (allItemCount >= 20) {
-	//			mineName = new char[strlen("테스트1 광산") + 1];
-	//			strcpy(mineName, "테스트1 광산");
-	//		}
-	//		break;
-	//	case 5:
-	//		//고급 광산
-	//		if (allItemCount >= 20) {
-	//			mineName = new char[strlen("테스트2 광산") + 1];
-	//			strcpy(mineName, "테스트2 광산");
-	//		}
-	//		break;
-	//	default:
-	//		std::cout << "오류" << std::endl;
-	//		break;
-	//	}
-	//}
-
-	//return mineName;
 }
 
 MyItem** Player::getInventory() {
@@ -140,4 +107,13 @@ MyItem** Player::getInventory() {
 
 int Player::getItemCount() {
 	return itemCount;
+}
+
+int Player::GetMineralCount(char* mineralName) {
+	for (int i = 0; i < itemCount; i++) {
+		if (inventory[i]->getName(), mineralName) {
+			return inventory[i]->getCount();
+		}
+	}
+	return 0;
 }

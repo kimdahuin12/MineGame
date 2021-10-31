@@ -25,4 +25,7 @@ int MyItem::getCount() {
 void MyItem::increaseCount() {
 	count++;
 }
+void MyItem::decreaseCount() {
+	count--;
+}
 

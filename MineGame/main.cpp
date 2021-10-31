@@ -24,52 +24,22 @@ void fileReadAndPrint(string fileName);
 void StartGame();
 void GoMining();
 //void PlayerMove();
-void CreateAccount();
-void LogIn();
 void LogOut();
 void Destroy();
 void cursorVisibleFalse();
-
 
 //클래스 선언
 Player* player;
 Mine* mine = nullptr; 
 
-////음악
-//MCI_OPEN_PARMS openBgm;
-//MCI_PLAY_PARMS playBgm;
-//MCI_OPEN_PARMS openShuffleSound;
-//MCI_PLAY_PARMS playShuffleSound;
-//
-//int dwID;
-//void playingShuffleSound(void) {
-//	//효과음
-//	openShuffleSound.lpstrElementName = L"D:\\cppProject\\playGame\\Debug\\sound\\click.wav"; //파일 오픈
-//	openShuffleSound.lpstrDeviceType = L"mpegvideo"; //mp3 형식
-//	mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)&openShuffleSound);
-//	dwID = openShuffleSound.wDeviceID;
-//	mciSendCommand(dwID, MCI_PLAY, MCI_NOTIFY, (DWORD)(LPVOID)&openShuffleSound); //음악을 한 번 재생
-//	Sleep(50); //효과음이 재생될 때까지 정지했다가
-//	mciSendCommand(dwID, MCI_SEEK, MCI_SEEK_TO_START, (DWORD)(LPVOID)NULL); //음원 재생 위치를 처음으로 초기화
-//}
-////음악 END
 
 // https://kiffblog.tistory.com/151
 int main() {
-
-	////창 최대
-	//HWND hwnd = GetForegroundWindow();
-	//int cx = GetSystemMetrics(SM_CXSCREEN);            /* Screen width pixels */
-	//int cy = GetSystemMetrics(SM_CYSCREEN);            /* Screen Height Pixel */
-	//LONG l_WinStyle = GetWindowLong(hwnd, GWL_STYLE);   /* Get window information */
-	///* Set window information to maximize the removal of title bar and border*/
-	//SetWindowLong(hwnd, GWL_STYLE, (l_WinStyle | WS_POPUP | WS_MAXIMIZE) & ~WS_CAPTION & ~WS_THICKFRAME & ~WS_BORDER);
-	//SetWindowPos(hwnd, HWND_TOP, 0, 0, cx, cy, 0);
 	//창 크기
 	system("mode con: cols=160 lines=40");
 	system("title MIneGame");
 	
-	soundPlay();
+	soundPlay(); //음악 재생
 
 	//밑줄(커서)가 보이지 않게 해주는 함수.
 	cursorVisibleFalse();
@@ -287,7 +257,7 @@ void StartGame()
 			break;
 		case 2:															//상점
 			reverseScene();
-			//Market();
+			MysqlDatabase::Market(*player);
 			reverseScene();
 			break;
 		case 3:															//인벤토리
@@ -299,6 +269,7 @@ void StartGame()
 		case 4:															//로그아웃
   			reverseScene();
 			//로그아웃 후 메뉴화면으로 이동
+			MysqlDatabase::playerMoneySave(player->getMoney(), player->getId());
 			MysqlDatabase::playerMineralSave(player->getInventory(), player->getItemCount(), player->getId()); //광물의 갯수를 db에 저장
 			delete player;
 			cout << "메뉴 화면으로 이동합니다." << endl;
@@ -386,21 +357,16 @@ void GoMining()
 		//들어갈 수 있는지 확인
 
 		//고른 번호에 맞게 db에서 조회해서 필요한 광물의 갯수를 가져온다.
-		int mineral_condision = MysqlDatabase::MineralCondition(sel);
+ 		int mineral_condision = MysqlDatabase::MineralCondition(sel);
 
-		if (player->MineAuthorityCheck(mineral_condision)) {
+  		if (player->MineAuthorityCheck(mineral_condision) && player->decreaseMoney(MysqlDatabase::GetEntrancePrice(sel))) {
 			//광산에 들어갈 수 있다면
 			//Mine객체를 만들고 초기화
+			mine = nullptr;
 			mine = new Mine(player, sel);
 			MysqlDatabase::MineInfoSave(*mine, sel);			//db에서 mine의 정보를 불러와서 mine객체의 변수에 저장
-			bool decMoney = player->decreaseMoney(mine->getEntrancePrice()); //입장 비용 감소
-			if (decMoney) {
-				//감소가 됐으면 게임 시작. 아니면 다시 들어갈 광산을 입력받음
-				break;
-			}
-			else {
-				delete mine;
-			}
+
+			break;
 		}
 		else {
 			//광산에 들어갈 수 없다면
@@ -409,18 +375,6 @@ void GoMining()
 			cout << "들어갈 수 없는 광산" << endl;
 			reverseScene();
 		}
-
-		//if (mineName == nullptr) {
-		//	/*reverseScene();
-		//	gotoXY(50, 50);
-		//	cout << "들어갈 수 없는 광산" << endl;
-		//	reverseScene();*/
-		//}
-		//else { //들어갈 수 있음
-		//	//광산 생성
-		//	mine = new Mine(mineName, player);
-		//	break;
-		//}
 	}
 	reverseScene();
 
@@ -430,14 +384,11 @@ void GoMining()
 		if (_kbhit() != 0) {//_kbhit()는 키보드가 눌렸는지 체크해주는 함수이다. 눌리면 0 이외의 값을 리턴
 			int input = mine->KeyInputRelated();//키 관련 처리를 하고 입력된 값을 반환해준다.
 			if (input == 27) {
-				delete mine;
 				break;
 			}//esc가 눌리면 메뉴로 이동
 			//키 입력, 움직임 관련 구간 END
 		}
 		else if (!mine->mineBool) {
-			//광산 삭제
-			delete mine;
 			break;
 		}
 		else {
@@ -447,16 +398,6 @@ void GoMining()
 	}
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), EMPTY);
-}
-
-////로그인
-void LogIn()
-{
-
-	//db불러와서 같은 아이디와 비번의 정보를 모두 가져오고 세팅한다.
-	//가져온 정보를 이용하여 객체 만든다.
-
-
 }
 
 //사용자 메모리 해제
@@ -469,7 +410,7 @@ void LogOut()
 void Destroy()
 {
 	//게임을 종료
-
+	delete mine;
 	cout << "게임이 종료됩니다." << endl;
 	Sleep(300);
 	cout << "안녕히 가십시오." << endl;
@@ -479,7 +420,6 @@ void Destroy()
 
 }
 
-
 void cursorVisibleFalse() {
 	//밑줄을 보이지 않게 하는 코드
 	CONSOLE_CURSOR_INFO cif;
@@ -488,7 +428,5 @@ void cursorVisibleFalse() {
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cif);
 	//END
 }
-
-
 
 //함수 정의 END

@@ -77,8 +77,7 @@ Mine::~Mine() {
 }
  
 //초기화 & player money
-void Mine::SetMineInfo(int price, char* name, int produceSec, int deleteSec, float* percentage) {
-	this->entrancePrice = price;
+void Mine::SetMineInfo(char* name, int produceSec, int deleteSec, float* percentage) {
 	this->mineName = new char[strlen(name) + 1];
 	strcpy(this->mineName, name);										//광산 이름
 	produceMineralSec = produceSec;							//몇초사이마다 랜덤으로 광물이 나오게할지
@@ -269,10 +268,6 @@ char* Mine::randomMineral(int mineralItem) {
 		strcpy(res_mineralName, "알 수 없는 광물(오류)");
 	}
 	return res_mineralName;
-}
-
-int Mine::getEntrancePrice() {
-	return entrancePrice;
 }
 
 void Mine::Update() {
