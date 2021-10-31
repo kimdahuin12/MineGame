@@ -1,0 +1,1077 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 7
+Server version: 5.5.50 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use minegame_db;
+Database changed
+mysql> select * from playeraccount;
++--------------+----------+-------+
+| id           | password | money |
++--------------+----------+-------+
+| ddf22        | dd12     |     0 |
+| kimdahuin12  | 010101   |     0 |
+| sd           | s        |     0 |
+| sdf          | 1234     |     2 |
+| sdf123       | 123      |     0 |
++--------------+----------+-------+
+5 rows in set (0.00 sec)
+
+mysql> UPDATE playeraccount SET money=30 where id='sd';
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from playeraccount;
++--------------+----------+-------+
+| id           | password | money |
++--------------+----------+-------+
+| ddf22        | dd12     |     0 |
+| kimdahuin12  | 010101   |     0 |
+| sd           | s        |    30 |
+| sdf          | 1234     |     2 |
+| sdf123       | 123      |     0 |
++--------------+----------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc playeraccount;
++----------+------------------+------+-----+---------+-------+
+| Field    | Type             | Null | Key | Default | Extra |
++----------+------------------+------+-----+---------+-------+
+| id       | varchar(50)      | NO   | PRI | NULL    |       |
+| password | varchar(50)      | NO   |     | NULL    |       |
+| money    | int(11) unsigned | YES  |     | 0       |       |
++----------+------------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+mysql> insert into playeraccount values("한글테스트", "sd", 0);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from playeraccount;
++--------------+----------+-------+
+| id           | password | money |
++--------------+----------+-------+
+| 한글테스트   | sd       |     0 |
+| ddf22        | dd12     |     0 |
+| kimdahuin12  | 010101   |     0 |
+| mommy        | sd       | 10000 |
+| sd           | s        |    30 |
+| sdf          | 1234     |     2 |
+| sdf123       | 123      |     0 |
++--------------+----------+-------+
+7 rows in set (0.00 sec)
+
+mysql> select count(*) from playeraccount
+    -> ;
++----------+
+| count(*) |
++----------+
+|        7 |
++----------+
+1 row in set (0.01 sec)
+
+mysql> CREATE TABLE mineralCount (
+    -> idvarchar(50) NOT NULL PRIMARY KEY,
+    -> `▲ 스캐폴라이트` int(11) unsigned DEFAULT = 0,
+    -> `◈ 스미스소나이트` int(11) unsigned DEFAULT = 0,
+    -> `◎ 시트린` int(11) unsigned DEFAULT = 0,
+    -> `◆ 플루라이트` int(11) unsigned DEFAULT = 0,
+    -> `● 아메지스트` int(11) unsigned DEFAULT = 0,
+    -> `▤ 래피도라이트` int(11) unsigned DEFAULT = 0,
+    -> `▣ 스피넬` int(11) unsigned DEFAULT = 0,
+    -> `◐ 루비` int(11) unsigned DEFAULT = 0,
+    -> `□ 가넷` int(11) unsigned DEFAULT = 0,
+    -> `＠ 터키석` int(11) unsigned DEFAULT = 0,
+    -> `＃ 페리도트` int(11) unsigned DEFAULT = 0,
+    -> `▶ 에메랄드` int(11) unsigned DEFAULT = 0,
+    -> `◀ 아쿠아마린` int(11) unsigned DEFAULT = 0,
+    -> `■ 아주라이트` int(11) unsigned DEFAULT = 0,
+    -> `¤ 사파이어` int(11) unsigned DEFAULT = 0,
+    -> `▽ 다이아몬드` int(11) unsigned DEFAULT = 0,
+    -> `○ 그란디디어라이트` int(11) unsigned DEFAULT = 0,
+    -> `◇ 배니토아이트` int(11) unsigned DEFAULT = 0
+    -> ) ENGINE=MYISAM CHARSET=utf8;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(50) NOT NULL PRIMARY KEY,
+`▲ 스캐폴라이트` int(11) unsigned DEFA' at line 2
+mysql> CREATE TABLE mineralCount (
+    -> idvarchar(50) PRIMARY KEY,
+    -> `▲ 스캐폴라이트` int(11) unsigned DEFAULT = 0,
+    -> `◈ 스미스소나이트` int(11) unsigned DEFAULT = 0,
+    -> `◎ 시트린` int(11) unsigned DEFAULT = 0,
+    -> `◆ 플루라이트` int(11) unsigned DEFAULT = 0,
+    -> `● 아메지스트` int(11) unsigned DEFAULT = 0,
+    -> `▤ 래피도라이트` int(11) unsigned DEFAULT = 0,
+    -> `▣ 스피넬` int(11) unsigned DEFAULT = 0,
+    -> `◐ 루비` int(11) unsigned DEFAULT = 0,
+    -> `□ 가넷` int(11) unsigned DEFAULT = 0,
+    -> `＠ 터키석` int(11) unsigned DEFAULT = 0,
+    -> `＃ 페리도트` int(11) unsigned DEFAULT = 0,
+    -> `▶ 에메랄드` int(11) unsigned DEFAULT = 0,
+    -> `◀ 아쿠아마린` int(11) unsigned DEFAULT = 0,
+    -> `■ 아주라이트` int(11) unsigned DEFAULT = 0,
+    -> `¤ 사파이어` int(11) unsigned DEFAULT = 0,
+    -> `▽ 다이아몬드` int(11) unsigned DEFAULT = 0,
+    -> `○ 그란디디어라이트` int(11) unsigned DEFAULT = 0,
+    -> `◇ 배니토아이트` int(11) unsigned DEFAULT = 0
+    -> ) ENGINE=MYISAM CHARSET=utf8;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(50) PRIMARY KEY,
+`▲ 스캐폴라이트` int(11) unsigned DEFAULT = 0,
+' at line 2
+mysql> CREATE TABLE mineralCount (
+    -> idvarchar(50) PRIMARY KEY,
+    -> `▲ 스캐폴라이트` int(11) unsigned DEFAULT = '0',
+    -> `◈ 스미스소나이트` int(11) unsigned DEFAULT = 0,
+    -> `◎ 시트린` int(11) unsigned DEFAULT = 0,
+    -> `◆ 플루라이트` int(11) unsigned DEFAULT = 0,
+    -> `● 아메지스트` int(11) unsigned DEFAULT = 0,
+    -> `▤ 래피도라이트` int(11) unsigned DEFAULT = 0,
+    -> `▣ 스피넬` int(11) unsigned DEFAULT = 0,
+    -> `◐ 루비` int(11) unsigned DEFAULT = 0,
+    -> `□ 가넷` int(11) unsigned DEFAULT = 0,
+    -> `＠ 터키석` int(11) unsigned DEFAULT = 0,
+    -> `＃ 페리도트` int(11) unsigned DEFAULT = 0,
+    -> `▶ 에메랄드` int(11) unsigned DEFAULT = 0,
+    -> `◀ 아쿠아마린` int(11) unsigned DEFAULT = 0,
+    -> `■ 아주라이트` int(11) unsigned DEFAULT = 0,
+    -> `¤ 사파이어` int(11) unsigned DEFAULT = 0,
+    -> `▽ 다이아몬드` int(11) unsigned DEFAULT = 0,
+    -> `○ 그란디디어라이트` int(11) unsigned DEFAULT = 0,
+    -> `◇ 배니토아이트` int(11) unsigned DEFAULT = 0
+    -> ) ENGINE=MYISAM CHARSET=utf8;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(50) PRIMARY KEY,
+`▲ 스캐폴라이트` int(11) unsigned DEFAULT = '0'' at line 2
+mysql> CREATE TABLE mineralCount (
+    -> idvarchar(50) PRIMARY KEY,
+    -> `▲ 스캐폴라이트` int(11) unsigned DEFAULT = 0,
+    -> `◈ 스미스소나이트` int(11) unsigned DEFAULT = 0,
+    -> `◎ 시트린` int(11) unsigned DEFAULT = 0,
+    -> `◆ 플루라이트` int(11) unsigned DEFAULT = 0,
+    -> `● 아메지스트` int(11) unsigned DEFAULT = 0,
+    -> `▤ 래피도라이트` int(11) unsigned DEFAULT = 0,
+    -> `▣ 스피넬` int(11) unsigned DEFAULT = 0,
+    -> `◐ 루비` int(11) unsigned DEFAULT = 0,
+    -> `□ 가넷` int(11) unsigned DEFAULT = 0,
+    -> `＠ 터키석` int(11) unsigned DEFAULT = 0,
+    -> `＃ 페리도트` int(11) unsigned DEFAULT = 0,
+    -> `▶ 에메랄드` int(11) unsigned DEFAULT = 0,
+    -> `◀ 아쿠아마린` int(11) unsigned DEFAULT = 0,
+    -> `■ 아주라이트` int(11) unsigned DEFAULT = 0,
+    -> `¤ 사파이어` int(11) unsigned DEFAULT = 0,
+    -> `▽ 다이아몬드` int(11) unsigned DEFAULT = 0,
+    -> `○ 그란디디어라이트` int(11) unsigned DEFAULT = 0,
+    -> `◇ 배니토아이트` int(11) unsigned DEFAULT = 0
+    -> ) ENGINE=MYISAM CHARSET=utf8;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(50) PRIMARY KEY,
+`▲ 스캐폴라이트` int(11) unsigned DEFAULT = 0,
+' at line 2
+mysql> CREATE TABLE mineralCount (
+    -> idvarchar(50) PRIMARY KEY,
+    -> `스캐폴라이트` int(11) unsigned DEFAULT = 0,
+    -> `◈ 스미스소나이트` int(11) unsigned DEFAULT = 0,
+    -> `◎ 시트린` int(11) unsigned DEFAULT = 0,
+    -> `◆ 플루라이트` int(11) unsigned DEFAULT = 0,
+    -> `● 아메지스트` int(11) unsigned DEFAULT = 0,
+    -> `▤ 래피도라이트` int(11) unsigned DEFAULT = 0,
+    -> `▣ 스피넬` int(11) unsigned DEFAULT = 0,
+    -> `◐ 루비` int(11) unsigned DEFAULT = 0,
+    -> `□ 가넷` int(11) unsigned DEFAULT = 0,
+    -> `＠ 터키석` int(11) unsigned DEFAULT = 0,
+    -> `＃ 페리도트` int(11) unsigned DEFAULT = 0,
+    -> `▶ 에메랄드` int(11) unsigned DEFAULT = 0,
+    -> `◀ 아쿠아마린` int(11) unsigned DEFAULT = 0,
+    -> `■ 아주라이트` int(11) unsigned DEFAULT = 0,
+    -> `¤ 사파이어` int(11) unsigned DEFAULT = 0,
+    -> `▽ 다이아몬드` int(11) unsigned DEFAULT = 0,
+    -> `○ 그란디디어라이트` int(11) unsigned DEFAULT = 0,
+    -> `◇ 배니토아이트` int(11) unsigned DEFAULT = 0
+    -> ) ENGINE=MYISAM CHARSET=utf8;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(50) PRIMARY KEY,
+`스캐폴라이트` int(11) unsigned DEFAULT = 0,
+`◈' at line 2
+mysql> CREATE TABLE mineralCount (
+    -> idvarchar(50) NOT NULL,
+    -> `▲ 스캐폴라이트` int(11) unsigned DEFAULT 0,
+    -> `◈ 스미스소나이트` int(11) unsigned DEFAULT = 0,
+    -> `◎ 시트린` int(11) unsigned DEFAULT = 0,
+    -> `◆ 플루라이트` int(11) unsigned DEFAULT = 0,
+    -> `● 아메지스트` int(11) unsigned DEFAULT = 0,
+    -> `▤ 래피도라이트` int(11) unsigned DEFAULT = 0,
+    -> `▣ 스피넬` int(11) unsigned DEFAULT = 0,
+    -> `◐ 루비` int(11) unsigned DEFAULT = 0,
+    -> `□ 가넷` int(11) unsigned DEFAULT = 0,
+    -> `＠ 터키석` int(11) unsigned DEFAULT = 0,
+    -> `＃ 페리도트` int(11) unsigned DEFAULT = 0,
+    -> `▶ 에메랄드` int(11) unsigned DEFAULT = 0,
+    -> `◀ 아쿠아마린` int(11) unsigned DEFAULT = 0,
+    -> `■ 아주라이트` int(11) unsigned DEFAULT = 0,
+    -> `¤ 사파이어` int(11) unsigned DEFAULT = 0,
+    -> `▽ 다이아몬드` int(11) unsigned DEFAULT = 0,
+    -> `○ 그란디디어라이트` int(11) unsigned DEFAULT = 0,
+    -> `◇ 배니토아이트` int(11) unsigned DEFAULT = 0,
+    -> PRIMARY KEY(id)
+    -> ) ENGINE=MYISAM CHARSET=utf8;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(50) NOT NULL,
+`▲ 스캐폴라이트` int(11) unsigned DEFAULT 0,
+`◈' at line 2
+mysql> CREATE TABLE mineralCount (
+    -> idvarchar(50) NOT NULL,
+    -> `▲ 스캐폴라이트` int(11) unsigned DEFAULT '0',
+    -> `◈ 스미스소나이트` int(11) unsigned DEFAULT = 0,
+    -> `◎ 시트린` int(11) unsigned DEFAULT = 0,
+    -> `◆ 플루라이트` int(11) unsigned DEFAULT = 0,
+    -> `● 아메지스트` int(11) unsigned DEFAULT = 0,
+    -> `▤ 래피도라이트` int(11) unsigned DEFAULT = 0,
+    -> `▣ 스피넬` int(11) unsigned DEFAULT = 0,
+    -> `◐ 루비` int(11) unsigned DEFAULT = 0,
+    -> `□ 가넷` int(11) unsigned DEFAULT = 0,
+    -> `＠ 터키석` int(11) unsigned DEFAULT = 0,
+    -> `＃ 페리도트` int(11) unsigned DEFAULT = 0,
+    -> `▶ 에메랄드` int(11) unsigned DEFAULT = 0,
+    -> `◀ 아쿠아마린` int(11) unsigned DEFAULT = 0,
+    -> `■ 아주라이트` int(11) unsigned DEFAULT = 0,
+    -> `¤ 사파이어` int(11) unsigned DEFAULT = 0,
+    -> `▽ 다이아몬드` int(11) unsigned DEFAULT = 0,
+    -> `○ 그란디디어라이트` int(11) unsigned DEFAULT = 0,
+    -> `◇ 배니토아이트` int(11) unsigned DEFAULT = 0,
+    -> PRIMARY KEY(id)
+    -> ) ENGINE=MYISAM CHARSET=utf8;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(50) NOT NULL,
+`▲ 스캐폴라이트` int(11) unsigned DEFAULT '0',
+`? at line 2
+mysql> CREATE TABLE mineralCount (
+    -> idvarchar(50) NOT NULL,
+    -> `▲ 스캐폴라이트` int(11) unsigned DEFAULT '0',
+    -> `◈ 스미스소나이트` int(11) unsigned DEFAULT 0,
+    -> `◎ 시트린` int(11) unsigned DEFAULT 0,
+    -> `◆ 플루라이트` int(11) unsigned DEFAULT 0,
+    -> `● 아메지스트` int(11) unsigned DEFAULT 0,
+    -> `▤ 래피도라이트` int(11) unsigned DEFAULT 0,
+    -> `▣ 스피넬` int(11) unsigned DEFAULT 0,
+    -> `◐ 루비` int(11) unsigned DEFAULT 0,
+    -> `□ 가넷` int(11) unsigned DEFAULT 0,
+    -> `＠ 터키석` int(11) unsigned DEFAULT 0,
+    -> `＃ 페리도트` int(11) unsigned DEFAULT 0,
+    -> `▶ 에메랄드` int(11) unsigned DEFAULT 0,
+    -> `◀ 아쿠아마린` int(11) unsigned DEFAULT 0,
+    -> `■ 아주라이트` int(11) unsigned DEFAULT 0,
+    -> `¤ 사파이어` int(11) unsigned DEFAULT 0,
+    -> `▽ 다이아몬드` int(11) unsigned DEFAULT 0,
+    -> `○ 그란디디어라이트` int(11) unsigned DEFAULT 0,
+    -> `◇ 배니토아이트` int(11) unsigned DEFAULT 0,
+    -> PRIMARY KEY(id)
+    -> ) ENGINE=MYISAM CHARSET=utf8;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(50) NOT NULL,
+`▲ 스캐폴라이트` int(11) unsigned DEFAULT '0',
+`? at line 2
+mysql> CREATE TABLE mineralCount (
+    -> id varchar(50) NOT NULL,
+    -> `▲ 스캐폴라이트` int(11) unsigned DEFAULT '0',
+    -> `◈ 스미스소나이트` int(11) unsigned DEFAULT 0,
+    -> `◎ 시트린` int(11) unsigned DEFAULT 0,
+    -> `◆ 플루라이트` int(11) unsigned DEFAULT 0,
+    -> `● 아메지스트` int(11) unsigned DEFAULT 0,
+    -> `▤ 래피도라이트` int(11) unsigned DEFAULT 0,
+    -> `▣ 스피넬` int(11) unsigned DEFAULT 0,
+    -> `◐ 루비` int(11) unsigned DEFAULT 0,
+    -> `□ 가넷` int(11) unsigned DEFAULT 0,
+    -> `＠ 터키석` int(11) unsigned DEFAULT 0,
+    -> `＃ 페리도트` int(11) unsigned DEFAULT 0,
+    -> `▶ 에메랄드` int(11) unsigned DEFAULT 0,
+    -> `◀ 아쿠아마린` int(11) unsigned DEFAULT 0,
+    -> `■ 아주라이트` int(11) unsigned DEFAULT 0,
+    -> `¤ 사파이어` int(11) unsigned DEFAULT 0,
+    -> `▽ 다이아몬드` int(11) unsigned DEFAULT 0,
+    -> `○ 그란디디어라이트` int(11) unsigned DEFAULT 0,
+    -> `◇ 배니토아이트` int(11) unsigned DEFAULT 0,
+    -> PRIMARY KEY(id)
+    -> ) ENGINE=MYISAM CHARSET=utf8;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select * from mineralCount;
+Empty set (0.00 sec)
+
+mysql> insert into mineralCount values("sdfd");
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into mineralCount values("sdfd", 0, 0, 0, 0, 0, 0, 0);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> desc mineralCount;
++---------------------+------------------+------+-----+---------+-------+
+| Field               | Type             | Null | Key | Default | Extra |
++---------------------+------------------+------+-----+---------+-------+
+| id                  | varchar(50)      | NO   | PRI | NULL    |       |
+| ▲ 스캐폴라이트     | int(11) unsigned | YES  |     | 0       |       |
+| ◈ 스미스소나이트   | int(11) unsigned | YES  |     | 0       |       |
+| ◎ 시트린           | int(11) unsigned | YES  |     | 0       |       |
+| ◆ 플루라이트       | int(11) unsigned | YES  |     | 0       |       |
+| ● 아메지스트       | int(11) unsigned | YES  |     | 0       |       |
+| ▤ 래피도라이트     | int(11) unsigned | YES  |     | 0       |       |
+| ▣ 스피넬           | int(11) unsigned | YES  |     | 0       |       |
+| ◐ 루비             | int(11) unsigned | YES  |     | 0       |       |
+| □ 가넷             | int(11) unsigned | YES  |     | 0       |       |
+| ＠ 터키석           | int(11) unsigned | YES  |     | 0       |       |
+| ＃ 페리도트         | int(11) unsigned | YES  |     | 0       |       |
+| ▶ 에메랄드         | int(11) unsigned | YES  |     | 0       |       |
+| ◀ 아쿠아마린       | int(11) unsigned | YES  |     | 0       |       |
+| ■ 아주라이트       | int(11) unsigned | YES  |     | 0       |       |
+| ¤ 사파이어         | int(11) unsigned | YES  |     | 0       |       |
+| ▽ 다이아몬드       | int(11) unsigned | YES  |     | 0       |       |
+| ○ 그란디디어라이트 | int(11) unsigned | YES  |     | 0       |       |
+| ◇ 배니토아이트     | int(11) unsigned | YES  |     | 0       |       |
++---------------------+------------------+------+-----+---------+-------+
+19 rows in set (0.01 sec)
+
+mysql> insert into mineralCount(id) values("sdfd");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from mineralCount;
++------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| id   | ▲ 스캐폴라이트 | ◈ 스미스소나이트 | ◎ 시트린 | ◆ 플루라이트 | ● 아메지스트 | ▤ 래피도라이트 | ▣ 스피넬 | ◐ 루비 | □ 가넷 | ＠ 터키석 | ＃ 페리도트 | ▶ 에메랄드 | ◀ 아쿠아마린 | ■ 아주라이트 | ¤ 사파이어 | ▽ 다이아몬드 | ○ 그란디디어라이트 | ◇ 배니토아이트 |
++------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| sdfd |               0 |                 0 |         0 |             0 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             0 |           0 |             0 |                   0 |               0 |
++------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+1 row in set (0.00 sec)
+
+mysql> select * from mineralCount;
++-------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| id    | ▲ 스캐폴라이트 | ◈ 스미스소나이트 | ◎ 시트린 | ◆ 플루라이트 | ● 아메지스트 | ▤ 래피도라이트 | ▣ 스피넬 | ◐ 루비 | □ 가넷 | ＠ 터키석 | ＃ 페리도트 | ▶ 에메랄드 | ◀ 아쿠아마린 | ■ 아주라이트 | ¤ 사파이어 | ▽ 다이아몬드 | ○ 그란디디어라 이트 | ◇ 배니토아이트 |
++-------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| sdfd  |               0 |                 0 |         0 |             0 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             0 |           0 |             0 |                   0 |               0 |
+| asdf  |               0 |                 0 |         0 |             0 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             0 |           0 |             0 |                   0 |               0 |
++-------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from playerAccount;
++--------------+----------+-------+
+| id           | password | money |
++--------------+----------+-------+
+| asdf         | 1234     | 10000 |
+| 한글테스트   | sd       |     0 |
+| ddf22        | dd12     |     0 |
+| kimdahuin12  | 010101   |     0 |
+| mommy        | sd       | 10000 |
+| sd           | s        |    30 |
+| sdf          | 1234     |     2 |
+| sdf123       | 123      |     0 |
++--------------+----------+-------+
+8 rows in set (0.00 sec)
+
+mysql> insert into mineralCount values("price", );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> ALTER TABLE playeraccount MODIFY money bigint(11);
+Query OK, 8 rows affected (0.03 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> desc playeraccount;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| id       | varchar(50) | NO   | PRI | NULL    |       |
+| password | varchar(50) | NO   |     | NULL    |       |
+| money    | bigint(11)  | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from playerAccount;
++--------------+----------+-------+
+| id           | password | money |
++--------------+----------+-------+
+| asdf         | 1234     | 10000 |
+| 한글테스트   | sd       |     0 |
+| ddf22        | dd12     |     0 |
+| kimdahuin12  | 010101   |     0 |
+| mommy        | sd       | 10000 |
+| sd           | s        |    30 |
+| sdf          | 1234     |     2 |
+| sdf123       | 123      |     0 |
++--------------+----------+-------+
+8 rows in set (0.00 sec)
+
+mysql> select FORMAT(*, 0) from playerAccount;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*, 0) from playerAccount' at line 1
+mysql> select * from playerAccount FOTMAT(money, 0);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(money, 0)' at line 1
+mysql> select FORMAT(money) from playerAccount;
+ERROR 1582 (42000): Incorrect parameter count in the call to native function 'FORMAT'
+mysql> select FORMAT(money, 0) from playerAccount;
++------------------+
+| FORMAT(money, 0) |
++------------------+
+| 10,000           |
+| 0                |
+| 0                |
+| 0                |
+| 10,000           |
+| 30               |
+| 2                |
+| 0                |
++------------------+
+8 rows in set (0.00 sec)
+
+mysql> select FORMAT(money, 0), * from playerAccount;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '* from playerAccount' at line 1
+mysql> select *, FORMAT(money, 0) from playerAccount;
++--------------+----------+-------+------------------+
+| id           | password | money | FORMAT(money, 0) |
++--------------+----------+-------+------------------+
+| asdf         | 1234     | 10000 | 10,000           |
+| 한글테스트   | sd       |     0 | 0                |
+| ddf22        | dd12     |     0 | 0                |
+| kimdahuin12  | 010101   |     0 | 0                |
+| mommy        | sd       | 10000 | 10,000           |
+| sd           | s        |    30 | 30               |
+| sdf          | 1234     |     2 | 2                |
+| sdf123       | 123      |     0 | 0                |
++--------------+----------+-------+------------------+
+8 rows in set (0.00 sec)
+
+mysql> select id FORMAT(money, 0) from playerAccount;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(money, 0) from playerAccount' at line 1
+mysql> select id, FORMAT(money, 0) from playerAccount;
++--------------+------------------+
+| id           | FORMAT(money, 0) |
++--------------+------------------+
+| asdf         | 10,000           |
+| 한글테스트   | 0                |
+| ddf22        | 0                |
+| kimdahuin12  | 0                |
+| mommy        | 10,000           |
+| sd           | 30               |
+| sdf          | 2                |
+| sdf123       | 0                |
++--------------+------------------+
+8 rows in set (0.00 sec)
+
+mysql> select id, FORMAT(money, 0) from playerAccount order by(money);
++--------------+------------------+
+| id           | FORMAT(money, 0) |
++--------------+------------------+
+| 한글테스트   | 0                |
+| ddf22        | 0                |
+| kimdahuin12  | 0                |
+| sdf123       | 0                |
+| sdf          | 2                |
+| sd           | 30               |
+| asdf         | 10,000           |
+| mommy        | 10,000           |
++--------------+------------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT id, FORMAT(money, 0) FROM playerAccount ORDER BY(money) DESC;
++--------------+------------------+
+| id           | FORMAT(money, 0) |
++--------------+------------------+
+| asdf         | 10,000           |
+| mommy        | 10,000           |
+| sd           | 30               |
+| sdf          | 2                |
+| 한글테스트   | 0                |
+| ddf22        | 0                |
+| kimdahuin12  | 0                |
+| sdf123       | 0                |
++--------------+------------------+
+8 rows in set (0.00 sec)
+
+mysql> desc playeraccount;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| id       | varchar(50) | NO   | PRI | NULL    |       |
+| password | varchar(50) | NO   |     | NULL    |       |
+| money    | bigint(11)  | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> ;
+ERROR:
+No query specified---------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+--------------mysql>
+| id    | ▲ 스캐폴라이트 | ◈ 스미스소나이트 | ◎ 시트린 | ◆ 플루라이트 | ● 아메지스트 | ▤ 래피도라이트 | ▣ 스피넬 | ◐ 루비 | □ 가넷 | ＠ 터키석 | ＃ 페리도트 | ▶ 에메랄드 | ◀ 아쿠아마린 | ■ 아주라이트 | ¤ 사파이어 | ▽ 다이아몬드 | ○ 그란디디어라 이트 | ◇ 배니토아이트 |
++-------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| sdfd  |               0 |                 0 |         0 |             0 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             0 |           0 |             0 |                   0 |               0 |
+| asdf  |               0 |                 0 |         0 |             0 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             0 |           0 |             0 |                   0 |               0 |
++-------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into mineralCount values('price', 80000, 60000, 100000, 60000, 100000, 80000, 1700000, 1800000, 1900000, 3000000, 3500000, 4000000, 3500000, 3000000, 4000000, 10000000, 9000000, 8000000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from mineralCount;
++-------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| id    | ▲ 스캐폴라이트 | ◈ 스미스소나이트 | ◎ 시트린 | ◆ 플루라이트 | ● 아메지스트 | ▤ 래피도라이트 | ▣ 스피넬 | ◐ 루비 | □ 가넷 | ＠ 터키석 | ＃ 페리도트 | ▶ 에메랄드 | ◀ 아쿠아마린 | ■ 아주라이트 | ¤ 사파이어 | ▽ 다이아몬드 | ○ 그란디디어라 이트 | ◇ 배니토아이트 |
++-------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| sdfd  |               0 |                 0 |         0 |             0 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             0 |           0 |             0 |                   0 |               0 |
+| asdf  |               0 |                 0 |         0 |             0 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             0 |           0 |             0 |                   0 |               0 |
+| price |           80000 |             60000 |    100000 |         60000 |        100000 |           80000 |   1700000 | 1800000 | 1900000 |   3000000 |     3500000 |     4000000 |       3500000 |       3000000 |     4000000 |      10000000 |             9000000 |         8000000 |
++-------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql> dd;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dd' at line 1
+mysql> insert into mineralCount values('itemCount', 50000, 50000, 50000, 50000, 50000, 50000, 50000, 50000, 50000, 50000, 50000, 50000, 50000, 50000, 50000, 50000, 50000, 50000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from mineralCount;
++-----------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| id        | ▲ 스캐폴라이트 | ◈ 스미스소나이트 | ◎ 시트린 | ◆ 플루라이트 | ● 아메지스트 | ▤ 래피도라이트 | ▣ 스피넬 | ◐  루비 | □ 가넷 | ＠ 터키석 | ＃ 페리도트 | ▶ 에메랄드 | ◀ 아쿠아마린 | ■ 아주라이트 | ¤ 사파이어 | ▽ 다이아몬드 | ○ 그란디디어라이트 | ◇ 배니토아이트 |
++-----------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| sdfd      |               0 |                 0 |         0 |             0 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             0 |           0 |             0 |                   0 |               0 |
+| asdf      |               0 |                 0 |         0 |             0 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             0 |           0 |             0 |                   0 |               0 |
+| price     |           80000 |             60000 |    100000 |         60000 |        100000 |           80000 |   1700000 | 1800000 | 1900000 |   3000000 |     3500000 |     4000000 |       3500000 |       3000000 |     4000000 |      10000000 |             9000000 |         8000000 |
+| itemCount |           50000 |             50000 |     50000 |         50000 |         50000 |           50000 |     50000 |   50000 |   50000 |     50000 |       50000 |       50000 |         50000 |         50000 |       50000 |         50000 |               50000 |           50000 |
++-----------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from mineralCount;
++-----------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| id        | ▲ 스캐폴라이트 | ◈ 스미스소나이트 | ◎ 시트린 | ◆ 플루라이트 | ● 아메지스트 | ▤ 래피도라이트 | ▣ 스피넬 | ◐  루비 | □ 가넷 | ＠ 터키석 | ＃ 페리도트 | ▶ 에메랄드 | ◀ 아쿠아마린 | ■ 아주라이트 | ¤ 사파이어 | ▽ 다이아몬드 | ○ 그란디디어라이트 | ◇ 배니토아이트 |
++-----------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| sdfd      |               0 |                 0 |         0 |             0 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             0 |           0 |             0 |                   0 |               0 |
+| asdf      |               0 |                 0 |         0 |             0 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             0 |           0 |             0 |                   0 |               0 |
+| price     |           80000 |             60000 |    100000 |         60000 |        100000 |           80000 |   1700000 | 1800000 | 1900000 |   3000000 |     3500000 |     4000000 |       3500000 |       3000000 |     4000000 |      10000000 |             9000000 |         8000000 |
+| itemCount |           50000 |             50000 |     50000 |         50000 |         50000 |           50000 |     50000 |   50000 |   50000 |     50000 |       50000 |       50000 |         50000 |         50000 |       50000 |         50000 |               50000 |           50000 |
++-----------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+4 rows in set (0.01 sec)
+
+mysql> UPDATE mineralCount SET ■ 아주라이트=1 WHERE id='■ 아주라이트=1';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '■ 아주라이트=1 WHERE id='■ 아주라이트=1'' at line 1
+mysql> select * from mineralCount;
++-----------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| id        | ▲ 스캐폴라이트 | ◈ 스미스소나이트 | ◎ 시트린 | ◆ 플루라이트 | ● 아메지스트 | ▤ 래피도라이트 | ▣ 스피넬 | ◐  루비 | □ 가넷 | ＠ 터키석 | ＃ 페리도트 | ▶ 에메랄드 | ◀ 아쿠아마린 | ■ 아주라이트 | ¤ 사파이어 | ▽ 다이아몬드 | ○ 그란디디어라이트 | ◇ 배니토아이트 |
++-----------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| sdfd      |               0 |                 0 |         0 |             0 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             0 |           0 |             0 |                   0 |               0 |
+| asdf      |               0 |                 0 |         0 |             0 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             0 |           0 |             0 |                   0 |               0 |
+| price     |           80000 |             60000 |    100000 |         60000 |        100000 |           80000 |   1700000 | 1800000 | 1900000 |   3000000 |     3500000 |     4000000 |       3500000 |       3000000 |     4000000 |      10000000 |             9000000 |         8000000 |
+| itemCount |           50000 |             50000 |     50000 |         50000 |         50000 |           50000 |     50000 |   50000 |   50000 |     50000 |       50000 |       50000 |         50000 |         50000 |       50000 |         50000 |               50000 |           50000 |
++-----------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> insert into mineralCount(id) values("sdf");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from mineralCount;
++-----------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| id        | ▲ 스캐폴라이트 | ◈ 스미스소나이트 | ◎ 시트린 | ◆ 플루라이트 | ● 아메지스트 | ▤ 래피도라이트 | ▣ 스피넬 | ◐  루비 | □ 가넷 | ＠ 터키석 | ＃ 페리도트 | ▶ 에메랄드 | ◀ 아쿠아마린 | ■ 아주라이트 | ¤ 사파이어 | ▽ 다이아몬드 | ○ 그란디디어라이트 | ◇ 배니토아이트 |
++-----------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| sdfd      |               0 |                 0 |         0 |             0 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             0 |           0 |             0 |                   0 |               0 |
+| asdf      |               0 |                 0 |         0 |             0 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             0 |           0 |             0 |                   0 |               0 |
+| price     |           80000 |             60000 |    100000 |         60000 |        100000 |           80000 |   1700000 | 1800000 | 1900000 |   3000000 |     3500000 |     4000000 |       3500000 |       3000000 |     4000000 |      10000000 |             9000000 |         8000000 |
+| itemCount |           50000 |             50000 |     50000 |         50000 |         50000 |           50000 |     50000 |   50000 |   50000 |     50000 |       50000 |       50000 |         50000 |         50000 |       50000 |         50000 |               50000 |           50000 |
+| sdf       |               0 |                 0 |         0 |             0 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             1 |           0 |             0 |                   0 |               0 |
++-----------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from mineralCount;
++-----------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| id        | ▲ 스캐폴라이트 | ◈ 스미스소나이트 | ◎ 시트린 | ◆ 플루라이트 | ● 아메지스트 | ▤ 래피도라이트 | ▣ 스피넬 | ◐  루비 | □ 가넷 | ＠ 터키석 | ＃ 페리도트 | ▶ 에메랄드 | ◀ 아쿠아마린 | ■ 아주라이트 | ¤ 사파이어 | ▽ 다이아몬드 | ○ 그란디디어라이트 | ◇ 배니토아이트 |
++-----------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| sdfd      |               0 |                 0 |         0 |             0 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             0 |           0 |             0 |                   0 |               0 |
+| asdf      |               0 |                 0 |         0 |             0 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             0 |           0 |             0 |                   0 |               0 |
+| price     |           80000 |             60000 |    100000 |         60000 |        100000 |           80000 |   1700000 | 1800000 | 1900000 |   3000000 |     3500000 |     4000000 |       3500000 |       3000000 |     4000000 |      10000000 |             9000000 |         8000000 |
+| itemCount |           50000 |             50000 |     50000 |         50000 |         50000 |           50000 |     50000 |   50000 |   50000 |     50000 |       50000 |       50000 |         50000 |         50000 |       50000 |         50000 |               50000 |           50000 |
+| sdf       |               0 |                 0 |         0 |             2 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             1 |           0 |             0 |                   0 |               0 |
++-----------+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from mineralCount where id="sdf";
++-----+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| id  | ▲ 스캐폴라이트 | ◈ 스미스소나이트 | ◎ 시트린 | ◆ 플루라이트 | ● 아메지스트 | ▤ 래피도라이트 | ▣ 스피넬 | ◐ 루비 | □ 가넷 | ＠ 터키석 | ＃ 페리도트 | ▶ 에메랄드 | ◀ 아쿠아마린 | ■ 아주라이트 | ¤ 사파이어 | ▽ 다이아몬드 | ○ 그란디디어라이 트 | ◇ 배니토아이트 |
++-----+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| sdf |               0 |                 0 |         0 |             2 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             1 |           0 |             0 |                   0 |               0 |
++-----+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+1 row in set (0.00 sec)
+
+mysql> show columns from mineralCount;
++---------------------+------------------+------+-----+---------+-------+
+| Field               | Type             | Null | Key | Default | Extra |
++---------------------+------------------+------+-----+---------+-------+
+| id                  | varchar(50)      | NO   | PRI | NULL    |       |
+| ▲ 스캐폴라이트     | int(11) unsigned | YES  |     | 0       |       |
+| ◈ 스미스소나이트   | int(11) unsigned | YES  |     | 0       |       |
+| ◎ 시트린           | int(11) unsigned | YES  |     | 0       |       |
+| ◆ 플루라이트       | int(11) unsigned | YES  |     | 0       |       |
+| ● 아메지스트       | int(11) unsigned | YES  |     | 0       |       |
+| ▤ 래피도라이트     | int(11) unsigned | YES  |     | 0       |       |
+| ▣ 스피넬           | int(11) unsigned | YES  |     | 0       |       |
+| ◐ 루비             | int(11) unsigned | YES  |     | 0       |       |
+| □ 가넷             | int(11) unsigned | YES  |     | 0       |       |
+| ＠ 터키석           | int(11) unsigned | YES  |     | 0       |       |
+| ＃ 페리도트         | int(11) unsigned | YES  |     | 0       |       |
+| ▶ 에메랄드         | int(11) unsigned | YES  |     | 0       |       |
+| ◀ 아쿠아마린       | int(11) unsigned | YES  |     | 0       |       |
+| ■ 아주라이트       | int(11) unsigned | YES  |     | 0       |       |
+| ¤ 사파이어         | int(11) unsigned | YES  |     | 0       |       |
+| ▽ 다이아몬드       | int(11) unsigned | YES  |     | 0       |       |
+| ○ 그란디디어라이트 | int(11) unsigned | YES  |     | 0       |       |
+| ◇ 배니토아이트     | int(11) unsigned | YES  |     | 0       |       |
++---------------------+------------------+------+-----+---------+-------+
+19 rows in set (0.01 sec)
+
+mysql> SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'minegame_db' AND TABLE_NAME = 'mineralCount';
++---------------------+
+| COLUMN_NAME         |
++---------------------+
+| id                  |
+| ▲ 스캐폴라이트     |
+| ◈ 스미스소나이트   |
+| ◎ 시트린           |
+| ◆ 플루라이트       |
+| ● 아메지스트       |
+| ▤ 래피도라이트     |
+| ▣ 스피넬           |
+| ◐ 루비             |
+| □ 가넷             |
+| ＠ 터키석           |
+| ＃ 페리도트         |
+| ▶ 에메랄드         |
+| ◀ 아쿠아마린       |
+| ■ 아주라이트       |
+| ¤ 사파이어         |
+| ▽ 다이아몬드       |
+| ○ 그란디디어라이트 |
+| ◇ 배니토아이트     |
++---------------------+
+19 rows in set (0.02 sec)
+
+mysql> SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount';
++---------------------+
+| COLUMN_NAME         |
++---------------------+
+| id                  |
+| ▲ 스캐폴라이트     |
+| ◈ 스미스소나이트   |
+| ◎ 시트린           |
+| ◆ 플루라이트       |
+| ● 아메지스트       |
+| ▤ 래피도라이트     |
+| ▣ 스피넬           |
+| ◐ 루비             |
+| □ 가넷             |
+| ＠ 터키석           |
+| ＃ 페리도트         |
+| ▶ 에메랄드         |
+| ◀ 아쿠아마린       |
+| ■ 아주라이트       |
+| ¤ 사파이어         |
+| ▽ 다이아몬드       |
+| ○ 그란디디어라이트 |
+| ◇ 배니토아이트     |
++---------------------+
+19 rows in set (0.01 sec)
+
+mysql> SELECT (COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount', * from mineralCount where id="sdf");
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount', * from minera' at line 1
+mysql> (SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount') UNION (SELECT * FROM mineralCount WHERE id="sdf");
+ERROR 1222 (21000): The used SELECT statements have a different number of columns
+mysql> (SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount');
++---------------------+
+| COLUMN_NAME         |
++---------------------+
+| id                  |
+| ▲ 스캐폴라이트     |
+| ◈ 스미스소나이트   |
+| ◎ 시트린           |
+| ◆ 플루라이트       |
+| ● 아메지스트       |
+| ▤ 래피도라이트     |
+| ▣ 스피넬           |
+| ◐ 루비             |
+| □ 가넷             |
+| ＠ 터키석           |
+| ＃ 페리도트         |
+| ▶ 에메랄드         |
+| ◀ 아쿠아마린       |
+| ■ 아주라이트       |
+| ¤ 사파이어         |
+| ▽ 다이아몬드       |
+| ○ 그란디디어라이트 |
+| ◇ 배니토아이트     |
++---------------------+
+19 rows in set (0.01 sec)
+
+mysql> (SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount') UNION (SELECT * FROM mineralCount WHERE id=`sdf`);
+ERROR 1054 (42S22): Unknown column 'sdf' in 'where clause'
+mysql> (SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount') JOIN (SELECT * FROM mineralCount WHERE id=`sdf`);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'JOIN (SELECT * FROM mineralCount WHERE id=`sdf`)' at line 1
+mysql> (SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount') JOIN (SELECT * FROM mineralCount WHERE id='sdf');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'JOIN (SELECT * FROM mineralCount WHERE id='sdf')' at line 1
+mysql> (SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount') UNION (SELECT * FROM mineralCount WHERE id=`sdf`) ORDER BY 1;
+ERROR 1054 (42S22): Unknown column 'sdf' in 'where clause'
+mysql> (SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount') UNION (SELECT * FROM mineralCount WHERE id=`sdf`) ORDER BY 1
+    -> ;
+ERROR 1054 (42S22): Unknown column 'sdf' in 'where clause'
+mysql> SELECT * FROM mineralCount WHERE id=`sdf`;
+ERROR 1054 (42S22): Unknown column 'sdf' in 'where clause'
+mysql> SELECT * FROM mineralCount WHERE id="sdf";
++-----+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| id  | ▲ 스캐폴라이트 | ◈ 스미스소나이트 | ◎ 시트린 | ◆ 플루라이트 | ● 아메지스트 | ▤ 래피도라이트 | ▣ 스피넬 | ◐ 루비 | □ 가넷 | ＠ 터키석 | ＃ 페리도트 | ▶ 에메랄드 | ◀ 아쿠아마린 | ■ 아주라이트 | ¤ 사파이어 | ▽ 다이아몬드 | ○ 그란디디어라이 트 | ◇ 배니토아이트 |
++-----+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| sdf |               0 |                 0 |         0 |             2 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             1 |           0 |             0 |                   0 |               0 |
++-----+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+1 row in set (0.00 sec)
+
+mysql> (SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount') UNION (SELECT * FROM mineralCount WHERE id="sdf");
+ERROR 1222 (21000): The used SELECT statements have a different number of columns
+mysql> (SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount') JOIN (SELECT * FROM mineralCount WHERE id="sdf");
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'JOIN (SELECT * FROM mineralCount WHERE id="sdf")' at line 1
+mysql> (SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount');
++---------------------+
+| COLUMN_NAME         |
++---------------------+
+| id                  |
+| ▲ 스캐폴라이트     |
+| ◈ 스미스소나이트   |
+| ◎ 시트린           |
+| ◆ 플루라이트       |
+| ● 아메지스트       |
+| ▤ 래피도라이트     |
+| ▣ 스피넬           |
+| ◐ 루비             |
+| □ 가넷             |
+| ＠ 터키석           |
+| ＃ 페리도트         |
+| ▶ 에메랄드         |
+| ◀ 아쿠아마린       |
+| ■ 아주라이트       |
+| ¤ 사파이어         |
+| ▽ 다이아몬드       |
+| ○ 그란디디어라이트 |
+| ◇ 배니토아이트     |
++---------------------+
+19 rows in set (0.01 sec)
+
+mysql> (SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount') UNION (SELECT * FROM mineralCount WHERE id="sdf");
+ERROR 1222 (21000): The used SELECT statements have a different number of columns
+mysql> (SELECT * FROM mineralCount WHERE id="sdf");
++-----+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| id  | ▲ 스캐폴라이트 | ◈ 스미스소나이트 | ◎ 시트린 | ◆ 플루라이트 | ● 아메지스트 | ▤ 래피도라이트 | ▣ 스피넬 | ◐ 루비 | □ 가넷 | ＠ 터키석 | ＃ 페리도트 | ▶ 에메랄드 | ◀ 아쿠아마린 | ■ 아주라이트 | ¤ 사파이어 | ▽ 다이아몬드 | ○ 그란디디어라이 트 | ◇ 배니토아이트 |
++-----+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| sdf |               0 |                 0 |         0 |             2 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             1 |           0 |             0 |                   0 |               0 |
++-----+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount';
++---------------------+
+| COLUMN_NAME         |
++---------------------+
+| id                  |
+| ▲ 스캐폴라이트     |
+| ◈ 스미스소나이트   |
+| ◎ 시트린           |
+| ◆ 플루라이트       |
+| ● 아메지스트       |
+| ▤ 래피도라이트     |
+| ▣ 스피넬           |
+| ◐ 루비             |
+| □ 가넷             |
+| ＠ 터키석           |
+| ＃ 페리도트         |
+| ▶ 에메랄드         |
+| ◀ 아쿠아마린       |
+| ■ 아주라이트       |
+| ¤ 사파이어         |
+| ▽ 다이아몬드       |
+| ○ 그란디디어라이트 |
+| ◇ 배니토아이트     |
++---------------------+
+19 rows in set (0.01 sec)
+
+mysql> SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount' where not column_name=id ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where not column_name=id' at line 1
+mysql> SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount' where not column_name not in("id") ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where not column_name not in("id")' at line 1
+mysql> SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount' where column_name not in("id") ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where column_name not in("id")' at line 1
+mysql> SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount' where column_name not in(id) ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where column_name not in(id)' at line 1
+mysql> SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount' column_name not in(id) ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'column_name not in(id)' at line 1
+mysql> SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount', column_name not in(id) ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ' column_name not in(id)' at line 1
+mysql> SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount' AND column_name not in(id) ;
+ERROR 1054 (42S22): Unknown column 'id' in 'where clause'
+mysql> SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount' AND column_name not in("id") ;
++---------------------+
+| COLUMN_NAME         |
++---------------------+
+| ▲ 스캐폴라이트     |
+| ◈ 스미스소나이트   |
+| ◎ 시트린           |
+| ◆ 플루라이트       |
+| ● 아메지스트       |
+| ▤ 래피도라이트     |
+| ▣ 스피넬           |
+| ◐ 루비             |
+| □ 가넷             |
+| ＠ 터키석           |
+| ＃ 페리도트         |
+| ▶ 에메랄드         |
+| ◀ 아쿠아마린       |
+| ■ 아주라이트       |
+| ¤ 사파이어         |
+| ▽ 다이아몬드       |
+| ○ 그란디디어라이트 |
+| ◇ 배니토아이트     |
++---------------------+
+18 rows in set (0.01 sec)
+
+mysql> SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount' AND column_name not in('id') ;
++---------------------+
+| COLUMN_NAME         |
++---------------------+
+| ▲ 스캐폴라이트     |
+| ◈ 스미스소나이트   |
+| ◎ 시트린           |
+| ◆ 플루라이트       |
+| ● 아메지스트       |
+| ▤ 래피도라이트     |
+| ▣ 스피넬           |
+| ◐ 루비             |
+| □ 가넷             |
+| ＠ 터키석           |
+| ＃ 페리도트         |
+| ▶ 에메랄드         |
+| ◀ 아쿠아마린       |
+| ■ 아주라이트       |
+| ¤ 사파이어         |
+| ▽ 다이아몬드       |
+| ○ 그란디디어라이트 |
+| ◇ 배니토아이트     |
++---------------------+
+18 rows in set (0.01 sec)
+
+mysql> SELECT * FROM mineralCount WHERE id="sdf";
++-----+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| id  | ▲ 스캐폴라이트 | ◈ 스미스소나이트 | ◎ 시트린 | ◆ 플루라이트 | ● 아메지스트 | ▤ 래피도라이트 | ▣ 스피넬 | ◐ 루비 | □ 가넷 | ＠ 터키석 | ＃ 페리도트 | ▶ 에메랄드 | ◀ 아쿠아마린 | ■ 아주라이트 | ¤ 사파이어 | ▽ 다이아몬드 | ○ 그란디디어라이 트 | ◇ 배니토아이트 |
++-----+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| sdf |               0 |                 0 |         0 |             2 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             1 |           0 |             0 |                   0 |               0 |
++-----+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM mineralCount WHERE id="sdf" AND NOT IN("id");
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IN("id")' at line 1
+mysql>
+mysql> SELECT * FROM mineralCount WHERE id="sdf" AND NOT IN(id);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IN(id)' at line 1
+mysql> SELECT * FROM mineralCount WHERE id="sdf" AND NOT IN id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IN id' at line 1
+mysql> SELECT (`▲ 스캐폴라이트`, `◈ 스미스소나이트`, `◎ 시트린`, `◆ 플루라이트`, `● 아메지스트`, `▤ 래피도라이트`, `▣ 스피 넬`, `◐ 루비`, `□ 가넷`, `＠ 터키석`, `＃ 페리도트`, `▶ 에메랄드`, `◀ 아쿠아마린`, `■ 아주라이트`, `¤ 사파이어`, `▽ 다이아 몬드`, `○ 그란디디어라이트`, `◇ 배니토아이트`) FROM mineralCount WHERE id="sdf";
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> SELECT (`▲ 스캐폴라이트`, `◈ 스미스소나이트`, `◎ 시트린`, `◆ 플루라이트`, `● 아메지스트`, `▤ 래피도라이트`, `▣ 스피 넬`, `◐ 루비`, `□ 가넷`, `＠ 터키석`, `＃ 페리도트`, `▶ 에메랄드`, `◀ 아쿠아마린`, `■ 아주라이트`, `¤ 사파이어`, `▽ 다이아 몬드`, `○ 그란디디어라이트`, `◇ 배니토아이트`) FROM mineralCount WHERE id="sdf";
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql> SELECT (`▲ 스캐폴라이트`, `◈ 스미스소나이트`, `◎ 시트린`, `◆ 플루라이트`, `● 아메지스트`, `▤ 래피도라이트`, `▣ 스피 넬`, `◐ 루비`, `□ 가넷`, `＠ 터키석`, `＃ 페리도트`, `▶ 에메랄드`, `◀ 아쿠아마린`, `■ 아주라이트`, `¤ 사파이어`, `▽ 다이아 몬드`, `○ 그란디디어라이트`, `◇ 배니토아이트`) FROM mineralCount WHERE id='sdf';
+ERROR 1241 (21000): Operand should contain 1 column(s)
+mysql>
+mysql> ROW(1, 1)=(SELECT (`▲ 스캐폴라이트`, `◈ 스미스소나이트`, `◎ 시트린`, `◆ 플루라이트`, `● 아메지스트`, `▤ 래피도라이트`, `▣ 스피넬`, `◐ 루비`, `□ 가넷`, `＠ 터키석`, `＃ 페리도트`, `▶ 에메랄드`, `◀ 아쿠아마린`, `■ 아주라이트`, `¤ 사파이어`, `▽ 다이아몬드`, `○ 그란디디어라이트`, `◇ 배니토아이트`) FROM mineralCount WHERE id='sdf');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ROW(1, 1)=(SELECT (`▲ 스캐폴라이트`, `◈ 스미스소나? at line 1
+mysql> 1 or
+    -> ROW(1, 1)=(SELECT (`▲ 스캐폴라이트`, `◈ 스미스소나이트`, `◎ 시트린`, `◆ 플루라이트`, `● 아메지스트`, `▤ 래피도라이트`, `▣ 스피넬`, `◐ 루비`, `□ 가넷`, `＠ 터키석`, `＃ 페리도트`, `▶ 에메랄드`, `◀ 아쿠아마린`, `■ 아주라이트`, `¤ 사파이어`, `▽ 다이아몬드`, `○ 그란디디어라이트`, `◇ 배니토아이트`) FROM mineralCount WHERE id='sdf');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1 or
+ROW(1, 1)=(SELECT (`▲ 스캐폴라이트`, `◈ 스미스소' at line 1
+mysql> type = 1 or
+    ->
+    -> ROW(1, 1)=(SELECT (`▲ 스캐폴라이트`, `◈ 스미스소나이트`, `◎ 시트린`, `◆ 플루라이트`, `● 아메지스트`, `▤ 래피도라이트`, `▣ 스피넬`, `◐ 루비`, `□ 가넷`, `＠ 터키석`, `＃ 페리도트`, `▶ 에메랄드`, `◀ 아쿠아마린`, `■ 아주라이트`, `¤ 사파이어`, `▽ 다이아몬드`, `○ 그란디디어라이트`, `◇ 배니토아이트`) FROM mineralCount WHERE id='sdf');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'type = 1 or
+
+ROW(1, 1)=(SELECT (`▲ 스캐폴라이트`, `◈ 스미' at line 1
+mysql> type=
+    -> ROW(1, 1)=(SELECT (`▲ 스캐폴라이트`, `◈ 스미스소나이트`, `◎ 시트린`, `◆ 플루라이트`, `● 아메지스트`, `▤ 래피도라이트`, `▣ 스피넬`, `◐ 루비`, `□ 가넷`, `＠ 터키석`, `＃ 페리도트`, `▶ 에메랄드`, `◀ 아쿠아마린`, `■ 아주라이트`, `¤ 사파이어`, `▽ 다이아몬드`, `○ 그란디디어라이트`, `◇ 배니토아이트`) FROM mineralCount WHERE id='sdf');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'type=
+ROW(1, 1)=(SELECT (`▲ 스캐폴라이트`, `◈ 스미스소' at line 1
+mysql> SELECT `▲ 스캐폴라이트`, `◈ 스미스소나이트`, `◎ 시트린`, `◆ 플루라이트`, `● 아메지스트`, `▤ 래피도라이트`, `▣ 스피넬`, `◐ 루비`, `□ 가넷`, `＠ 터키석`, `＃ 페리도트`, `▶ 에메랄드`, `◀ 아쿠아마린`, `■ 아주라이트`, `¤ 사파이어`, `▽ 다이아몬 드`, `○ 그란디디어라이트`, `◇ 배니토아이트` FROM mineralCount WHERE id="sdf";;+-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| ▲ 스캐폴라이트 | ◈ 스미스소나이트 | ◎ 시트린 | ◆ 플루라이트 | ● 아메지스트 | ▤ 래피도라이트 | ▣ 스피넬 | ◐ 루비 | □ 가 넷 | ＠ 터키석 | ＃ 페리도트 | ▶ 에메랄드 | ◀ 아쿠아마린 | ■ 아주라이트 | ¤ 사파이어 | ▽ 다이아몬드 | ○ 그란디디어라이트 |  ◇ 배니토아이트 |
++-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+|               0 |                 0 |         0 |             2 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             1 |           0 |             0 |                   0 |               0 |
++-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT `▲ 스캐폴라이트`, `◈ 스미스소나이트`, `◎ 시트린`, `◆ 플루라이트`, `● 아메지스트`, `▤ 래피도라이트`, `▣ 스피넬`, `◐ 루비`, `□ 가넷`, `＠ 터키석`, `＃ 페리도트`, `▶ 에메랄드`, `◀ 아쿠아마린`, `■ 아주라이트`, `¤ 사파이어`, `▽ 다이아몬 드`, `○ 그란디디어라이트`, `◇ 배니토아이트` FROM mineralCount WHERE id="sdf";
++-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+| ▲ 스캐폴라이트 | ◈ 스미스소나이트 | ◎ 시트린 | ◆ 플루라이트 | ● 아메지스트 | ▤ 래피도라이트 | ▣ 스피넬 | ◐ 루비 | □ 가 넷 | ＠ 터키석 | ＃ 페리도트 | ▶ 에메랄드 | ◀ 아쿠아마린 | ■ 아주라이트 | ¤ 사파이어 | ▽ 다이아몬드 | ○ 그란디디어라이트 |  ◇ 배니토아이트 |
++-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+|               0 |                 0 |         0 |             2 |             0 |               0 |         0 |       0 |       0 |         0 |           0 |           0 |             0 |             1 |           0 |             0 |                   0 |               0 |
++-----------------+-------------------+-----------+---------------+---------------+-----------------+-----------+---------+---------+-----------+-------------+-------------+---------------+---------------+-------------+---------------+---------------------+-----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount' AND column_name not in('id');
++---------------------+
+| COLUMN_NAME         |
++---------------------+
+| ▲ 스캐폴라이트     |
+| ◈ 스미스소나이트   |
+| ◎ 시트린           |
+| ◆ 플루라이트       |
+| ● 아메지스트       |
+| ▤ 래피도라이트     |
+| ▣ 스피넬           |
+| ◐ 루비             |
+| □ 가넷             |
+| ＠ 터키석           |
+| ＃ 페리도트         |
+| ▶ 에메랄드         |
+| ◀ 아쿠아마린       |
+| ■ 아주라이트       |
+| ¤ 사파이어         |
+| ▽ 다이아몬드       |
+| ○ 그란디디어라이트 |
+| ◇ 배니토아이트     |
++---------------------+
+18 rows in set (0.01 sec)
+
+mysql> select * from playeaccount;
+ERROR 1146 (42S02): Table 'minegame_db.playeaccount' doesn't exist
+mysql> select * from playeraccount;
++--------------+----------+-------+
+| id           | password | money |
++--------------+----------+-------+
+| asdf         | 1234     | 10000 |
+| 한글테스트   | sd       |     0 |
+| ddf22        | dd12     |     0 |
+| kimdahuin12  | 010101   |     0 |
+| mommy        | sd       | 10000 |
+| sd           | s        |    30 |
+| sdf          | 1234     |     2 |
+| sdf123       | 123      |     0 |
++--------------+----------+-------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT * FROM playeraccount where id = 'sdf';
++------+----------+-------+
+| id   | password | money |
++------+----------+-------+
+| sdf  | 1234     |     2 |
++------+----------+-------+
+1 row in set (0.00 sec)
+
+mysql> CREATE TABLE mineInfo (
+    -> id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    -> `mine_name` varchar(30) NOT NULL,
+    -> `entrance_price` int(11) DEFAULT 0,
+    -> `entrance_condition` int(11) DEFAULT 0,
+    -> `mineral_produce` int(11) NOT NULL,
+    -> `mineral_delete` int(11) NOT NULL,
+    -> `yellow_percentage` decimal(4, 2) NOT NULL,
+    -> `violet_percentage` decimal(4, 2) NOT NULL,
+    -> `red_percentage` decimal(4, 2) NOT NULL,
+    -> `green_percentage` decimal(4, 2) NOT NULL,
+    -> `blue_percentage` decimal(4, 2) NOT NULL,
+    -> `skyblue_percentage` decimal(4, 2) NOT NULL
+    -> )ENGINE=MYISAM CHARSET=utf8;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into mineInfo values(1, 5000, 0, 2, 3, 45.0, 45.0, 4.9, 2.5, 2.5, 0.1);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into mineInfo values(1, "일반 광산", 5000, 0, 2, 3, 45.0, 45.0, 4.9, 2.5, 2.5, 0.1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from mineInfo;
++----+-----------+----------------+--------------------+-----------------+----------------+-------------------+-------------------+----------------+------------------+-----------------+--------------------+
+| id | mine_name | entrance_price | entrance_condition | mineral_produce | mineral_delete | yellow_percentage | violet_percentage | red_percentage | green_percentage | blue_percentage | skyblue_percentage |
++----+-----------+----------------+--------------------+-----------------+----------------+-------------------+-------------------+----------------+------------------+-----------------+--------------------+
+|  1 | 일반 광산 |           5000 |                  0 |               2 |              3 |             45.00 |             45.00 |           4.90 |             2.50 |            2.50 |               0.10 |
++----+-----------+----------------+--------------------+-----------------+----------------+-------------------+-------------------+----------------+------------------+-----------------+--------------------+
+1 row in set (0.00 sec)
+
+mysql> insert into mineInfo values(1, "조금 깊은 광산", 10000, 20, 4, 4, 35.0, 35.0, 23.5, 3.0, 3.0, 0.5);
+ERROR 1062 (23000): Duplicate entry '1' for key 'PRIMARY'
+mysql> insert into mineInfo values(2, "조금 깊은 광산", 10000, 20, 4, 4, 35.0, 35.0, 23.5, 3.0, 3.0, 0.5);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into mineInfo values(3, "깊은 광산", 50000, 500, 5, 5, 30.0, 30.0, 30.6, 4.4, 4.4, 0.6);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into mineInfo values(4, "많이 깊은 광산", 100000, 1000, 5, 5, 30.0, 30.0, 30.6, 4.4, 4.4, 0.6);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into mineInfo values(5, "매우 많이 깊은 광산", 150000, 5000, 5, 5, 30.0, 30.0, 30.6, 4.4, 4.4, 0.6);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from mineInfo;
++----+---------------------+----------------+--------------------+-----------------+----------------+-------------------+-------------------+----------------+------------------+-----------------+--------------------+
+| id | mine_name           | entrance_price | entrance_condition | mineral_produce | mineral_delete | yellow_percentage | violet_percentage | red_percentage | green_percentage | blue_percentage | skyblue_percentage |
++----+---------------------+----------------+--------------------+-----------------+----------------+-------------------+-------------------+----------------+------------------+-----------------+--------------------+
+|  1 | 일반 광산           |           5000 |                  0 |               2 |              3 |             45.00 |             45.00 |           4.90 |             2.50 |            2.50 |               0.10 |
+|  2 | 조금 깊은 광산      |          10000 |                 20 |               4 |              4 |             35.00 |             35.00 |          23.50 |             3.00 |            3.00 |               0.50 |
+|  3 | 깊은 광산           |          50000 |                500 |               5 |              5 |             30.00 |             30.00 |          30.60 |             4.40 |            4.40 |               0.60 |
+|  4 | 많이 깊은 광산      |         100000 |               1000 |               5 |              5 |             30.00 |             30.00 |          30.60 |             4.40 |            4.40 |               0.60 |
+|  5 | 매우 많이 깊은 광산 |         150000 |               5000 |               5 |              5 |             30.00 |             30.00 |          30.60 |             4.40 |            4.40 |               0.60 |
++----+---------------------+----------------+--------------------+-----------------+----------------+-------------------+-------------------+----------------+------------------+-----------------+--------------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT `mine_name`, `entrance_price`, `mineral_produce`, `mineral_delete`, `yellow_percentage`, `violet_percentage`, `red_percentage`, `green_percentage`, "`blue_percentage`, `skyblue_percentage` FROM mineinfo where id = sdf'
+    "> ;
+    "> "
+    -> ;
+ERROR 1054 (42S22): Unknown column 'mine_name' in 'field list'
+mysql> SELECT `mine_name`, `entrance_price`, `mineral_produce`, `mineral_delete`, `yellow_percentage`, `violet_percentage`, `red_percentage`, `green_percentage`, "`blue_percentage`, `skyblue_percentage` FROM mineinfo where id = 'sdf';
+    "> ㄴ
+    "> ㄴ
+    ">
+    "> "
+    -> ;
+ERROR 1054 (42S22): Unknown column 'mine_name' in 'field list'
+mysql> SELECT `mine_name`, `entrance_price`, `mineral_produce`, `mineral_delete`, `yellow_percentage`, `violet_percentage`, `red_percentage`, `green_percentage`, `blue_percentage`, `skyblue_percentage` FROM mineinfo where id = 'sdf';
+Empty set (0.01 sec)
+
+mysql> SELECT `mine_name`, `entrance_price`, `mineral_produce`, `mineral_delete`, `yellow_percentage`, `violet_percentage`, `red_percentage`, `green_percentage`, `blue_percentage`, `skyblue_percentage` FROM mineinfo where id = 1;
++-----------+----------------+-----------------+----------------+-------------------+-------------------+----------------+------------------+-----------------+--------------------+
+| mine_name | entrance_price | mineral_produce | mineral_delete | yellow_percentage | violet_percentage | red_percentage | green_percentage | blue_percentage | skyblue_percentage |
++-----------+----------------+-----------------+----------------+-------------------+-------------------+----------------+------------------+-----------------+--------------------+
+| 일반 광산 |           5000 |               2 |              3 |             45.00 |             45.00 |           4.90 |             2.50 |            2.50 |               0.10 |
++-----------+----------------+-----------------+----------------+-------------------+-------------------+----------------+------------------+-----------------+--------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT `entrance_price`, `mine_name`, `mineral_produce`, `mineral_delete`, `yellow_percentage`, `violet_percentage`, `red_percentage`, `green_percentage`, `blue_percentage`, `skyblue_percentage` FROM mineinfo where id = 1;
++----------------+-----------+-----------------+----------------+-------------------+-------------------+----------------+------------------+-----------------+--------------------+
+| entrance_price | mine_name | mineral_produce | mineral_delete | yellow_percentage | violet_percentage | red_percentage | green_percentage | blue_percentage | skyblue_percentage |
++----------------+-----------+-----------------+----------------+-------------------+-------------------+----------------+------------------+-----------------+--------------------+
+|           5000 | 일반 광산 |               2 |              3 |             45.00 |             45.00 |           4.90 |             2.50 |            2.50 |               0.10 |
++----------------+-----------+-----------------+----------------+-------------------+-------------------+----------------+------------------+-----------------+--------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT `mine_name`, `entrance_price`, `mineral_produce`, `mineral_delete`, `yellow_percentage`, `violet_percentage`, `red_percentage`, `green_percentage`, `blue_percentage`, `skyblue_percentage` FROM mineinfo where id = 1;
++-----------+----------------+-----------------+----------------+-------------------+-------------------+----------------+------------------+-----------------+--------------------+
+| mine_name | entrance_price | mineral_produce | mineral_delete | yellow_percentage | violet_percentage | red_percentage | green_percentage | blue_percentage | skyblue_percentage |
++-----------+----------------+-----------------+----------------+-------------------+-------------------+----------------+------------------+-----------------+--------------------+
+| 일반 광산 |           5000 |               2 |              3 |             45.00 |             45.00 |           4.90 |             2.50 |            2.50 |               0.10 |
++-----------+----------------+-----------------+----------------+-------------------+-------------------+----------------+------------------+-----------------+--------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from playerAccount;
++--------------+----------+-------+
+| id           | password | money |
++--------------+----------+-------+
+| asdf         | 1234     | 10000 |
+| 한글테스트   | sd       |     0 |
+| ddf22        | dd12     |     0 |
+| gg           | gg       | 10000 |
+| kimdahuin12  | 010101   |     0 |
+| mommy        | sd       | 10000 |
+| sd           | s        |    30 |
+| sdf          | 1234     |     2 |
+| sdf123       | 123      |     0 |
++--------------+----------+-------+
+9 rows in set (0.00 sec)
+
+mysql> select * from playerAccount;
++--------------+----------+-------+
+| id           | password | money |
++--------------+----------+-------+
+| asdf         | 1234     | 10000 |
+| 한글테스트   | sd       |     0 |
+| ddf22        | dd12     |     0 |
+| gg           | gg       | 10000 |
+| kimdahuin12  | 010101   |     0 |
+| mommy        | sd       | 10000 |
+| sd           | s        |    30 |
+| sdf          | 1234     |     2 |
+| sdf123       | 123      |     0 |
++--------------+----------+-------+
+9 rows in set (0.00 sec)
+
+mysql>

@@ -8,7 +8,6 @@
 #define MINE_COUNT 3
 #define ROAD "  "
 #define PLAYER_CHARACTER "¡Ü"
-
 /*
 #define COORDINATE_TOP 4  //°ÔÀÓ ÁÂÇ¥ÀÇ ¸Ç À§ ÁÂÇ¥ ±âº».
 #define COORDINATE_LEFT 70  //°ÔÀÓ ÁÂÇ¥ÀÇ ¸Ç ¿ÞÂÊ ÁÂÇ¥ ±âº».
@@ -40,7 +39,7 @@ enum COLOR {
 	DARK_SKYBLUE,
 	DARK_RED,
 	DARK_VIOLET,
-	DAKR_YELLOW,
+	DARK_YELLOW,
 	GRAY,
 	DARK_GRAY,
 	BLUE,

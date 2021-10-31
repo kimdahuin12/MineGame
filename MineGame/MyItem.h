@@ -2,6 +2,8 @@
 #pragma once
 #include <iostream>
 //내가 가지고 있는 물건의 갯수를 세기 위한 클래스
+
+//아이템의 갯수를 저장
 class MyItem
 {
 private:

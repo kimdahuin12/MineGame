@@ -137,41 +137,37 @@ int main() {
 		cout << endl;
 		//메뉴 선택 방향 이동과 메뉴 선택 번호 업데이트 관련 END
 		switch (sel) {
-		case 1:
+		case 1:														//회원가입
 			reverseScene();
 			//회원가입. (회원가입 후 DB에 저장하는 함수)
 			MysqlDatabase::create_account();
 			reverseScene();
 			break;
-		case 2:
+		case 2:														//로그인
 			reverseScene();
 			//로그인 성공하면 게임 시작
-			if (MysqlDatabase::login()) {
+			char id[50];
+			unsigned long money;
+			if (MysqlDatabase::login(id, money)) { //로그인을 했다면 로그인된 아이디와 money 저장후 true, 아니면 false를 return 
 				//로그인 성공
-				player = new Player();
-				MysqlDatabase::playerInit(*player); //플레이어 아이템, 돈, 등등 설정하기
+				player = new Player(id, money);
+				MysqlDatabase::playerInit(player); //플레이어 아이템, 돈, 등등 설정하기
 				StartGame();
 				LogOut();
 			}
-			else {
-				gotoXY(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-				cout << "로그인 실패" << endl;
-				reverseScene();
-			}
-			
 			break;
-		case 3:
+		case 3:														//랭킹
 			reverseScene();
 			MysqlDatabase::ranking_print();
 			reverseScene();
 			break;
-		case 4:
+		case 4:														//설정
 			system("pause"); system("cls"); playingShuffleSound(); cout << endl;
 			//효과음 끄기 켜기, 배경음악 끄기 켜기
 			setting();
 			cout << endl; system("pause"); system("cls");
 			break;
-		case 5:
+		case 5:														//종료
 			system("pause"); system("cls"); playingShuffleSound(); cout << endl;
 			Destroy();
 			return 0;
@@ -238,11 +234,6 @@ void fileReadAndPrint(string fileName) {
 //MINEGAME 시작
 void StartGame()
 {
-	//file로 불러와서 시작화면 띄우기.
-	
-
-	//Sleep(1000);
-
 	int sel; //선택용 변수
 	int selX;
 	int selY;
@@ -252,14 +243,6 @@ void StartGame()
 		selX = 57;
 		selY = 12;
 		cout << endl;
-		//gotoXY(55, 8);
-		//gotoXY(selX, selY); //광물 수확
-		//gotoXY(selX, selY + 2);//상점
-		//gotoXY(selX, selY + 4);//내 가방
-		//gotoXY(selX, selY + 6);//게임 나가기
-		//gotoXY(55, 22);
-		//gotoXY(55, 24);
-		//cout << "선택 (SpaceBar) >> ";
 		gotoXY(75, 24);
 		cout << '1';
 		sel = 1;
@@ -297,25 +280,26 @@ void StartGame()
 		//메뉴 선택 방향 이동과 메뉴 선택 번호 업데이트 관련 END
 
 		switch (sel) {
-		case 1:
+		case 1:															//광산 입장
 			reverseScene();
 			GoMining();
 			cout << endl; system("cls");
 			break;
-		case 2:
+		case 2:															//상점
 			reverseScene();
 			//Market();
 			reverseScene();
 			break;
-		case 3:
+		case 3:															//인벤토리
 			reverseScene();
 			//MyInfo
 			player->Inventory();
 			reverseScene();
 			break;
-		case 4:
-			reverseScene();
+		case 4:															//로그아웃
+  			reverseScene();
 			//로그아웃 후 메뉴화면으로 이동
+			MysqlDatabase::playerMineralSave(player->getInventory(), player->getItemCount(), player->getId()); //광물의 갯수를 db에 저장
 			delete player;
 			cout << "메뉴 화면으로 이동합니다." << endl;
 			reverseScene();
@@ -346,15 +330,15 @@ void GoMining()
 		selX = 57; selY = 12;
 
 		gotoXY(selX, selY);
-		cout << "> 1. 일반 광산" << endl;
+		cout << "> 1. 일반 광산 - 입장비용 :5,000원" << endl;
 		gotoXY(selX, selY + 2);
-		cout << "  2. 중급 광산" << endl;
+		cout << "  2. 중급 광산 - 입장비용 :10,000원" << endl;
 		gotoXY(selX, selY + 4);
-		cout << "  3. 고급 광산" << endl;
+		cout << "  3. 고급 광산 - 입장비용 :50,000원" << endl;
 		gotoXY(selX, selY + 6);
-		cout << "  4. 테스트1 광산" << endl;
+		cout << "  4. 테스트1 광산 - 입장비용 :100,000원" << endl;
 		gotoXY(selX, selY + 8);
-		cout << "  5. 테스트2 광산" << endl;
+		cout << "  5. 테스트2 광산 - 입장비용 :150,000원" << endl;
 		gotoXY(selX, selY + 10);
 		cout << "  6. 나가기" << endl;
 		gotoXY(35, 12 + 22);
@@ -400,21 +384,45 @@ void GoMining()
 			return; 
 		}
 		//들어갈 수 있는지 확인
-		char* mineName = player->MineAuthorityCheck(sel);
 
-		if (mineName == nullptr) {
-			system("pause"); system("cls"); playingShuffleSound();
-			gotoXY(50, 50);
-			cout << "들어갈 수 없는 광산" << endl;
-			system("pause"); system("cls");
+		//고른 번호에 맞게 db에서 조회해서 필요한 광물의 갯수를 가져온다.
+		int mineral_condision = MysqlDatabase::MineralCondition(sel);
+
+		if (player->MineAuthorityCheck(mineral_condision)) {
+			//광산에 들어갈 수 있다면
+			//Mine객체를 만들고 초기화
+			mine = new Mine(player, sel);
+			MysqlDatabase::MineInfoSave(*mine, sel);			//db에서 mine의 정보를 불러와서 mine객체의 변수에 저장
+			bool decMoney = player->decreaseMoney(mine->getEntrancePrice()); //입장 비용 감소
+			if (decMoney) {
+				//감소가 됐으면 게임 시작. 아니면 다시 들어갈 광산을 입력받음
+				break;
+			}
+			else {
+				delete mine;
+			}
 		}
 		else {
-			//광산 생성
-			mine = new Mine(mineName, player);
-			break;
+			//광산에 들어갈 수 없다면
+			reverseScene();
+			gotoXY(50, 50);
+			cout << "들어갈 수 없는 광산" << endl;
+			reverseScene();
 		}
+
+		//if (mineName == nullptr) {
+		//	/*reverseScene();
+		//	gotoXY(50, 50);
+		//	cout << "들어갈 수 없는 광산" << endl;
+		//	reverseScene();*/
+		//}
+		//else { //들어갈 수 있음
+		//	//광산 생성
+		//	mine = new Mine(mineName, player);
+		//	break;
+		//}
 	}
-	system("pause"); system("cls");
+	reverseScene();
 
 	GameInit();
 	while (true) {

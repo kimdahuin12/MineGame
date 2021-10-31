@@ -3,76 +3,92 @@
 //광산의 벽부분?에 닿으면 돈이 감소되는 ㄴ
 //아니면 광산에 몬스터가 따라와서 몬스터를 피하면서 먹어야하게 하기!!
 
-Mine::Mine(const char* mineName, Player* player) {
+Mine::Mine(Player* player, int id) {
 	this->player = player;
 	playerX = 25;
 	playerY = 5;
 	mineBool = true;
 
-	//광산 이름
-	this->mineName = new char[strlen(mineName) + 1];
-	strcpy(this->mineName, mineName);
-	if (!strcmp(mineName, "일반 광산")) {
-		produceMineralSec = 2;
-		deleteMineralSec = 3;
-		//광물 색에 따른 확률.
-		mineralPercentage[DARK_BLUE] = 45.0f;
-		mineralPercentage[DARK_VIOLET] = 45.0f;
-		mineralPercentage[DARK_RED] = 4.9f;
-		mineralPercentage[DARK_GREEN] = 2.5f;
-		mineralPercentage[DAKR_YELLOW] = 2.5f;
-		mineralPercentage[DARK_SKYBLUE] = 0.1f;
-		fileName = "test1.txt";
-	}
-	else if (!strcmp(mineName, "중급 광산")) {
-		produceMineralSec = 4;
-		deleteMineralSec = 4;
-		mineralPercentage[DARK_BLUE] = 35.0f;
-		mineralPercentage[DARK_VIOLET] = 35.0f;
-		mineralPercentage[DARK_RED] = 23.5f;
-		mineralPercentage[DARK_GREEN] = 3.0f;
-		mineralPercentage[DAKR_YELLOW] = 3.0f;
-		mineralPercentage[DARK_SKYBLUE] = 0.5f;
-		fileName = "test2.txt";
-	}
-	else if (!strcmp(mineName, "고급 광산")) {
-		produceMineralSec = 5;
-		deleteMineralSec = 5;
-		mineralPercentage[DARK_BLUE] = 30.0f;
-		mineralPercentage[DARK_VIOLET] = 30.0f;
-		mineralPercentage[DARK_RED] = 29.0f;
-		mineralPercentage[DARK_GREEN] = 5.0f;
-		mineralPercentage[DAKR_YELLOW] = 5.0f;
-		mineralPercentage[DARK_SKYBLUE] = 1.0f;
-		fileName = "test3.txt";
-	}
-	else if (!strcmp(mineName, "테스트1 광산")) {
-		produceMineralSec = 5;
-		deleteMineralSec = 5;
-		mineralPercentage[DARK_BLUE] = 30.0f;
-		mineralPercentage[DARK_VIOLET] = 30.0f;
-		mineralPercentage[DARK_RED] = 29.0f;
-		mineralPercentage[DARK_GREEN] = 5.0f;
-		mineralPercentage[DAKR_YELLOW] = 5.0f;
-		mineralPercentage[DARK_SKYBLUE] = 1.0f;
-		fileName = "test3.txt";
-	}
-	else if (!strcmp(mineName, "테스트2 광산")) {
-		produceMineralSec = 5;
-		deleteMineralSec = 5;
-		mineralPercentage[DARK_BLUE] = 30.0f;
-		mineralPercentage[DARK_VIOLET] = 30.0f;
-		mineralPercentage[DARK_RED] = 29.0f;
-		mineralPercentage[DARK_GREEN] = 5.0f;
-		mineralPercentage[DAKR_YELLOW] = 5.0f;
-		mineralPercentage[DARK_SKYBLUE] = 1.0f;
-		fileName = "test3.txt";
-	}
+	this->id = id;
+
+	//
+	////광산 이름
+	//this->mineName = new char[strlen(mineName) + 1];
+	//strcpy(this->mineName, mineName);
+	//if (!strcmp(mineName, "일반 광산")) {
+	//	produceMineralSec = 2;
+	//	deleteMineralSec = 3;
+	//	//광물 색에 따른 확률.
+	//	mineralPercentage[YELLOW] = 45.0f;
+	//	mineralPercentage[DARK_VIOLET] = 45.0f;
+	//	mineralPercentage[DARK_RED] = 4.9f;
+	//	mineralPercentage[DARK_GREEN] = 2.5f;
+	//	mineralPercentage[DARK_BLUE] = 2.5f;
+	//	mineralPercentage[DARK_SKYBLUE] = 0.1f;
+	//	fileName = "test1.txt";
+	//}
+	//else if (!strcmp(mineName, "중급 광산")) {
+	//	produceMineralSec = 4;
+	//	deleteMineralSec = 4;
+	//	mineralPercentage[YELLOW] = 35.0f;
+	//	mineralPercentage[DARK_VIOLET] = 35.0f;
+	//	mineralPercentage[DARK_RED] = 23.5f;
+	//	mineralPercentage[DARK_GREEN] = 3.0f;
+	//	mineralPercentage[DARK_BLUE] = 3.0f;
+	//	mineralPercentage[DARK_SKYBLUE] = 0.5f;
+	//	fileName = "test2.txt";
+	//}
+	//else if (!strcmp(mineName, "고급 광산")) {
+	//	produceMineralSec = 5;
+	//	deleteMineralSec = 5;
+	//	mineralPercentage[YELLOW] = 30.0f;
+	//	mineralPercentage[DARK_VIOLET] = 30.0f;
+	//	mineralPercentage[DARK_RED] = 29.0f;
+	//	mineralPercentage[DARK_GREEN] = 5.0f;
+	//	mineralPercentage[DARK_BLUE] = 5.0f;
+	//	mineralPercentage[DARK_SKYBLUE] = 1.0f;
+	//	fileName = "test3.txt";
+	//}
+	//else if (!strcmp(mineName, "테스트1 광산")) {
+	//	produceMineralSec = 5;
+	//	deleteMineralSec = 5;
+	//	mineralPercentage[YELLOW] = 30.0f;
+	//	mineralPercentage[DARK_VIOLET] = 30.0f;
+	//	mineralPercentage[DARK_RED] = 29.0f;
+	//	mineralPercentage[DARK_GREEN] = 5.0f;
+	//	mineralPercentage[DARK_BLUE] = 5.0f;
+	//	mineralPercentage[DARK_SKYBLUE] = 1.0f;
+	//	fileName = "test3.txt";
+	//}
+	//else if (!strcmp(mineName, "테스트2 광산")) {
+	//	produceMineralSec = 5;
+	//	deleteMineralSec = 5;
+	//	mineralPercentage[YELLOW] = 30.0f;
+	//	mineralPercentage[DARK_VIOLET] = 30.0f;
+	//	mineralPercentage[DARK_RED] = 29.0f;
+	//	mineralPercentage[DARK_GREEN] = 5.0f;
+	//	mineralPercentage[DARK_BLUE] = 5.0f;
+	//	mineralPercentage[DARK_SKYBLUE] = 1.0f;
+	//	fileName = "test3.txt";
+	//}
 }
 Mine::~Mine() {
 	delete mineName;
 }
  
+//초기화 & player money
+void Mine::SetMineInfo(int price, char* name, int produceSec, int deleteSec, float* percentage) {
+	this->entrancePrice = price;
+	this->mineName = new char[strlen(name) + 1];
+	strcpy(this->mineName, name);										//광산 이름
+	produceMineralSec = produceSec;							//몇초사이마다 랜덤으로 광물이 나오게할지
+	deleteMineralSec = deleteSec;							//몇초사이마다 랜덤으로 광물을 삭제할지
+	for (int i = 0; i < MINERAL_ITEM_COUNT + 1; i++) {
+		mineralPercentage[i] = percentage[i];
+	}
+ 	sprintf(fileName, "%dminePrint.txt", id); //문제
+}
+
 void Mine::MineInit() {
 	//광산을 세팅한다.
 
@@ -174,7 +190,7 @@ int Mine::KeyInputRelated() {
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), EMPTY);
 			gotoXY(0, 0);
 			cout << "수확한 광물>>  " << mineral << "                                                       ";
-			(*player).AddMineral(mineral); //플레이어에게 그 광물을 추가한다.
+			player->AddMineral(mineral); //플레이어에게 그 광물을 추가한다.
 		}
 		//플레이어가 움직인 곳으로 세팅
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), YELLOW);
@@ -255,6 +271,9 @@ char* Mine::randomMineral(int mineralItem) {
 	return res_mineralName;
 }
 
+int Mine::getEntrancePrice() {
+	return entrancePrice;
+}
 
 void Mine::Update() {
 	enemy.Update(playerX, playerY, ground, &mineBool);
@@ -283,11 +302,11 @@ void Mine::Update() {
 		//item(광물의 색)을 랜덤으로 정해줌
 		float randomItem = rand() % 10001; //0 ~ 10000
 		if (randomItem <= (mineralPercentage[DARK_SKYBLUE]*100)) { item[mineralY][mineralX] = DARK_SKYBLUE; } //가장 희귀한 광물
-		else if (randomItem <= (mineralPercentage[DAKR_YELLOW] * 100)) { item[mineralY][mineralX] = DAKR_YELLOW; }
+		else if (randomItem <= (mineralPercentage[DARK_BLUE] * 100)) { item[mineralY][mineralX] = DARK_BLUE; }
 		else if (randomItem <= (mineralPercentage[DARK_GREEN] * 100)) { item[mineralY][mineralX] = DARK_GREEN; }
 		else if (randomItem <= (mineralPercentage[DARK_RED] * 100)) { item[mineralY][mineralX] = DARK_RED; }
 		else if (randomItem <= (mineralPercentage[DARK_VIOLET] * 100)) { item[mineralY][mineralX] = DARK_VIOLET; }
-		else{ item[mineralY][mineralX] = DARK_BLUE; }
+		else{ item[mineralY][mineralX] = DARK_YELLOW; }
 
 		mineralManager.AddMineral(randomMineral(item[mineralY][mineralX]), mineralX, mineralY);//랜덤 광물 생성해서 생성된 광물 추가
 	}
