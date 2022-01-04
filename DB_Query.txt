@@ -1,0 +1,2 @@
+CREATE DATABASE minegame_db default CHARACTER SET UTF8;
+

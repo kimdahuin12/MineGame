@@ -1,47 +1,6 @@
-﻿  Enemy.cpp
-D:\cppProject\MineGame\MineGame\Enemy.cpp(31,38): warning C4244: '=': 'clock_t'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  gameGlobal.cpp
-D:\cppProject\MineGame\MineGame\gameGlobal.cpp(3,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-D:\cppProject\MineGame\MineGame\gameGlobal.cpp(3,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-  main.cpp
-D:\cppProject\MineGame\MineGame\mineralInfo.h(19,67): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(27,70): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(35,74): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(44,66): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(52,72): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(60,72): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\main.cpp(52,96): warning C4311: '형식 캐스트': 'LPVOID'에서 'DWORD'(으)로 포인터가 잘립니다.
-D:\cppProject\MineGame\MineGame\main.cpp(52,96): warning C4302: '형식 캐스트': 'LPVOID'에서 'DWORD'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\main.cpp(54,77): warning C4311: '형식 캐스트': 'LPVOID'에서 'DWORD'(으)로 포인터가 잘립니다.
-D:\cppProject\MineGame\MineGame\main.cpp(54,77): warning C4302: '형식 캐스트': 'LPVOID'에서 'DWORD'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\main.cpp(56,71): warning C4311: '형식 캐스트': 'LPVOID'에서 'DWORD'(으)로 포인터가 잘립니다.
-D:\cppProject\MineGame\MineGame\main.cpp(56,71): warning C4302: '형식 캐스트': 'LPVOID'에서 'DWORD'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\main.cpp(210,12): warning C4244: '초기화 중': 'std::streamoff'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\cppProject\MineGame\MineGame\main.cpp(354,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Mine.cpp
-D:\cppProject\MineGame\MineGame\mineralInfo.h(19,67): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(27,70): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(35,74): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(44,66): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(52,72): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\mineralInfo.h(60,72): warning C4305: '초기화 중': 'double'에서 'float'(으)로 잘립니다.
-D:\cppProject\MineGame\MineGame\Mine.cpp(89,12): warning C4244: '초기화 중': 'std::streamoff'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\cppProject\MineGame\MineGame\Mine.cpp(285,20): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  MineralManager.cpp
-  MysqlDatabase.cpp
-D:\cppProject\MineGame\MineGame\MysqlDatabase.cpp(11,14): warning C4101: 'sql_row' :참조되지 않은 지역 변수입니다.
-D:\cppProject\MineGame\MineGame\MysqlDatabase.cpp(10,13): warning C4101: 'sql_result' :참조되지 않은 지역 변수입니다.
-  Player.cpp
-D:\cppProject\MineGame\MineGame\Player.cpp(37,48): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  global.cpp
+D:\cppProject\MineGame\MineGame\global.cpp(21,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
+D:\cppProject\MineGame\MineGame\global.cpp(21,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
+  setting.cpp
   코드를 생성하고 있습니다...
-D:\cppProject\MineGame\MineGame\MineralManager.cpp(71): warning C4715: 'MineralManager::MineralCheck': 모든 제어 경로에서 값을 반환하지는 않습니다.
-MysqlDatabase.obj : error LNK2019: mysql_error"public: static void __cdecl MysqlDatabase::create_account(class Player *)" (?create_account@MysqlDatabase@@SAXPEAVPlayer@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
-MysqlDatabase.obj : error LNK2019: mysql_init"public: static void __cdecl MysqlDatabase::create_account(class Player *)" (?create_account@MysqlDatabase@@SAXPEAVPlayer@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
-MysqlDatabase.obj : error LNK2019: mysql_real_connect"public: static void __cdecl MysqlDatabase::create_account(class Player *)" (?create_account@MysqlDatabase@@SAXPEAVPlayer@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
-MysqlDatabase.obj : error LNK2019: mysql_query"public: static void __cdecl MysqlDatabase::create_account(class Player *)" (?create_account@MysqlDatabase@@SAXPEAVPlayer@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
-MysqlDatabase.obj : error LNK2019: mysql_store_result"public: static void __cdecl MysqlDatabase::ranking_print(void)" (?ranking_print@MysqlDatabase@@SAXXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
-MysqlDatabase.obj : error LNK2019: mysql_free_result"public: static void __cdecl MysqlDatabase::ranking_print(void)" (?ranking_print@MysqlDatabase@@SAXXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
-MysqlDatabase.obj : error LNK2019: mysql_fetch_row"public: static void __cdecl MysqlDatabase::ranking_print(void)" (?ranking_print@MysqlDatabase@@SAXXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
-MysqlDatabase.obj : error LNK2019: mysql_close"public: static void __cdecl MysqlDatabase::create_account(class Player *)" (?create_account@MysqlDatabase@@SAXPEAVPlayer@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
-C:\Program Files (x86)\MySQL\MySQL Server 5.5\lib\libmysql.lib : warning LNK4272: 'x86' 라이브러리 컴퓨터 종류가 'x64' 대상 컴퓨터 종류와 충돌합니다.
-D:\cppProject\MineGame\x64\Debug\MineGame.exe : fatal error LNK1120: 8개의 확인할 수 없는 외부 참조입니다.
+  MineGame.vcxproj -> D:\cppProject\MineGame\x64\Debug\MineGame.exe

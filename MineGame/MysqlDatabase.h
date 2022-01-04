@@ -1,9 +1,7 @@
 #pragma once
 #define _CRT_SECURE_NO_WARNINGS
 
-#pragma comment(lib, "libmysql.lib")
-#include <my_global.h>
-#include <mysql.h>
+#include <cstdlib>
 #include <iostream>
 #include <string>
 #include "Player.h"
@@ -16,8 +14,14 @@
 #define CHOP(x) x[strlen(x)-1] = ' '
 #define MINERAL_MAX 18
 
-using namespace std;
+#include "mysql_connection.h"
 
+#include <cppconn/driver.h>
+#include <cppconn/exception.h>
+#include <cppconn/resultset.h>
+#include <cppconn/statement.h>
+
+using namespace std;
 
 class MysqlDatabase
 {
@@ -26,15 +30,15 @@ private:
 public:
 	static void create_account(); //회원가입을 하고 id, password, money를 데이터 베이스에 저장. id는 중복 x
 	static void ranking_print();//돈이 많은 회원순으로 출력
-	static bool login(char* id, unsigned long& money); //로그인 성공하면 돈이랑 id저장
-	static void moneySave(char* money);
-	static void playerInit(Player* player);
-	static void playerMineralSave(MyItem** items, int itemsCount, const char* playerId);
-	static void playerMoneySave(unsigned long playerMoney, const char* playerId);
-	static int MineralCondition(int id);
-	static void MineInfoSave(Mine& mine, int id);
-	static int GetEntrancePrice(int id);
-	//상점
-	static void Market(Player& player);
+	//static bool login(char* id, unsigned long& money); //로그인 성공하면 돈이랑 id저장
+	//static void moneySave(char* money);
+	//static void playerInit(Player* player);
+	//static void playerMineralSave(MyItem** items, int itemsCount, const char* playerId);
+	//static void playerMoneySave(unsigned long playerMoney, const char* playerId);
+	//static int MineralCondition(int id);
+	//static void MineInfoSave(Mine& mine, int id);
+	//static int GetEntrancePrice(int id);
+	////상점
+	//static void Market(Player& player);
 };
 

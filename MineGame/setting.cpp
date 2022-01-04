@@ -18,7 +18,7 @@ void setting() {
 		case 1: 
 			system("pause"); system("cls");
 			cout << endl;
-			//openBgm.lpstrElementName = L"D:\\cppProject\\playGame\\Debug\\sound\\bgSound.wav"; //ÆÄÀÏ ¿ÀÇÂ
+			//openBgm.lpstrElementName = L"D:\\cppProject\\playGame\\Debug\\sound\\bgSound.mp3"; //ÆÄÀÏ ¿ÀÇÂ
 			//openBgm.lpstrDeviceType = L"mpegvideo"; //mp3 Çü½Ä
 			//mciSendCommand(0, MCI_OPEN, MCI_OPEN_ELEMENT | MCI_OPEN_TYPE, (DWORD)(LPVOID)&openBgm);
 			//dwID = openBgm.wDeviceID;

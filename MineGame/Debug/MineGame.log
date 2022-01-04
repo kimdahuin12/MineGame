@@ -1,9 +1,0 @@
-﻿  MysqlDatabase.cpp
-D:\cppProject\MineGame\MineGame\MysqlDatabase.cpp(439,34): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\cppProject\MineGame\MineGame\MysqlDatabase.cpp(440,34): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\cppProject\MineGame\MineGame\MysqlDatabase.cpp(441,31): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\cppProject\MineGame\MineGame\MysqlDatabase.cpp(442,33): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\cppProject\MineGame\MineGame\MysqlDatabase.cpp(443,32): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\cppProject\MineGame\MineGame\MysqlDatabase.cpp(444,35): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\cppProject\MineGame\MineGame\MysqlDatabase.cpp(392): warning C4715: 'MysqlDatabase::MineralCondition': 모든 제어 경로에서 값을 반환하지는 않습니다.
-  MineGame.vcxproj -> D:\cppProject\MineGame\Debug\MineGame.exe

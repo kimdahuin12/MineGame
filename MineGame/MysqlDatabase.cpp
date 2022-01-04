@@ -1,78 +1,68 @@
-#include "MysqlDatabase.h"
+ï»¿#include "MysqlDatabase.h"
 
-MYSQL* connection = NULL, conn;
-MYSQL_RES* sql_result;
-MYSQL_ROW sql_row;
+sql::Driver* driver;
+sql::Connection* con;
+sql::Statement* stmt;
+sql::ResultSet* res;
+
 int query_stat;
 
 
 void MysqlDatabase::create_account() {
-	//È¸¿ø°¡ÀÔÀ» ÇÏ°í id, password, money¸¦ µ¥ÀÌÅÍ º£ÀÌ½º¿¡ ÀúÀå. id´Â Áßº¹ x
+	//íšŒì›ê°€ì…ì„ í•˜ê³  id, password, moneyë¥¼ ë°ì´í„° ë² ì´ìŠ¤ì— ì €ì¥. idëŠ” ì¤‘ë³µ x
 
-	//¾ÆÀÌµğ´Â ÃÖ´ë 20±îÁö, ÇÑ±ÛX, ¿µ¾î³ª ¼ıÀÚ¸¸À» ÀÌ¿ëÇÏ¿© ¸¸µé±â
-	//ºñ¹Ğ¹øÈ£µµ ¿µ¾î³ª ¼ıÀÚ¸¸À» ÀÌ¿ëÇÏ¿© ¸¸µé±â ÃÖ´ë 20
+	//ì•„ì´ë””ëŠ” ìµœëŒ€ 20ê¹Œì§€, í•œê¸€X, ì˜ì–´ë‚˜ ìˆ«ìë§Œì„ ì´ìš©í•˜ì—¬ ë§Œë“¤ê¸°
+	//ë¹„ë°€ë²ˆí˜¸ë„ ì˜ì–´ë‚˜ ìˆ«ìë§Œì„ ì´ìš©í•˜ì—¬ ë§Œë“¤ê¸° ìµœëŒ€ 20
 	char query[255];
 	char id[50] = { 0, };
 	char pw[50] = { 0, };
 	bool idAndPwCheck;
 
-	//mysql °èÁ¤ ¿¬°á
-	mysql_init(&conn);
-
-	connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
-
-	if (connection == NULL)
-	{
-		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
-		return;
-	}
-	//mysql °èÁ¤ ¿¬°á END
-
-	//¾ÆÀÌµğ, ºñ¹ø ÀÔ·Â¹Ş±â
+	//ì•„ì´ë””, ë¹„ë²ˆ ì…ë ¥ë°›ê¸°
 	while (true) {
 		idAndPwCheck = true;
-		cout << "--------È¸¿ø°¡ÀÔ--------" << endl << endl;
-		cout << "¾ÆÀÌµğ, ºñ¹Ğ¹øÈ£´Â ¸ğµÎ ¿µ¾î ¼Ò¹®ÀÚ¿Í ¼ıÀÚ¸¸À» ÀÌ¿ëÇÏ¿© ¸¸µé ¼ö ÀÖÀ¸¸ç\nÃÖ´ë 50ÀÚ±îÁö ¼³Á¤ °¡´ÉÇÕ´Ï´Ù." << endl << endl;
+		cout << "--------íšŒì›ê°€ì…--------" << endl << endl;
+		cout << "ì•„ì´ë””, ë¹„ë°€ë²ˆí˜¸ëŠ” ëª¨ë‘ ì˜ì–´ ì†Œë¬¸ìì™€ ìˆ«ìë§Œì„ ì´ìš©í•˜ì—¬ ë§Œë“¤ ìˆ˜ ìˆìœ¼ë©°\nìµœëŒ€ 50ìê¹Œì§€ ì„¤ì • ê°€ëŠ¥í•©ë‹ˆë‹¤." << endl << endl;
 		while (id[0] == 0) {
-			cout << "¾ÆÀÌµğ ÀÔ·Â : "; fgets(id, 50, stdin); CHOP(id);
+			cout << "ì•„ì´ë”” ì…ë ¥ : "; fgets(id, 50, stdin); CHOP(id);
 		}
-		Sleep(500);
+		
 		while (pw[0] == 0) {
-			cout << "ºñ¹Ğ¹øÈ£ ÀÔ·Â : "; fgets(pw, 50, stdin); CHOP(pw);
+			cout << "ë¹„ë°€ë²ˆí˜¸ ì…ë ¥ : "; fgets(pw, 50, stdin); CHOP(pw);
 		}
 
-		//id Ã¼Å©
+		//id ì²´í¬
 		for (int i = 0; id[i] != ' '; i++) {
 			if ((id[i] < 'a' || id[i] > 'z') && (id[i] < '0' || id[i] > '9')) { idAndPwCheck = false; break; }
 		}
-		//pwÃ¼Å©
+		//pwì²´í¬
 		for (int i = 0; pw[i] != ' '; i++) {
 			if ((pw[i] < 'a' || pw[i] > 'z') && (pw[i] < '0' || pw[i] > '9')) { idAndPwCheck = false; break; }
 		}
 
-		//¸ğµÎ Àß ÀÔ·ÂÇÏ¸é while END
+		//ëª¨ë‘ ì˜ ì…ë ¥í•˜ë©´ while END
 		if (idAndPwCheck == true) { break; }
 
 		system("cls"); cout << endl;
-		cout << "¾ÆÀÌµğ¿Í ºñ¹Ğ¹øÈ£´Â ¿µ¾î ¼Ò¹®ÀÚ¿Í ¼ıÀÚ¸¸À» ÀÌ¿ëÇØ¼­ ¸¸µé¾î ÁÖ¼¼¿ä." << endl << endl;
+		cout << "ì•„ì´ë””ì™€ ë¹„ë°€ë²ˆí˜¸ëŠ” ì˜ì–´ ì†Œë¬¸ìì™€ ìˆ«ìë§Œì„ ì´ìš©í•´ì„œ ë§Œë“¤ì–´ ì£¼ì„¸ìš”." << endl << endl;
 		system("pause"); system("cls");
 
 	}
 	//while END
-	//¾ÆÀÌµğ, ºñ¹ø ÀÔ·Â¹Ş±â END
+	//ì•„ì´ë””, ë¹„ë²ˆ ì…ë ¥ë°›ê¸° END
 
-	//°èÁ¤ »ı¼º ¿©ºÎ ¼±ÅÃ
-	int sel; //¼±ÅÃ¿ë º¯¼ö
+	//ê³„ì • ìƒì„± ì—¬ë¶€ ì„ íƒ
+	int sel; //ì„ íƒìš© ë³€ìˆ˜
 	while (true) {
 		system("pause"); system("cls");
-		cout << "°èÁ¤À» »ı¼ºÇÏ½Ã°Ú½À´Ï±î?" << endl << endl;
-		cout << "1. ³×" << endl;
-		cout << "2. ¾Æ´Ï¿À" << endl << endl;
-		cout << "¹øÈ£ ¼±ÅÃ >> "; cin >> sel;
+		cout << "ê³„ì •ì„ ìƒì„±í•˜ì‹œê² ìŠµë‹ˆê¹Œ?" << endl << endl;
+		cout << "1. ë„¤" << endl;
+		cout << "2. ì•„ë‹ˆì˜¤" << endl << endl;
+		cout << "ë²ˆí˜¸ ì„ íƒ >> "; cin >> sel;
 		switch (sel) {
 		case 2:
 			system("pause"); system("cls"); cout << endl;
-			cout << "¸ŞÀÎ È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù." << endl;
+			cout << "ë©”ì¸ í™”ë©´ìœ¼ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤." << endl;
 			return;
 		default:
 			cout << endl; system("pause"); system("cls");
@@ -81,84 +71,100 @@ void MysqlDatabase::create_account() {
 		if (sel == 1) break;
 	}
 	//while END
-	//°èÁ¤ »ı¼º ¿©ºÎ ¼±ÅÃ END
+	//ê³„ì • ìƒì„± ì—¬ë¶€ ì„ íƒ END
 
-	//°èÁ¤ »ı¼º(db¿¡ ÀúÀå)
+	//ê³„ì • ìƒì„±(dbì— ì €ì¥)
 	cout << "id: " << id << endl;
 
-	//db¿¡ Á¤º¸ ÀúÀå(Id, password, money) //money´Â Ã³À½¿¡ ¸¸¿ø Áö±Ş
-	sprintf(query, "insert into playeraccount values ('%s', '%s', '10000')",id, pw);//minegame_db.playeraccount¿¡ µ¥ÀÌÅÍ ÀúÀå
+	//dbì— ì •ë³´ ì €ì¥(Id, password, money) //moneyëŠ” ì²˜ìŒì— ë§Œì› ì§€ê¸‰
 
-	query_stat = mysql_query(connection, query);
-	if (query_stat != 0)
-	{
-		//fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
-		cout << "ÀÌ¹Ì Á¸ÀçÇÏ´Â ¾ÆÀÌµğÀÔ´Ï´Ù." << endl;
-		return;
+	try {
+		/* Create a connection */
+		driver = get_driver_instance();
+		con = driver->connect("tcp://127.0.0.1:3306", DB_USER, DB_PASS);
+		/* Connect to the MySQL test database */
+		con->setSchema(DB_NAME);
+
+		stmt = con->createStatement();
+		res = stmt->executeQuery("SELECT 'Hello World!' AS _message");
+		while (res->next()) {
+			cout << "\t... MySQL replies: ";
+			/* Access column data by alias or column name */
+			cout << res->getString("_message") << endl;
+			cout << "\t... MySQL says it again: ";
+			/* Access column data by numeric offset, 1 is the first column */
+			cout << res->getString(1) << endl;
+		}
+
+
+		stmt = con->createStatement();
+		sprintf(query, "insert into playeraccount values ('%s', '%s', '10000')", id, pw);
+		stmt->executeUpdate(query);
+
+		
+		//mysql ê³„ì • ë‹¤ì‹œ ì—°ê²°í•˜ê³  ê´‘ë¬¼ ê°¯ìˆ˜ 0ìœ¼ë¡œ ì´ˆê¸°í™” -----			ê´‘ë¬¼ë¶€ë¶„
+		sprintf(query, "insert into mineralCount(id) values('%s')", id);//minegame_db.mineralCount
+		stmt->executeUpdate(query);
+
+
+		//mysql ê³„ì • ë‹¤ì‹œ ì—°ê²°í•˜ê³  ê´‘ë¬¼ ê°¯ìˆ˜ 0ìœ¼ë¡œ ì´ˆê¸°í™” -----			ê´‘ë¬¼ë¶€ë¶„END
+
+
+		cout << "ê³„ì • ìƒì„± ì™„ë£Œ" << endl;
+
+		delete res;
+		delete stmt;
+		delete con;
+
+	}
+	catch (sql::SQLException& e) {
+		cout << "ì´ë¯¸ ì¡´ì¬í•˜ëŠ” ì•„ì´ë””ì…ë‹ˆë‹¤." << endl;
+		cout << "# ERR: " << e.what();
+		cout << " (MySQL error code: " << e.getErrorCode();
+		cout << ", SQLState: " << e.getSQLState() << " )" << endl;
 	}
 
-	mysql_close(connection);
-
-	//mysql °èÁ¤ ´Ù½Ã ¿¬°áÇÏ°í ±¤¹° °¹¼ö 0À¸·Î ÃÊ±âÈ­ -----			±¤¹°ºÎºĞ
-	mysql_init(&conn);
-	connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
-	if (connection == NULL)
-	{
-		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
-		return;
-	}
-
-	sprintf(query, "insert into mineralCount(id) values('%s')", id);//minegame_db.mineralCount
-
-	query_stat = mysql_query(connection, query);
-	if (query_stat != 0)
-	{
-		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
-		return;
-	}
-
-	mysql_close(connection);
-	//mysql °èÁ¤ ´Ù½Ã ¿¬°áÇÏ°í ±¤¹° °¹¼ö 0À¸·Î ÃÊ±âÈ­ -----			±¤¹°ºÎºĞEND
-
-	cout << "°èÁ¤ »ı¼º ¿Ï·á" << endl;
-	//db¿¡ Á¤º¸ ÀúÀå(Id, password, money) END
+	//dbì— ì •ë³´ ì €ì¥(Id, password, money) END
 }
 
 void MysqlDatabase::ranking_print() {
-	//µ·ÀÌ ¸¹Àº È¸¿ø¼øÀ¸·Î Ãâ·Â
+	//ëˆì´ ë§ì€ íšŒì›ìˆœìœ¼ë¡œ ì¶œë ¥
 	char query[255];
-	//ÃÊ±âÈ­
-	mysql_init(&conn);
 
-	//DB¿¬°á
-	connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
-	if (connection == NULL) {
-		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
-		return;
+	try {
+		/* Create a connection */
+		driver = get_driver_instance();
+		con = driver->connect("tcp://127.0.0.1:3306", DB_USER, DB_PASS);
+		/* Connect to the MySQL test database */
+		con->setSchema(DB_NAME);
+
+		stmt = con->createStatement();
+
+		//selectì¿¼ë¦¬ë¬¸
+		sprintf(query, "SELECT id, FORMAT(money, 0) FROM playerAccount ORDER BY(money) DESC");//moneyê°€ ë§ì€ìˆœ(ë‚´ë¦¼ì°¨ìˆœ)ìœ¼ë¡œ ì •ë ¬
+		res = stmt->executeQuery(query);
+		int ranking = 1;
+		while (res->next()) {
+			printf("%d. ID : %-20s MONEY : %-20s \\ \n", ranking++, res->getString(0), res->getString(1)); //0ë²ˆ : id, 2ë²ˆ : money
+			//		printf("%d. ID : %-20s MONEY : %-20s \\ \n", ranking++, sql_row[0], sql_row[1]); //0ë²ˆ : id, 2ë²ˆ : money
+		}
+
+		//mysql ê³„ì • ë‹¤ì‹œ ì—°ê²°í•˜ê³  ê´‘ë¬¼ ê°¯ìˆ˜ 0ìœ¼ë¡œ ì´ˆê¸°í™” -----			ê´‘ë¬¼ë¶€ë¶„END
+
+
+		delete res;
+		delete stmt;
+		delete con;
+
 	}
-
-	//selectÄõ¸®¹®
-	sprintf(query, "SELECT id, FORMAT(money, 0) FROM playerAccount ORDER BY(money) DESC");//money°¡ ¸¹Àº¼ø(³»¸²Â÷¼ø)À¸·Î Á¤·Ä
-	query_stat = mysql_query(connection, query);
-	if (query_stat != 0) {
-		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
-		return;
+	catch (sql::SQLException& e) {
+		cout << "# ERR: " << e.what();
+		cout << " (MySQL error code: " << e.getErrorCode();
+		cout << ", SQLState: " << e.getSQLState() << " )" << endl;
 	}
-
-	//°á°ú Ãâ·Â
-	sql_result = mysql_store_result(connection);
-	int ranking = 1;
-	while ((sql_row = mysql_fetch_row(sql_result)) != NULL) {
-		printf("%d. ID : %-20s MONEY : %-20s \\ \n", ranking++, sql_row[0], sql_row[1]); //0¹ø : id, 2¹ø : money
-	}
-	mysql_free_result(sql_result);
-
-	//DB ¿¬°á ´İ±â
-	mysql_close(connection);
-	//DB³¡
 
 }
-
+/*
 bool MysqlDatabase::login(char* id, unsigned long& money) {
 	char query[255];
 	char id_c[50] = { 0, };
@@ -166,19 +172,20 @@ bool MysqlDatabase::login(char* id, unsigned long& money) {
 	bool id_being = false;
 
 	gotoXY(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-	cout << "·Î±×ÀÎ" << endl;
+	cout << "ë¡œê·¸ì¸" << endl;
 	
 	while (id_c[0] == 0) {
-		cout << "¾ÆÀÌµğ : "; fgets(id_c, 50, stdin); CHOP(id_c);
+		cout << "ì•„ì´ë”” : "; fgets(id_c, 50, stdin); CHOP(id_c);
 	}
 	while (pw_c[0] == 0) {
-		cout << "ºñ¹Ğ¹øÈ£ : "; fgets(pw_c, 50, stdin); CHOP(pw_c);
+		cout << "ë¹„ë°€ë²ˆí˜¸ : "; fgets(pw_c, 50, stdin); CHOP(pw_c);
 	}
+	
 
-	//ÃÊ±âÈ­
+	//ì´ˆê¸°í™”
 	mysql_init(&conn);
 
-	//DB¿¬°á
+	//DBì—°ê²°
 	connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
 	if (connection == NULL) {
 		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
@@ -186,14 +193,14 @@ bool MysqlDatabase::login(char* id, unsigned long& money) {
 	}
 
 	sprintf(query, "SELECT * FROM playeraccount where id = '%s'", id_c);
-	//selectÄõ¸®¹®
+	//selectì¿¼ë¦¬ë¬¸
 	//char* query = new char[strlen("SELECT * FROM playeraccount where id = \"")+strlen(id_c)+strlen("\"") + 1];
 	//strcpy(query, "SELECT * FROM playeraccount where id = \"");
 	//strcat(query, id_c);
 	//strcat(query, "\"");
 	
-	/*char* query = new char[strlen("SELECT * FROM ") * strlen("playeraccount")];
-	strcpy_s(query, strlen("SELECT * FROM playeraccount"), "SELECT * FROM playeraccount");*/
+	//char* query = new char[strlen("SELECT * FROM ") * strlen("playeraccount")];
+	//strcpy_s(query, strlen("SELECT * FROM playeraccount"), "SELECT * FROM playeraccount");
 	//strcpy_s(query + strlen("SELECT * FROM "), strlen("playeraccount"), "playeraccount");
 	
 	query_stat = mysql_query(connection, query);
@@ -202,21 +209,21 @@ bool MysqlDatabase::login(char* id, unsigned long& money) {
 		return false;
 	}
 
-	//°á°ú Ãâ·Â
+	//ê²°ê³¼ ì¶œë ¥
 	sql_result = mysql_store_result(connection);
 	while ((sql_row = mysql_fetch_row(sql_result)) != NULL) {
-		if (strcmp(id_c, sql_row[0])==0) { //id°¡ °°°í
+		if (strcmp(id_c, sql_row[0])==0) { //idê°€ ê°™ê³ 
 			id_being = true;
-			if (strcmp(pw_c, sql_row[1])==0) { //ºñ¹øÀÌ °°´Ù
-				//·Î±×ÀÎ ¼º°ø
-				money = atoi(sql_row[2]);//money ÀúÀå
+			if (strcmp(pw_c, sql_row[1])==0) { //ë¹„ë²ˆì´ ê°™ë‹¤
+				//ë¡œê·¸ì¸ ì„±ê³µ
+				money = atoi(sql_row[2]);//money ì €ì¥
 			}
-			else { //ºñ¹øÀÌ ´Ù¸£´Ù
+			else { //ë¹„ë²ˆì´ ë‹¤ë¥´ë‹¤
 				gotoXY(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-				cout << "·Î±×ÀÎ ½ÇÆĞ" << endl;
+				cout << "ë¡œê·¸ì¸ ì‹¤íŒ¨" << endl;
 				reverseScene();
 				mysql_free_result(sql_result);
-				//DB ¿¬°á ´İ±â
+				//DB ì—°ê²° ë‹«ê¸°
 				mysql_close(connection);
 				return false;
 			}
@@ -224,10 +231,10 @@ bool MysqlDatabase::login(char* id, unsigned long& money) {
 	}
 
 	if (id_being == false) {
-		cout << "¾ÆÀÌµğ°¡ Á¸ÀçÇÏÁö ¾ÊÀ½" << endl;
+		cout << "ì•„ì´ë””ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŒ" << endl;
 		reverseScene();
 		mysql_free_result(sql_result);
-		//DB ¿¬°á ´İ±â
+		//DB ì—°ê²° ë‹«ê¸°
 		mysql_close(connection);
 		return false;
 	}
@@ -235,10 +242,10 @@ bool MysqlDatabase::login(char* id, unsigned long& money) {
 	reverseScene();
 	
 	mysql_free_result(sql_result);
-	//DB ¿¬°á ´İ±â
+	//DB ì—°ê²° ë‹«ê¸°
 	mysql_close(connection);
 
-	//playerÇÑÅ× ³Ñ°ÜÁÙ id
+	//playerí•œí…Œ ë„˜ê²¨ì¤„ id
 	id_c[strlen(id_c) - 1] = 0;
 	strcpy(id, id_c);
 
@@ -252,21 +259,21 @@ void MysqlDatabase::playerInit(Player* player) {
 	int mineralCount[MINERAL_MAX];
 	int mineralIdx = 0;
 	
-	//ÃÊ±âÈ­
+	//ì´ˆê¸°í™”
 	for (int i = 0; i < MINERAL_MAX; i++) {
 		mineralName[i] = 0; mineralCount[i] = 0;
 	}
 
 	mysql_init(&conn);
 
-	//DB¿¬°á
+	//DBì—°ê²°
 	connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
 	if (connection == NULL) {
 		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
 		return;
 	}
 
-	//selectÄõ¸®¹®. ¹Ì³×¶ö ÀÌ¸§µé ºÒ·¯¿À±â
+	//selectì¿¼ë¦¬ë¬¸. ë¯¸ë„¤ë„ ì´ë¦„ë“¤ ë¶ˆëŸ¬ì˜¤ê¸°
 	sprintf(query, "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount' AND column_name not in('id')");
 	query_stat = mysql_query(connection, query);
 	if (query_stat != 0) {
@@ -274,37 +281,37 @@ void MysqlDatabase::playerInit(Player* player) {
 		return;
 	}
 
-	//¹Ì³×¶ö ÀÌ¸§µéÀ» ÀúÀåÇÑ´Ù.
+	//ë¯¸ë„¤ë„ ì´ë¦„ë“¤ì„ ì €ì¥í•œë‹¤.
 	sql_result = mysql_store_result(connection);
 	while ((sql_row = mysql_fetch_row(sql_result)) != NULL) {
 		mineralName[mineralIdx] = new char[strlen(sql_row[0]) + 1];
 		strcpy(mineralName[mineralIdx++], sql_row[0]);
 	}
 
-	//selectÄõ¸®¹®
-	sprintf(query, "SELECT `¡ã ½ºÄ³Æú¶óÀÌÆ®`, `¢Â ½º¹Ì½º¼Ò³ªÀÌÆ®`, `¡İ ½ÃÆ®¸°`, `¡ß ÇÃ·ç¶óÀÌÆ®`, `¡Ü ¾Æ¸ŞÁö½ºÆ®`, `¢Ç ·¡ÇÇµµ¶óÀÌÆ®`,"
-		"`¢Ã ½ºÇÇ³Ú`, `¢Ä ·çºñ`, `¡à °¡³İ`, `£À ÅÍÅ°¼®`, `££ Æä¸®µµÆ®`, `¢º ¿¡¸Ş¶öµå`, `¢¸ ¾ÆÄí¾Æ¸¶¸°`, `¡á ¾ÆÁÖ¶óÀÌÆ®`, `¢´ »çÆÄÀÌ¾î`,"
-		"`¡ä ´ÙÀÌ¾Æ¸óµå`, `¡Û ±×¶õµğµğ¾î¶óÀÌÆ®`, `¡Ş ¹è´ÏÅä¾ÆÀÌÆ®` FROM mineralCount WHERE id = '%s'", player->getId());
+	//selectì¿¼ë¦¬ë¬¸
+	sprintf(query, "SELECT `â–² ìŠ¤ìºí´ë¼ì´íŠ¸`, `â—ˆ ìŠ¤ë¯¸ìŠ¤ì†Œë‚˜ì´íŠ¸`, `â— ì‹œíŠ¸ë¦°`, `â—† í”Œë£¨ë¼ì´íŠ¸`, `â— ì•„ë©”ì§€ìŠ¤íŠ¸`, `â–¤ ë˜í”¼ë„ë¼ì´íŠ¸`,"
+		"`â–£ ìŠ¤í”¼ë„¬`, `â— ë£¨ë¹„`, `â–¡ ê°€ë„·`, `ï¼  í„°í‚¤ì„`, `ï¼ƒ í˜ë¦¬ë„íŠ¸`, `â–¶ ì—ë©”ë„ë“œ`, `â—€ ì•„ì¿ ì•„ë§ˆë¦°`, `â–  ì•„ì£¼ë¼ì´íŠ¸`, `Â¤ ì‚¬íŒŒì´ì–´`,"
+		"`â–½ ë‹¤ì´ì•„ëª¬ë“œ`, `â—‹ ê·¸ë€ë””ë””ì–´ë¼ì´íŠ¸`, `â—‡ ë°°ë‹ˆí† ì•„ì´íŠ¸` FROM mineralCount WHERE id = '%s'", player->getId());
 	query_stat = mysql_query(connection, query);
 	if (query_stat != 0) {
 		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
 		return;
 	}
 
-	//°á°ú Ãâ·Â //ÀÌ¸§¿¡ ¸Â°Ô °¹¼ö ÀúÀå
+	//ê²°ê³¼ ì¶œë ¥ //ì´ë¦„ì— ë§ê²Œ ê°¯ìˆ˜ ì €ì¥
 	sql_result = mysql_store_result(connection);
 	while ((sql_row = mysql_fetch_row(sql_result)) != NULL) {
-		//mineralIdx´Â ±¤¹°ÀÇ ¹øÈ£¶ó°í »ı°¢
+		//mineralIdxëŠ” ê´‘ë¬¼ì˜ ë²ˆí˜¸ë¼ê³  ìƒê°
 		for (mineralIdx = 0; mineralIdx < MINERAL_MAX; mineralIdx++) {
 			for (; mineralCount[mineralIdx] < atoi(sql_row[mineralIdx]); mineralCount[mineralIdx]++) {
-				//±¤¹°ÀÇ °¹¼ö°¡ db¿¡ ÀúÀåµÈ ±¤¹°ÀÇ °¹¼ö°ú °°¾ÆÁú¶§±îÁö °è¼Ó °¹¼ö¸¦ ´Ã¸®°í, player¿¡ ±¤¹°À» ÁÖ°¡ÇÑ´Ù.
+				//ê´‘ë¬¼ì˜ ê°¯ìˆ˜ê°€ dbì— ì €ì¥ëœ ê´‘ë¬¼ì˜ ê°¯ìˆ˜ê³¼ ê°™ì•„ì§ˆë•Œê¹Œì§€ ê³„ì† ê°¯ìˆ˜ë¥¼ ëŠ˜ë¦¬ê³ , playerì— ê´‘ë¬¼ì„ ì£¼ê°€í•œë‹¤.
 				player->AddMineral(mineralName[mineralIdx]);
 			}
 		}
 	}
 	mysql_free_result(sql_result);
 
-	//DB ¿¬°á ´İ±â
+	//DB ì—°ê²° ë‹«ê¸°
 	mysql_close(connection);
 }
 
@@ -312,19 +319,19 @@ void MysqlDatabase::playerMineralSave(MyItem** items, int itemsCount, const char
 
 	char query[255];
 	for (int i = 0; i < itemsCount; i++) {
-		//ÃÊ±âÈ­
+		//ì´ˆê¸°í™”
 		mysql_init(&conn);
 
-		//DB¿¬°á
+		//DBì—°ê²°
 		connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
 		if (connection == NULL) {
 			fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
 			return;
 		}
 
-		//Äõ¸®
+		//ì¿¼ë¦¬
 		//const char* itemCount = to_string(items[i]->getCount());
-		sprintf(query, "UPDATE mineralCount SET `%s`=%d WHERE id='%s'", items[i]->getName(), items[i]->getCount(), playerId);//minegame_db.playeraccount¿¡ µ¥ÀÌÅÍ ÀúÀå
+		sprintf(query, "UPDATE mineralCount SET `%s`=%d WHERE id='%s'", items[i]->getName(), items[i]->getCount(), playerId);//minegame_db.playeraccountì— ë°ì´í„° ì €ì¥
 
 		query_stat = mysql_query(connection, query);
 		if (query_stat != 0)
@@ -339,18 +346,18 @@ void MysqlDatabase::playerMineralSave(MyItem** items, int itemsCount, const char
 void MysqlDatabase::playerMoneySave(unsigned long playerMoney, const char* playerId) {
 
 	char query[255];
-	//ÃÊ±âÈ­
+	//ì´ˆê¸°í™”
 	mysql_init(&conn);
 
-	//DB¿¬°á
+	//DBì—°ê²°
 	connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
 	if (connection == NULL) {
 		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
 		return;
 	}
 
-	//Äõ¸®
-	sprintf(query, "UPDATE playeraccount SET money=%d WHERE id='%s'", playerMoney, playerId);//minegame_db.playeraccount¿¡ µ¥ÀÌÅÍ ÀúÀå
+	//ì¿¼ë¦¬
+	sprintf(query, "UPDATE playeraccount SET money=%d WHERE id='%s'", playerMoney, playerId);//minegame_db.playeraccountì— ë°ì´í„° ì €ì¥
 
 	query_stat = mysql_query(connection, query);
 	if (query_stat != 0)
@@ -362,13 +369,13 @@ void MysqlDatabase::playerMoneySave(unsigned long playerMoney, const char* playe
 }
 
 int MysqlDatabase::MineralCondition(int id) {
-	//±¤»êÀÇ ÀÔÀå Á¶°Ç¿¡ ¸Â´Â ±¤¹° °¹¼ö¸¦ return
+	//ê´‘ì‚°ì˜ ì…ì¥ ì¡°ê±´ì— ë§ëŠ” ê´‘ë¬¼ ê°¯ìˆ˜ë¥¼ return
 	char query[255];
 
-	//ÃÊ±âÈ­
+	//ì´ˆê¸°í™”
 	mysql_init(&conn);
 
-	//DB¿¬°á
+	//DBì—°ê²°
 	connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
 	if (connection == NULL) {
 		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
@@ -383,7 +390,7 @@ int MysqlDatabase::MineralCondition(int id) {
 		return 0;
 	}
 
-	//°á°ú Ãâ·Â
+	//ê²°ê³¼ ì¶œë ¥
 	sql_result = mysql_store_result(connection);
 	while ((sql_row = mysql_fetch_row(sql_result)) != NULL) {
 		return atoi(sql_row[0]);
@@ -392,14 +399,13 @@ int MysqlDatabase::MineralCondition(int id) {
 }
 
 void MysqlDatabase::MineInfoSave(Mine& mine, int id) {
-	//¼ø¼­´ë·Î
-		/*
-	price
-	name
-	produce
-	delete
-	percentageS
-	*/
+	//ìˆœì„œëŒ€ë¡œ
+	//price
+	//name
+	//produce
+	//delete
+	//percentageS
+	
 
 	char* name = 0;
 	int produceSec = 0;
@@ -408,10 +414,10 @@ void MysqlDatabase::MineInfoSave(Mine& mine, int id) {
 
 	char query[255];
 
-	//ÃÊ±âÈ­
+	//ì´ˆê¸°í™”
 	mysql_init(&conn);
 
-	//DB¿¬°á
+	//DBì—°ê²°
 	connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
 	if (connection == NULL) {
 		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
@@ -428,7 +434,7 @@ void MysqlDatabase::MineInfoSave(Mine& mine, int id) {
 		return;
 	}
 
-	//°á°ú Ãâ·Â
+	//ê²°ê³¼ ì¶œë ¥
 	int idx = 0;
 	sql_result = mysql_store_result(connection);
 	while ((sql_row = mysql_fetch_row(sql_result)) != NULL) {
@@ -452,10 +458,10 @@ void MysqlDatabase::MineInfoSave(Mine& mine, int id) {
 int MysqlDatabase::GetEntrancePrice(int id) {
 	char query[255];
 
-	//ÃÊ±âÈ­
+	//ì´ˆê¸°í™”
 	mysql_init(&conn);
 
-	//DB¿¬°á
+	//DBì—°ê²°
 	connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
 	if (connection == NULL) {
 		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
@@ -470,7 +476,7 @@ int MysqlDatabase::GetEntrancePrice(int id) {
 		return NULL;
 	}
 
-	//°á°ú Ãâ·Â
+	//ê²°ê³¼ ì¶œë ¥
 	sql_result = mysql_store_result(connection);
 	while ((sql_row = mysql_fetch_row(sql_result)) != NULL) {
 		return atoi(sql_row[0]);
@@ -483,7 +489,7 @@ int MysqlDatabase::GetEntrancePrice(int id) {
 
 
 void MysqlDatabase::Market(Player& player) {
-	//»óÁ¡
+	//ìƒì 
 	char query[455];
 	char* mineralName[MINERAL_MAX] = {0, };
 	int mineralCount[MINERAL_MAX] = {0,};
@@ -492,14 +498,14 @@ void MysqlDatabase::Market(Player& player) {
 
 	mysql_init(&conn);
 
-	//DB¿¬°á
+	//DBì—°ê²°
 	connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
 	if (connection == NULL) {
 		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
 		return;
 	}
 
-	//selectÄõ¸®¹®. ¹Ì³×¶ö ÀÌ¸§µé ºÒ·¯¿Í¼­ ÀúÀå
+	//selectì¿¼ë¦¬ë¬¸. ë¯¸ë„¤ë„ ì´ë¦„ë“¤ ë¶ˆëŸ¬ì™€ì„œ ì €ì¥
 	sprintf(query, "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'mineralCount' AND column_name not in('id')");
 	query_stat = mysql_query(connection, query);
 	if (query_stat != 0) {
@@ -507,24 +513,24 @@ void MysqlDatabase::Market(Player& player) {
 		return;
 	}
 
-	//¹Ì³×¶ö ÀÌ¸§µéÀ» ÀúÀåÇÑ´Ù.
+	//ë¯¸ë„¤ë„ ì´ë¦„ë“¤ì„ ì €ì¥í•œë‹¤.
 	sql_result = mysql_store_result(connection);
 	while ((sql_row = mysql_fetch_row(sql_result)) != NULL) {
 		mineralName[mineralIdx] = new char[strlen(sql_row[0]) + 1];
 		strcpy(mineralName[mineralIdx++], sql_row[0]);
 	}
 
-	//selectÄõ¸®¹®. »óÇ° °¹¼ö¸¦ ÀúÀå
-	sprintf(query, "SELECT `¡ã ½ºÄ³Æú¶óÀÌÆ®`, `¢Â ½º¹Ì½º¼Ò³ªÀÌÆ®`, `¡İ ½ÃÆ®¸°`, `¡ß ÇÃ·ç¶óÀÌÆ®`, `¡Ü ¾Æ¸ŞÁö½ºÆ®`, `¢Ç ·¡ÇÇµµ¶óÀÌÆ®`,"
-		"`¢Ã ½ºÇÇ³Ú`, `¢Ä ·çºñ`, `¡à °¡³İ`, `£À ÅÍÅ°¼®`, `££ Æä¸®µµÆ®`, `¢º ¿¡¸Ş¶öµå`, `¢¸ ¾ÆÄí¾Æ¸¶¸°`, `¡á ¾ÆÁÖ¶óÀÌÆ®`, `¢´ »çÆÄÀÌ¾î`,"
-		"`¡ä ´ÙÀÌ¾Æ¸óµå`, `¡Û ±×¶õµğµğ¾î¶óÀÌÆ®`, `¡Ş ¹è´ÏÅä¾ÆÀÌÆ®` FROM mineralCount WHERE id = 'itemCount'");
+	//selectì¿¼ë¦¬ë¬¸. ìƒí’ˆ ê°¯ìˆ˜ë¥¼ ì €ì¥
+	sprintf(query, "SELECT `â–² ìŠ¤ìºí´ë¼ì´íŠ¸`, `â—ˆ ìŠ¤ë¯¸ìŠ¤ì†Œë‚˜ì´íŠ¸`, `â— ì‹œíŠ¸ë¦°`, `â—† í”Œë£¨ë¼ì´íŠ¸`, `â— ì•„ë©”ì§€ìŠ¤íŠ¸`, `â–¤ ë˜í”¼ë„ë¼ì´íŠ¸`,"
+		"`â–£ ìŠ¤í”¼ë„¬`, `â— ë£¨ë¹„`, `â–¡ ê°€ë„·`, `ï¼  í„°í‚¤ì„`, `ï¼ƒ í˜ë¦¬ë„íŠ¸`, `â–¶ ì—ë©”ë„ë“œ`, `â—€ ì•„ì¿ ì•„ë§ˆë¦°`, `â–  ì•„ì£¼ë¼ì´íŠ¸`, `Â¤ ì‚¬íŒŒì´ì–´`,"
+		"`â–½ ë‹¤ì´ì•„ëª¬ë“œ`, `â—‹ ê·¸ë€ë””ë””ì–´ë¼ì´íŠ¸`, `â—‡ ë°°ë‹ˆí† ì•„ì´íŠ¸` FROM mineralCount WHERE id = 'itemCount'");
 	query_stat = mysql_query(connection, query);
 	if (query_stat != 0) {
 		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
 		return;
 	}
 
-	//±¤¹°µéÀÇ °¹¼öµéÀ» ÀúÀå
+	//ê´‘ë¬¼ë“¤ì˜ ê°¯ìˆ˜ë“¤ì„ ì €ì¥
 	sql_result = mysql_store_result(connection);
 	while ((sql_row = mysql_fetch_row(sql_result)) != NULL) {
 		for (mineralIdx = 0; mineralIdx < MINERAL_MAX; mineralIdx++) {
@@ -532,17 +538,17 @@ void MysqlDatabase::Market(Player& player) {
 		}
 	}
 
-	//selectÄõ¸®¹®. »óÇ° °¡°İÀ» ÀúÀå
-	sprintf(query, "SELECT `¡ã ½ºÄ³Æú¶óÀÌÆ®`, `¢Â ½º¹Ì½º¼Ò³ªÀÌÆ®`, `¡İ ½ÃÆ®¸°`, `¡ß ÇÃ·ç¶óÀÌÆ®`, `¡Ü ¾Æ¸ŞÁö½ºÆ®`, `¢Ç ·¡ÇÇµµ¶óÀÌÆ®`,"
-		"`¢Ã ½ºÇÇ³Ú`, `¢Ä ·çºñ`, `¡à °¡³İ`, `£À ÅÍÅ°¼®`, `££ Æä¸®µµÆ®`, `¢º ¿¡¸Ş¶öµå`, `¢¸ ¾ÆÄí¾Æ¸¶¸°`, `¡á ¾ÆÁÖ¶óÀÌÆ®`, `¢´ »çÆÄÀÌ¾î`,"
-		"`¡ä ´ÙÀÌ¾Æ¸óµå`, `¡Û ±×¶õµğµğ¾î¶óÀÌÆ®`, `¡Ş ¹è´ÏÅä¾ÆÀÌÆ®` FROM mineralCount WHERE id = 'price'");
+	//selectì¿¼ë¦¬ë¬¸. ìƒí’ˆ ê°€ê²©ì„ ì €ì¥
+	sprintf(query, "SELECT `â–² ìŠ¤ìºí´ë¼ì´íŠ¸`, `â—ˆ ìŠ¤ë¯¸ìŠ¤ì†Œë‚˜ì´íŠ¸`, `â— ì‹œíŠ¸ë¦°`, `â—† í”Œë£¨ë¼ì´íŠ¸`, `â— ì•„ë©”ì§€ìŠ¤íŠ¸`, `â–¤ ë˜í”¼ë„ë¼ì´íŠ¸`,"
+		"`â–£ ìŠ¤í”¼ë„¬`, `â— ë£¨ë¹„`, `â–¡ ê°€ë„·`, `ï¼  í„°í‚¤ì„`, `ï¼ƒ í˜ë¦¬ë„íŠ¸`, `â–¶ ì—ë©”ë„ë“œ`, `â—€ ì•„ì¿ ì•„ë§ˆë¦°`, `â–  ì•„ì£¼ë¼ì´íŠ¸`, `Â¤ ì‚¬íŒŒì´ì–´`,"
+		"`â–½ ë‹¤ì´ì•„ëª¬ë“œ`, `â—‹ ê·¸ë€ë””ë””ì–´ë¼ì´íŠ¸`, `â—‡ ë°°ë‹ˆí† ì•„ì´íŠ¸` FROM mineralCount WHERE id = 'price'");
 	query_stat = mysql_query(connection, query);
 	if (query_stat != 0) {
 		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
 		return;
 	}
 
-	//±¤¹°µéÀÇ °¡°İµéÀ» ÀúÀå
+	//ê´‘ë¬¼ë“¤ì˜ ê°€ê²©ë“¤ì„ ì €ì¥
 	mineralIdx = 0;
 	sql_result = mysql_store_result(connection);
 	while ((sql_row = mysql_fetch_row(sql_result)) != NULL) {
@@ -551,42 +557,42 @@ void MysqlDatabase::Market(Player& player) {
 		}
 	}
 
-	//¸ğµÎ Ãâ·Â(»óÇ° Á¤º¸µé)
+	//ëª¨ë‘ ì¶œë ¥(ìƒí’ˆ ì •ë³´ë“¤)
 	for (int i = 0; i < MINERAL_MAX; i++) {
-		printf("%d. »óÇ°¸í : %-30s °¹¼ö : %-20d °¡°İ : %-20d\n", (i+1), mineralName[i], mineralCount[i], mineralPrice[i]);
+		printf("%d. ìƒí’ˆëª… : %-30s ê°¯ìˆ˜ : %-20d ê°€ê²© : %-20d\n", (i+1), mineralName[i], mineralCount[i], mineralPrice[i]);
 	}
 
-	int sel; //¼±ÅÃ¿ë º¯¼ö
+	int sel; //ì„ íƒìš© ë³€ìˆ˜
 	const char* selProduct = "";
 	
 	while (true) {
 		gotoXY(0, 80);
-		cout << "ÇöÀç ±İ¾× : " << player.getMoney() <<"¿ø"<<endl;
+		cout << "í˜„ì¬ ê¸ˆì•¡ : " << player.getMoney() <<"ì›"<<endl;
 		gotoXY(0, 81);
-		cout << "ÆÇ¸ÅÇÒ »óÇ° ¹øÈ£ ¼±ÅÃ(³ª°¡·Á¸é 0¹ø ¼±ÅÃ) : ";
+		cout << "íŒë§¤í•  ìƒí’ˆ ë²ˆí˜¸ ì„ íƒ(ë‚˜ê°€ë ¤ë©´ 0ë²ˆ ì„ íƒ) : ";
 		cin >> sel;
 		if (sel == 0) {
 			return;
 		}
 		else if (sel <= MINERAL_MAX) {
-			selProduct = mineralName[sel - 1]; //¹Ì³×¶ö ÀÌ¸§ ÀúÀå
+			selProduct = mineralName[sel - 1]; //ë¯¸ë„¤ë„ ì´ë¦„ ì €ì¥
 			if (player.RemoveMineral((char*)selProduct)) {
 				player.increaseMoney(mineralPrice[sel - 1]);
-				sprintf(query, "UPDATE mineralCount SET `%s`=%d WHERE id='%s'", selProduct, player.GetMineralCount((char*)selProduct), player.getId());//±¤¹° °¹¼ö ¾÷µ¥ÀÌÆ®
+				sprintf(query, "UPDATE mineralCount SET `%s`=%d WHERE id='%s'", selProduct, player.GetMineralCount((char*)selProduct), player.getId());//ê´‘ë¬¼ ê°¯ìˆ˜ ì—…ë°ì´íŠ¸
 				query_stat = mysql_query(connection, query);
 				if (query_stat != 0)
 				{
 					fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
 					return;
 				}
-				sprintf(query, "UPDATE playeraccount SET money=%d WHERE id='%s'", player.getMoney(), player.getId());//ÇÃ·¹ÀÌ¾î µ· ¾÷µ¥ÀÌÆ®
+				sprintf(query, "UPDATE playeraccount SET money=%d WHERE id='%s'", player.getMoney(), player.getId());//í”Œë ˆì´ì–´ ëˆ ì—…ë°ì´íŠ¸
 				query_stat = mysql_query(connection, query);
 				if (query_stat != 0)
 				{
 					fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
 					return;
 				}
-				sprintf(query, "UPDATE mineralCount SET `%s`=%d WHERE id='itemCount'", selProduct, (mineralCount[sel-1]+player.GetMineralCount((char*)selProduct)));//±¤¹° ÀüÃ¼ °¹¼ö ¾÷µ¥ÀÌÆ®
+				sprintf(query, "UPDATE mineralCount SET `%s`=%d WHERE id='itemCount'", selProduct, (mineralCount[sel-1]+player.GetMineralCount((char*)selProduct)));//ê´‘ë¬¼ ì „ì²´ ê°¯ìˆ˜ ì—…ë°ì´íŠ¸
 				query_stat = mysql_query(connection, query);
 				if (query_stat != 0)
 				{
@@ -594,14 +600,14 @@ void MysqlDatabase::Market(Player& player) {
 					return;
 				}
 				gotoXY(0, 80);
-				cout << "1°³ ÆÇ¸Å ¿Ï·á" << endl;
+				cout << "1ê°œ íŒë§¤ ì™„ë£Œ" << endl;
 				gotoXY(0, 81);
 				cout << "                                            " << endl;
 
 			}
 			else {
 				gotoXY(0, 80);
-				cout << "¼ÒÀ¯ÇÏÁö ¾ÊÀº ±¤¹°" << endl;
+				cout << "ì†Œìœ í•˜ì§€ ì•Šì€ ê´‘ë¬¼" << endl;
 				gotoXY(0, 81);
 				cout << "                                            " << endl;
 			}
@@ -613,7 +619,8 @@ void MysqlDatabase::Market(Player& player) {
 
 	mysql_free_result(sql_result);
 
-	//DB ¿¬°á ´İ±â
+	//DB ì—°ê²° ë‹«ê¸°
 	mysql_close(connection);
 
 }
+*/

@@ -1,15 +1,3 @@
-Enter password: ****
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 7
-Server version: 5.5.50 MySQL Community Server (GPL)
-
-Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
 mysql> use minegame_db;
 Database changed
@@ -1074,4 +1062,28 @@ mysql> select * from playerAccount;
 +--------------+----------+-------+
 9 rows in set (0.00 sec)
 
-mysql>
+
+mysql> desc mineralcount;
++---------------------+------------------+------+-----+---------+-------+
+| Field               | Type             | Null | Key | Default | Extra |
++---------------------+------------------+------+-----+---------+-------+
+| id                  | varchar(50)      | NO   | PRI | NULL    |       |
+| ▲ 스캐폴라이트     | int(11) unsigned | YES  |     | 0       |       |
+| ◈ 스미스소나이트   | int(11) unsigned | YES  |     | 0       |       |
+| ◎ 시트린           | int(11) unsigned | YES  |     | 0       |       |
+| ◆ 플루라이트       | int(11) unsigned | YES  |     | 0       |       |
+| ● 아메지스트       | int(11) unsigned | YES  |     | 0       |       |
+| ▤ 래피도라이트     | int(11) unsigned | YES  |     | 0       |       |
+| ▣ 스피넬           | int(11) unsigned | YES  |     | 0       |       |
+| ◐ 루비             | int(11) unsigned | YES  |     | 0       |       |
+| □ 가넷             | int(11) unsigned | YES  |     | 0       |       |
+| ＠ 터키석           | int(11) unsigned | YES  |     | 0       |       |
+| ＃ 페리도트         | int(11) unsigned | YES  |     | 0       |       |
+| ▶ 에메랄드         | int(11) unsigned | YES  |     | 0       |       |
+| ◀ 아쿠아마린       | int(11) unsigned | YES  |     | 0       |       |
+| ■ 아주라이트       | int(11) unsigned | YES  |     | 0       |       |
+| ¤ 사파이어         | int(11) unsigned | YES  |     | 0       |       |
+| ▽ 다이아몬드       | int(11) unsigned | YES  |     | 0       |       |
+| ○ 그란디디어라이트 | int(11) unsigned | YES  |     | 0       |       |
+| ◇ 배니토아이트     | int(11) unsigned | YES  |     | 0       |       |
++---------------------+------------------+------+-----+---------+-------+

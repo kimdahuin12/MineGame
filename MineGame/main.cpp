@@ -18,7 +18,6 @@
 //
 
 //
-
 //함수 선언
 void fileReadAndPrint(string fileName);
 void StartGame();
@@ -31,7 +30,6 @@ void cursorVisibleFalse();
 //클래스 선언
 Player* player;
 Mine* mine = nullptr; 
-
 
 // https://kiffblog.tistory.com/151
 int main() {
@@ -48,6 +46,8 @@ int main() {
 	int selX;
 	int selY;
 	
+	cout << "test" << endl;
+
 	while (true) {
 		//아래와 같이 할 수 있는 그런..
 		//x, y 좌표를 설정해주면 간격 2로 차례대로 나올 수 있도록 했으면 좋겠다.
@@ -118,13 +118,13 @@ int main() {
 			//로그인 성공하면 게임 시작
 			char id[50];
 			unsigned long money;
-			if (MysqlDatabase::login(id, money)) { //로그인을 했다면 로그인된 아이디와 money 저장후 true, 아니면 false를 return 
-				//로그인 성공
-				player = new Player(id, money);
-				MysqlDatabase::playerInit(player); //플레이어 아이템, 돈, 등등 설정하기
-				StartGame();
-				LogOut();
-			}
+			//if (MysqlDatabase::login(id, money)) { //로그인을 했다면 로그인된 아이디와 money 저장후 true, 아니면 false를 return 
+			//	//로그인 성공
+			//	player = new Player(id, money);
+			//	MysqlDatabase::playerInit(player); //플레이어 아이템, 돈, 등등 설정하기
+			//	StartGame();
+			//	LogOut();
+			//}
 			break;
 		case 3:														//랭킹
 			reverseScene();
@@ -257,7 +257,7 @@ void StartGame()
 			break;
 		case 2:															//상점
 			reverseScene();
-			MysqlDatabase::Market(*player);
+			//MysqlDatabase::Market(*player);
 			reverseScene();
 			break;
 		case 3:															//인벤토리
@@ -269,9 +269,9 @@ void StartGame()
 		case 4:															//로그아웃
   			reverseScene();
 			//로그아웃 후 메뉴화면으로 이동
-			MysqlDatabase::playerMoneySave(player->getMoney(), player->getId());
-			MysqlDatabase::playerMineralSave(player->getInventory(), player->getItemCount(), player->getId()); //광물의 갯수를 db에 저장
-			delete player;
+			//MysqlDatabase::playerMoneySave(player->getMoney(), player->getId());
+			//MysqlDatabase::playerMineralSave(player->getInventory(), player->getItemCount(), player->getId()); //광물의 갯수를 db에 저장
+			//delete player;
 			cout << "메뉴 화면으로 이동합니다." << endl;
 			reverseScene();
 			return;
@@ -357,24 +357,24 @@ void GoMining()
 		//들어갈 수 있는지 확인
 
 		//고른 번호에 맞게 db에서 조회해서 필요한 광물의 갯수를 가져온다.
- 		int mineral_condision = MysqlDatabase::MineralCondition(sel);
+ 		//int mineral_condision = MysqlDatabase::MineralCondition(sel);
 
-  		if (player->MineAuthorityCheck(mineral_condision) && player->decreaseMoney(MysqlDatabase::GetEntrancePrice(sel))) {
-			//광산에 들어갈 수 있다면
-			//Mine객체를 만들고 초기화
-			mine = nullptr;
-			mine = new Mine(player, sel);
-			MysqlDatabase::MineInfoSave(*mine, sel);			//db에서 mine의 정보를 불러와서 mine객체의 변수에 저장
+  //		if (player->MineAuthorityCheck(mineral_condision) && player->decreaseMoney(MysqlDatabase::GetEntrancePrice(sel))) {
+		//	//광산에 들어갈 수 있다면
+		//	//Mine객체를 만들고 초기화
+		//	mine = nullptr;
+		//	mine = new Mine(player, sel);
+		//	MysqlDatabase::MineInfoSave(*mine, sel);			//db에서 mine의 정보를 불러와서 mine객체의 변수에 저장
 
-			break;
-		}
-		else {
-			//광산에 들어갈 수 없다면
-			reverseScene();
-			gotoXY(50, 50);
-			cout << "들어갈 수 없는 광산" << endl;
-			reverseScene();
-		}
+		//	break;
+		//}
+		//else {
+		//	//광산에 들어갈 수 없다면
+		//	reverseScene();
+		//	gotoXY(50, 50);
+		//	cout << "들어갈 수 없는 광산" << endl;
+		//	reverseScene();
+		//}
 	}
 	reverseScene();
 
