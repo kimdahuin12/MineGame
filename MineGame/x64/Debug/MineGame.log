@@ -1,6 +1,15 @@
-﻿  global.cpp
-D:\cppProject\MineGame\MineGame\global.cpp(21,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-D:\cppProject\MineGame\MineGame\global.cpp(21,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-  setting.cpp
+﻿  Enemy.cpp
+D:\cppProject\MineGame\MineGame\Enemy.cpp(136,38): warning C4244: '=': 'clock_t'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Mine.cpp
+D:\cppProject\MineGame\MineGame\Mine.cpp(104,12): warning C4244: '초기화 중': 'std::streamoff'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\cppProject\MineGame\MineGame\Mine.cpp(298,20): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  MysqlDatabase.cpp
+D:\cppProject\MineGame\MineGame\MysqlDatabase.cpp(148,11): warning C4477: 'printf' : 서식 문자열 '%-20s'에 'char *' 형식의 인수가 필요하지만 variadic 인수 2의 형식이 'sql::SQLString'입니다.
+D:\cppProject\MineGame\MineGame\MysqlDatabase.cpp(148,11): warning C4477: 'printf' : 서식 문자열 '%-20s'에 'char *' 형식의 인수가 필요하지만 variadic 인수 3의 형식이 'sql::SQLString'입니다.
   코드를 생성하고 있습니다...
+  main.cpp
+D:\cppProject\MineGame\MineGame\main.cpp(119,9): warning C4101: 'id' :참조되지 않은 지역 변수입니다.
+D:\cppProject\MineGame\MineGame\main.cpp(120,18): warning C4101: 'money' :참조되지 않은 지역 변수입니다.
+D:\cppProject\MineGame\MineGame\main.cpp(170,12): warning C4244: '초기화 중': 'std::streamoff'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\cppProject\MineGame\MineGame\main.cpp(285,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   MineGame.vcxproj -> D:\cppProject\MineGame\x64\Debug\MineGame.exe

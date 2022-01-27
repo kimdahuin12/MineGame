@@ -7,6 +7,8 @@ Enemy::Enemy() {
 	enemyMoveIdx = 0;
 	prevTime = clock();//이전시각
 
+	
+
 	//처음에 플레이어쪽으로 가도록 설정
 	for (int i = 0; i < playerMoveIdx; i++) {
 		playerMove[i][0] = 6+i;
@@ -22,9 +24,12 @@ Enemy::Enemy() {
 }
 
 void Enemy::Update(int curPlayerX, int curPlayerY, const char* ground[], bool* mineBool) {
+
 	//플레이어의 위치를 따라감
 	
 	saveLoc = false;//처음에는 false
+
+#pragma region 플레이어를 따라가는 적 테스트해봄
 
 //enemy가 움직을 좌표들을 플레이어의 좌표에 따라 저장해둔다
 //x좌표를 먼저 움직임.
@@ -114,8 +119,9 @@ void Enemy::Update(int curPlayerX, int curPlayerY, const char* ground[], bool* m
 //			playerMoveIdx = 0;
 //		}
 //	}
-
-	//enemy가 움직일 좌표
+#pragma endregion
+	
+//enemy가 움직일 좌표
 	int tempX = playerMove[enemyMoveIdx][0];
 	int tempY = playerMove[enemyMoveIdx][1];
 
@@ -174,4 +180,54 @@ void Enemy::playerMoveSave(int playerMoveX, int playerMoveY)
 	if (playerMoveIdx == PLAYERMOVE_LENGTH) {
 		playerMoveIdx = 0;
 	}
+}
+
+queue<Pos> Enemy::BFS(Pos start, Pos dest, const char* ground[])
+{
+	int deltaY[4] = { -1, 0, 1, 0 };
+	int deltaX[4] = { 0, -1, 0, 1 };
+	bool found[GAMEPLAY_GROUND_HEIGHT*GAMEPLAY_GROUND_WIDTH];
+	Pos parent[GAMEPLAY_GROUND_HEIGHT * GAMEPLAY_GROUND_WIDTH];
+	queue<Pos> q;
+	queue<Pos> res;
+
+	q.push(Pos(x, y));
+	found[y * GAMEPLAY_GROUND_WIDTH + x] = true;
+
+	while (!q.empty()) 
+	{
+		//위, 왼쪽, 아래, 오른쪽
+		Pos now = q.front();
+		q.pop();
+		int nowX = now._x;
+		int nowY = now._y;
+		int nextX, nextY;
+		found[nowY * GAMEPLAY_GROUND_WIDTH + nowX] = true;
+		parent[nowY * GAMEPLAY_GROUND_WIDTH + nowX] = Pos(nowX, nowY);
+		for (int i = 0; i < 4; i++)
+		{
+			nextX = nowX+deltaX[i];
+			nextY = nowY+deltaY[i];
+			
+			if (nextX < 0 || nextX >= GAMEPLAY_GROUND_WIDTH || nextY < 0 || nextY >= GAMEPLAY_GROUND_HEIGHT) { continue; }
+			if (ground[nextY * GAMEPLAY_GROUND_WIDTH + nextX] != ROAD
+				&& ground[nextY * GAMEPLAY_GROUND_WIDTH + nextX] != PLAYER_CHARACTER) { continue; }
+			if (found[nextY * GAMEPLAY_GROUND_WIDTH + nextX]) { continue; }
+			found[nextY * GAMEPLAY_GROUND_WIDTH + nextX] = true;
+			parent[nextY * GAMEPLAY_GROUND_WIDTH + nextX] = Pos(nowX, nowY);
+			q.push(Pos(nextX, nextY));
+		}
+	}
+
+	int x = dest._x;
+	int y = dest._y;
+	//도착지점에서 역추적
+	while (parent[y * GAMEPLAY_GROUND_WIDTH + x]._x != x || parent[y * GAMEPLAY_GROUND_WIDTH + x]._y != y) {
+		res.push(Pos(x, y));
+		x = parent[y * GAMEPLAY_GROUND_WIDTH + x]._x;
+		y = parent[y * GAMEPLAY_GROUND_WIDTH + x]._y;
+	}
+	res.push(Pos(x, y));
+	reverse(res.front(), res.back());
+	return q;
 }

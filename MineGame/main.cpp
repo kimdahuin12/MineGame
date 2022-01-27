@@ -118,6 +118,7 @@ int main() {
 			//로그인 성공하면 게임 시작
 			char id[50];
 			unsigned long money;
+			StartGame();
 			//if (MysqlDatabase::login(id, money)) { //로그인을 했다면 로그인된 아이디와 money 저장후 true, 아니면 false를 return 
 			//	//로그인 성공
 			//	player = new Player(id, money);
@@ -238,12 +239,7 @@ void StartGame()
 				}
 				//위아래 움직임에 따른 현재 선택 번호 표시 & sel 업데이트
 				gotoXY(75, 24);
-				switch (selY) {
-				case 12: cout << '1'; sel = 1; break;
-				case 14: cout << '2'; sel = 2; break;
-				case 16: cout << '3'; sel = 3; break;
-				case 18: cout << '4'; sel = 4; break;
-				}
+				sel = (selY - 10) / 2;
 			}
 		}
 		cout << endl;
@@ -338,14 +334,8 @@ void GoMining()
 				}
 				//위아래 움직임에 따른 현재 선택 번호 표시 & sel 업데이트
 				gotoXY(55, 34);
-				switch (selY) {
-				case 12: cout << '1'; sel = 1; break;
-				case 14: cout << '2'; sel = 2; break;
-				case 16: cout << '3'; sel = 3; break;
-				case 18: cout << '4'; sel = 4; break;
-				case 20: cout << '5'; sel = 5; break;
-				case 22: cout << '6'; sel = 6; break;
-				}
+				sel = (selY - 10) / 2; //선택한 번호
+				
 			}
 		}
 		cout << endl;
@@ -357,7 +347,7 @@ void GoMining()
 		//들어갈 수 있는지 확인
 
 		//고른 번호에 맞게 db에서 조회해서 필요한 광물의 갯수를 가져온다.
- 		//int mineral_condision = MysqlDatabase::MineralCondition(sel);
+ 	//	int mineral_condision = MysqlDatabase::MineralCondition(sel);
 
   //		if (player->MineAuthorityCheck(mineral_condision) && player->decreaseMoney(MysqlDatabase::GetEntrancePrice(sel))) {
 		//	//광산에 들어갈 수 있다면
@@ -375,6 +365,20 @@ void GoMining()
 		//	cout << "들어갈 수 없는 광산" << endl;
 		//	reverseScene();
 		//}
+
+
+		mine = nullptr;
+		mine = new Mine(player, sel);
+		char* name = new char[strlen("일반 광산") + 1];
+		strcpy(name, "일반 광산");
+		mine->SetMineInfo(name, 1, 1, new float[6]{0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f});
+		break;
+		//price
+	//name
+	//produce
+	//delete
+	//percentageS
+
 	}
 	reverseScene();
 

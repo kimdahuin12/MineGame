@@ -4,6 +4,7 @@ MCI_PLAY_PARMS playBgm;
 MCI_OPEN_PARMS openShuffleSound;
 MCI_PLAY_PARMS playShuffleSound;
 
+
 int dwID;
 void playingShuffleSound() {
 	//È¿°úÀ½

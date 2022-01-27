@@ -4,7 +4,7 @@
 //아니면 광산에 몬스터가 따라와서 몬스터를 피하면서 먹어야하게 하기!!
 
 Mine::Mine(Player* player, int id) {
-	this->player = player;
+ 	this->player = player;
 	playerX = 25;
 	playerY = 5;
 	mineBool = true;
@@ -85,7 +85,7 @@ void Mine::SetMineInfo(char* name, int produceSec, int deleteSec, float* percent
 	for (int i = 0; i < MINERAL_ITEM_COUNT + 1; i++) {
 		mineralPercentage[i] = percentage[i];
 	}
- 	sprintf(fileName, "%dminePrint.txt", id); //문제
+ 	sprintf(fileName, "%dminePrint.txt", 1); //문제
 }
 
 void Mine::MineInit() {
