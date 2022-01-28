@@ -121,9 +121,9 @@ void Enemy::Update(int curPlayerX, int curPlayerY, const char* ground[], bool* m
 //	}
 #pragma endregion
 	
-//enemy가 움직일 좌표
-	int tempX = playerMove[enemyMoveIdx][0];
-	int tempY = playerMove[enemyMoveIdx][1];
+////enemy가 움직일 좌표
+//	int tempX = playerMove[enemyMoveIdx][0];
+//	int tempY = playerMove[enemyMoveIdx][1];
 
 	//땅에 enemy 위치시키기
 	ground[y * GAMEPLAY_GROUND_WIDTH + x] = ENEMY_SHAPE;
@@ -131,35 +131,38 @@ void Enemy::Update(int curPlayerX, int curPlayerY, const char* ground[], bool* m
 	currentTime = clock(); //지금 시각
 	lastTime = (currentTime - prevTime) / CLOCKS_PER_SEC;
 	if (80 <= currentTime - prevTime) {
+		prevTime = clock();
 
-		//큐
-		if (tempX != -1 || tempY != -1) { //playerMove[enemyMoveIdx]배열 중 하나라도 -1이 저장돼있다면(좌표가 저장이 안돼있다는뜻)
-			//현재 위치 비우기
-			ground[y * GAMEPLAY_GROUND_WIDTH + x] = ROAD;
-			gotoXY(x * 2, COORDINATE_TOP + y);
-			cout << ground[y * GAMEPLAY_GROUND_WIDTH + x];
+		BFS( Pos(curPlayerX, curPlayerY), Pos(x, y), ground);//플레이어한테로 가도록 _positions에 넣어줌
 
-			if (ground[playerMove[enemyMoveIdx][1] * GAMEPLAY_GROUND_WIDTH + playerMove[enemyMoveIdx][0]] == PLAYER_CHARACTER) {
-				//enemy가 가려는 곳에 플레이어가 있다면 enemy가 플레이어를 먹음
-				*mineBool = false;
-			}
-
-			//저장된 위치 enemy 위치로 저장
-			x = playerMove[enemyMoveIdx][0];
-			y = playerMove[enemyMoveIdx][1];
-			//저장돼있던 배열idx부분 비우기
-			playerMove[enemyMoveIdx][0] = -1;
-			playerMove[enemyMoveIdx][1] = -1;
-			enemyMoveIdx++;
-			if (enemyMoveIdx == PLAYERMOVE_LENGTH) { //맨끝까지 가면 다시 0번째방부터 저장이 돼있음
-				enemyMoveIdx = 0;
-			}
-
-			//enemy 위치 저장
-			ground[y * GAMEPLAY_GROUND_WIDTH + x] = ENEMY_SHAPE;
-
-			prevTime = clock();
+		if (!_positions.empty()) {
+			moveX = _positions.front()._x;
+			moveY = _positions.front()._y;
+			_positions.pop();
 		}
+		else {
+			return;
+		}
+
+		//현재 위치 비우기
+		ground[y * GAMEPLAY_GROUND_WIDTH + x] = ROAD;
+		gotoXY(x * 2, COORDINATE_TOP + y);
+		cout << ground[y * GAMEPLAY_GROUND_WIDTH + x];
+
+		if (ground[moveX * GAMEPLAY_GROUND_WIDTH + moveY] == PLAYER_CHARACTER) {
+			//enemy가 가려는 곳에 플레이어가 있다면 enemy가 플레이어를 먹음
+			*mineBool = false;
+		}
+
+		//저장된 위치 enemy 위치로 저장
+		x = moveX;
+		y = moveY;
+
+		ground[y * GAMEPLAY_GROUND_WIDTH + x] = ENEMY_SHAPE;
+
+		prevTime = clock();
+
+		
 	}
 
 }
@@ -182,28 +185,31 @@ void Enemy::playerMoveSave(int playerMoveX, int playerMoveY)
 	}
 }
 
-queue<Pos> Enemy::BFS(Pos start, Pos dest, const char* ground[])
+void Enemy::BFS(Pos start, Pos dest, const char* ground[])
 {
+	//start는 플레이어의 위치, dest는 적의 위치로 넣어줘야 적의 위치가 나옴
+
 	int deltaY[4] = { -1, 0, 1, 0 };
 	int deltaX[4] = { 0, -1, 0, 1 };
-	bool found[GAMEPLAY_GROUND_HEIGHT*GAMEPLAY_GROUND_WIDTH];
-	Pos parent[GAMEPLAY_GROUND_HEIGHT * GAMEPLAY_GROUND_WIDTH];
+	bool found[GAMEPLAY_GROUND_HEIGHT * GAMEPLAY_GROUND_WIDTH] = {false, };
+	int parentX[GAMEPLAY_GROUND_HEIGHT*GAMEPLAY_GROUND_WIDTH] = {0,};
+	int parentY[GAMEPLAY_GROUND_HEIGHT * GAMEPLAY_GROUND_WIDTH] = {0,};
 	queue<Pos> q;
-	queue<Pos> res;
 
-	q.push(Pos(x, y));
+	q.push(Pos(start._x, start._y));
 	found[y * GAMEPLAY_GROUND_WIDTH + x] = true;
 
 	while (!q.empty()) 
 	{
 		//위, 왼쪽, 아래, 오른쪽
 		Pos now = q.front();
-		q.pop();
 		int nowX = now._x;
 		int nowY = now._y;
+		q.pop();
 		int nextX, nextY;
 		found[nowY * GAMEPLAY_GROUND_WIDTH + nowX] = true;
-		parent[nowY * GAMEPLAY_GROUND_WIDTH + nowX] = Pos(nowX, nowY);
+		parentX[nowY * GAMEPLAY_GROUND_WIDTH + nowX] = nowX;
+		parentY[nowY * GAMEPLAY_GROUND_WIDTH + nowX] = nowY;
 		for (int i = 0; i < 4; i++)
 		{
 			nextX = nowX+deltaX[i];
@@ -214,7 +220,8 @@ queue<Pos> Enemy::BFS(Pos start, Pos dest, const char* ground[])
 				&& ground[nextY * GAMEPLAY_GROUND_WIDTH + nextX] != PLAYER_CHARACTER) { continue; }
 			if (found[nextY * GAMEPLAY_GROUND_WIDTH + nextX]) { continue; }
 			found[nextY * GAMEPLAY_GROUND_WIDTH + nextX] = true;
-			parent[nextY * GAMEPLAY_GROUND_WIDTH + nextX] = Pos(nowX, nowY);
+			parentX[nextY * GAMEPLAY_GROUND_WIDTH + nextX] = nowX;
+			parentY[nextY * GAMEPLAY_GROUND_WIDTH + nextX] = nowY;
 			q.push(Pos(nextX, nextY));
 		}
 	}
@@ -222,12 +229,11 @@ queue<Pos> Enemy::BFS(Pos start, Pos dest, const char* ground[])
 	int x = dest._x;
 	int y = dest._y;
 	//도착지점에서 역추적
-	while (parent[y * GAMEPLAY_GROUND_WIDTH + x]._x != x || parent[y * GAMEPLAY_GROUND_WIDTH + x]._y != y) {
-		res.push(Pos(x, y));
-		x = parent[y * GAMEPLAY_GROUND_WIDTH + x]._x;
-		y = parent[y * GAMEPLAY_GROUND_WIDTH + x]._y;
+	//하나만 넣어봄
+	if (parentX[y * GAMEPLAY_GROUND_WIDTH + x] != x || parentY[y * GAMEPLAY_GROUND_WIDTH + x] != y) {
+		_positions.push(Pos(x, y));
+		x = parentX[y * GAMEPLAY_GROUND_WIDTH + x];
+		y = parentY[y * GAMEPLAY_GROUND_WIDTH + x];
 	}
-	res.push(Pos(x, y));
-	reverse(res.front(), res.back());
-	return q;
+	_positions.push(Pos(x, y));
 }

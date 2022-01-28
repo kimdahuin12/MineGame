@@ -1,10 +1,17 @@
 #pragma once
 #include "gameGlobal.h"
 #include <queue>
-#include <algorithm>
 #define PLAYERMOVE_LENGTH 100 
 
 void gotoXY(int x, int y);
+class Pos {
+public:
+	int _x;
+	int _y;
+	Pos() { _x = 0; _y = 0; }
+	Pos(int x, int y) :_x(x), _y(y) {}
+	~Pos() {}
+};
 class Enemy
 {
 private:
@@ -22,9 +29,12 @@ private:
 	int playerMove[100][2];//player의 위치를 저장. 
 	int playerMoveIdx;//player의 위치를 저장할 idx
 	int enemyMoveIdx; //enemy가 따라갈 player위치의 idx 
+	int moveX;
+	int moveY;
 	bool saveLoc;
+	queue<Pos> _positions;
 
-	queue<Pos> BFS(Pos start, Pos dest, const char* ground[]);
+	void BFS(Pos start, Pos dest, const char* ground[]);
 public:
 	/*
 		몬스터의 x, y 좌표
@@ -37,11 +47,3 @@ public:
 	
 };
 
-class Pos {
-public:
-	int _x;
-	int _y;
-	Pos() {}
-	Pos(int x, int y) :_x(x), _y(y) {}
-	
-};
