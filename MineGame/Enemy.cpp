@@ -23,7 +23,7 @@ Enemy::Enemy() {
 
 }
 
-void Enemy::Update(int curPlayerX, int curPlayerY, const char* ground[], bool* mineBool) {
+void Enemy::Update(int curPlayerX, int curPlayerY, const char* ground[][GAMEPLAY_GROUND_WIDTH], bool* mineBool) {
 
 	//플레이어의 위치를 따라감
 	
@@ -126,7 +126,7 @@ void Enemy::Update(int curPlayerX, int curPlayerY, const char* ground[], bool* m
 //	int tempY = playerMove[enemyMoveIdx][1];
 
 	//땅에 enemy 위치시키기
-	ground[y * GAMEPLAY_GROUND_WIDTH + x] = ENEMY_SHAPE;
+	ground[y][x] = ENEMY_SHAPE;
 
 	currentTime = clock(); //지금 시각
 	lastTime = (currentTime - prevTime) / CLOCKS_PER_SEC;
@@ -145,11 +145,11 @@ void Enemy::Update(int curPlayerX, int curPlayerY, const char* ground[], bool* m
 		}
 
 		//현재 위치 비우기
-		ground[y * GAMEPLAY_GROUND_WIDTH + x] = ROAD;
+		ground[y][x] = ROAD;
 		gotoXY(x * 2, COORDINATE_TOP + y);
 		cout << ground[y * GAMEPLAY_GROUND_WIDTH + x];
 
-		if (ground[moveX * GAMEPLAY_GROUND_WIDTH + moveY] == PLAYER_CHARACTER) {
+		if (ground[moveY][moveX] == PLAYER_CHARACTER) {
 			//enemy가 가려는 곳에 플레이어가 있다면 enemy가 플레이어를 먹음
 			*mineBool = false;
 		}
@@ -158,7 +158,7 @@ void Enemy::Update(int curPlayerX, int curPlayerY, const char* ground[], bool* m
 		x = moveX;
 		y = moveY;
 
-		ground[y * GAMEPLAY_GROUND_WIDTH + x] = ENEMY_SHAPE;
+		ground[y][x] = ENEMY_SHAPE;
 
 		prevTime = clock();
 
@@ -167,10 +167,10 @@ void Enemy::Update(int curPlayerX, int curPlayerY, const char* ground[], bool* m
 
 }
 
-void Enemy::Render(const char* ground[]) {
+void Enemy::Render(const char* ground[][GAMEPLAY_GROUND_WIDTH]) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 4);
 	gotoXY(x * 2, COORDINATE_TOP + y);
-	cout << ground[y * GAMEPLAY_GROUND_WIDTH + x];
+	cout << ground[y][x];
 
 }
 
@@ -185,20 +185,21 @@ void Enemy::playerMoveSave(int playerMoveX, int playerMoveY)
 	}
 }
 
-void Enemy::BFS(Pos start, Pos dest, const char* ground[])
+void Enemy::BFS(Pos start, Pos dest, const char* ground[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH])
 {
 	//start는 플레이어의 위치, dest는 적의 위치로 넣어줘야 적의 위치가 나옴
 
 	int deltaY[4] = { -1, 0, 1, 0 };
 	int deltaX[4] = { 0, -1, 0, 1 };
-	bool found[GAMEPLAY_GROUND_HEIGHT * GAMEPLAY_GROUND_WIDTH] = {false, };
-	int parentX[GAMEPLAY_GROUND_HEIGHT*GAMEPLAY_GROUND_WIDTH] = {0,};
-	int parentY[GAMEPLAY_GROUND_HEIGHT * GAMEPLAY_GROUND_WIDTH] = {0,};
+	bool found[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH] = {false, };
+	Pos parent[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH];
+
 	queue<Pos> q;
 
 	q.push(Pos(start._x, start._y));
-	found[y * GAMEPLAY_GROUND_WIDTH + x] = true;
-
+	found[start._y][start._x] = true;
+	parent[start._y][start._x].setPos(start._x, start._y);
+	
 	while (!q.empty()) 
 	{
 		//위, 왼쪽, 아래, 오른쪽
@@ -207,21 +208,18 @@ void Enemy::BFS(Pos start, Pos dest, const char* ground[])
 		int nowY = now._y;
 		q.pop();
 		int nextX, nextY;
-		found[nowY * GAMEPLAY_GROUND_WIDTH + nowX] = true;
-		parentX[nowY * GAMEPLAY_GROUND_WIDTH + nowX] = nowX;
-		parentY[nowY * GAMEPLAY_GROUND_WIDTH + nowX] = nowY;
+		
 		for (int i = 0; i < 4; i++)
 		{
 			nextX = nowX+deltaX[i];
 			nextY = nowY+deltaY[i];
 			
 			if (nextX < 0 || nextX >= GAMEPLAY_GROUND_WIDTH || nextY < 0 || nextY >= GAMEPLAY_GROUND_HEIGHT) { continue; }
-			if (ground[nextY * GAMEPLAY_GROUND_WIDTH + nextX] != ROAD
-				&& ground[nextY * GAMEPLAY_GROUND_WIDTH + nextX] != PLAYER_CHARACTER) { continue; }
-			if (found[nextY * GAMEPLAY_GROUND_WIDTH + nextX]) { continue; }
-			found[nextY * GAMEPLAY_GROUND_WIDTH + nextX] = true;
-			parentX[nextY * GAMEPLAY_GROUND_WIDTH + nextX] = nowX;
-			parentY[nextY * GAMEPLAY_GROUND_WIDTH + nextX] = nowY;
+			if (ground[nextY][nextX] != ROAD
+				&& ground[nextY][nextX] != PLAYER_CHARACTER) { continue; }
+			if (found[nextY][nextX]) { continue; }
+			found[nextY][nextX] = true;
+			parent[nextY][nextX].setPos(nowX, nowY);
 			q.push(Pos(nextX, nextY));
 		}
 	}
@@ -230,10 +228,12 @@ void Enemy::BFS(Pos start, Pos dest, const char* ground[])
 	int y = dest._y;
 	//도착지점에서 역추적
 	//하나만 넣어봄
-	if (parentX[y * GAMEPLAY_GROUND_WIDTH + x] != x || parentY[y * GAMEPLAY_GROUND_WIDTH + x] != y) {
+	if (parent[y][x]._x != x || parent[y][x]._y != y) {
 		_positions.push(Pos(x, y));
-		x = parentX[y * GAMEPLAY_GROUND_WIDTH + x];
-		y = parentY[y * GAMEPLAY_GROUND_WIDTH + x];
+		x = parent[y][x]._x;
+		y = parent[y][x]._y;
 	}
 	_positions.push(Pos(x, y));
 }
+
+void Pos::setPos(int x, int y) { _x = x; _y = y; }

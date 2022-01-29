@@ -1,6 +1,7 @@
 #pragma once
 #include "gameGlobal.h"
 #include <queue>
+#include <vector>
 #define PLAYERMOVE_LENGTH 100 
 
 void gotoXY(int x, int y);
@@ -11,6 +12,7 @@ public:
 	Pos() { _x = 0; _y = 0; }
 	Pos(int x, int y) :_x(x), _y(y) {}
 	~Pos() {}
+	void setPos(int x, int y);
 };
 class Enemy
 {
@@ -34,15 +36,15 @@ private:
 	bool saveLoc;
 	queue<Pos> _positions;
 
-	void BFS(Pos start, Pos dest, const char* ground[]);
+	void BFS(Pos start, Pos dest, const char* ground[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH]);
 public:
 	/*
 		몬스터의 x, y 좌표
 		플레이어의 
 	*/
 	Enemy();
-	void Update(int curPlayerX, int curPlayerY, const char* ground[], bool* mineBool);
-	void Render(const char* ground[]);
+	void Update(int curPlayerX, int curPlayerY, const char* ground[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH], bool* mineBool);
+	void Render(const char* ground[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH]);
 	void playerMoveSave(int playerMoveX, int playerMoveY);
 	
 };

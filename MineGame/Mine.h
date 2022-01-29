@@ -20,7 +20,7 @@ class Mine
 	DAKR_YELLOW
 	*/
 private:
-	const char* ground[GAMEPLAY_GROUND_HEIGHT*GAMEPLAY_GROUND_WIDTH]; //광물을 수집하는 구역
+	const char* ground[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH]; //광물을 수집하는 구역
 	int item[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH]; //광물의 색을 저장하는 구역
 	
 	int id;
