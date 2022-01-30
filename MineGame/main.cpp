@@ -95,13 +95,8 @@ int main() {
 				}
 				//위아래 움직임에 따른 현재 선택 번호 표시 & sel 업데이트
 				gotoXY(75, 28);
-				switch (selY) {
-				case 12: cout << '1'; sel = 1; break;
-				case 14: cout << '2'; sel = 2; break;
-				case 16: cout << '3'; sel = 3; break;
-				case 18: cout << '4'; sel = 4; break;
-				case 20: cout << '5'; sel = 5; break;
-				}
+				sel = (selY - 10) / 2;
+				
 			}
 		}
 		cout << endl;
@@ -371,7 +366,7 @@ void GoMining()
 		mine = new Mine(player, sel);
 		char* name = new char[strlen("일반 광산") + 1];
 		strcpy(name, "일반 광산");
-		mine->SetMineInfo(name, 1, 1, new float[6]{0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f});
+		mine->SetMineInfo(name, 1, 5, new float[6]{0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f});
 		break;
 		//price
 	//name

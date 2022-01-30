@@ -36,7 +36,7 @@ private:
 	bool saveLoc;
 	queue<Pos> _positions;
 
-	void BFS(Pos start, Pos dest, const char* ground[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH]);
+	void Direction(Pos start, Pos dest, const char* ground[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH]);
 public:
 	/*
 		몬스터의 x, y 좌표

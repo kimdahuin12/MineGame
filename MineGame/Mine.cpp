@@ -150,7 +150,13 @@ void Mine::MineInit() {
 	//게임 플레이 부분의 모든 곳을 초기화
 	for (int i = 0; i < GAMEPLAY_GROUND_HEIGHT; i++) {
 		for (int j = 0; j < GAMEPLAY_GROUND_WIDTH; j++) {
+			ground[i][j] = ROAD;
 			item[i][j] = EMPTY;
+			if (i == 0 || j == 0 || j == GAMEPLAY_GROUND_WIDTH - 1 || i == GAMEPLAY_GROUND_HEIGHT - 1) {
+				ground[i][j] = "▼";
+			}
+			gotoXY(j * 2, i + COORDINATE_TOP);
+			cout << ground[i][j];
 		}
 	}
 
@@ -174,7 +180,7 @@ int Mine::KeyInputRelated() {
 		ground[playerY][playerX] = ROAD;
 		item[playerY][playerX] = EMPTY;
 		gotoXY(playerX * 2, COORDINATE_TOP + playerY);
-		cout << ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX];
+		cout << ground[playerY][playerX];
 		if ((input == UP) && (ground[(playerY-1)][playerX] == ROAD|| ground[(playerY - 1)][playerX] == "■")) {
 			playerY -= 1;
 		}
@@ -203,7 +209,7 @@ int Mine::KeyInputRelated() {
 		ground[playerY][playerX] = PLAYER_CHARACTER;
 		item[playerY][playerX] = EMPTY;
 		gotoXY(playerX * 2, COORDINATE_TOP + playerY);
-		cout << ground[playerY * GAMEPLAY_GROUND_WIDTH + playerX];
+		cout << ground[playerY][playerX];
 	}
 	return input;
 }
@@ -330,5 +336,5 @@ void Mine::Render() {
 	enemy.Render(ground);
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), item[mineralY][mineralX]);
 	gotoXY(mineralX * 2, COORDINATE_TOP + mineralY);
-	cout << ground[mineralY*GAMEPLAY_GROUND_WIDTH+mineralX];
+	cout << ground[mineralY][mineralX];
 }

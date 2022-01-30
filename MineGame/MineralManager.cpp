@@ -55,7 +55,7 @@ void MineralManager::RandomMineralDel(const char* ground[][GAMEPLAY_GROUND_WIDTH
 		ground[y][x] = "  ";
 		item[y][x] = EMPTY;
 		gotoXY(x * 2, COORDINATE_TOP + y);
-		std::cout << ground[y * GAMEPLAY_GROUND_WIDTH + x];
+		std::cout << ground[y][x];
 	}
 }
 

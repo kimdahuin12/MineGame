@@ -129,12 +129,12 @@ void Enemy::Update(int curPlayerX, int curPlayerY, const char* ground[][GAMEPLAY
 	ground[y][x] = ENEMY_SHAPE;
 
 	currentTime = clock(); //지금 시각
+	
 	lastTime = (currentTime - prevTime) / CLOCKS_PER_SEC;
 	if (80 <= currentTime - prevTime) {
 		prevTime = clock();
-
-		BFS( Pos(curPlayerX, curPlayerY), Pos(x, y), ground);//플레이어한테로 가도록 _positions에 넣어줌
-
+		
+		Direction(Pos(curPlayerX, curPlayerY), Pos(x, y), ground);//플레이어한테로 가도록 _positions에 넣어줌
 		if (!_positions.empty()) {
 			moveX = _positions.front()._x;
 			moveY = _positions.front()._y;
@@ -147,7 +147,7 @@ void Enemy::Update(int curPlayerX, int curPlayerY, const char* ground[][GAMEPLAY
 		//현재 위치 비우기
 		ground[y][x] = ROAD;
 		gotoXY(x * 2, COORDINATE_TOP + y);
-		cout << ground[y * GAMEPLAY_GROUND_WIDTH + x];
+		cout << ground[y][x];
 
 		if (ground[moveY][moveX] == PLAYER_CHARACTER) {
 			//enemy가 가려는 곳에 플레이어가 있다면 enemy가 플레이어를 먹음
@@ -155,8 +155,8 @@ void Enemy::Update(int curPlayerX, int curPlayerY, const char* ground[][GAMEPLAY
 		}
 
 		//저장된 위치 enemy 위치로 저장
-		x = moveX;
-		y = moveY;
+		this->x = moveX;
+		this->y = moveY;
 
 		ground[y][x] = ENEMY_SHAPE;
 
@@ -185,7 +185,7 @@ void Enemy::playerMoveSave(int playerMoveX, int playerMoveY)
 	}
 }
 
-void Enemy::BFS(Pos start, Pos dest, const char* ground[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH])
+void Enemy::Direction(Pos start, Pos dest, const char* ground[GAMEPLAY_GROUND_HEIGHT][GAMEPLAY_GROUND_WIDTH])
 {
 	//start는 플레이어의 위치, dest는 적의 위치로 넣어줘야 적의 위치가 나옴
 
@@ -215,8 +215,7 @@ void Enemy::BFS(Pos start, Pos dest, const char* ground[GAMEPLAY_GROUND_HEIGHT][
 			nextY = nowY+deltaY[i];
 			
 			if (nextX < 0 || nextX >= GAMEPLAY_GROUND_WIDTH || nextY < 0 || nextY >= GAMEPLAY_GROUND_HEIGHT) { continue; }
-			if (ground[nextY][nextX] != ROAD
-				&& ground[nextY][nextX] != PLAYER_CHARACTER) { continue; }
+			if (ground[nextY][nextX] == "▼") { continue; } //갈 수 없는 곳
 			if (found[nextY][nextX]) { continue; }
 			found[nextY][nextX] = true;
 			parent[nextY][nextX].setPos(nowX, nowY);
@@ -226,14 +225,13 @@ void Enemy::BFS(Pos start, Pos dest, const char* ground[GAMEPLAY_GROUND_HEIGHT][
 
 	int x = dest._x;
 	int y = dest._y;
-	//도착지점에서 역추적
-	//하나만 넣어봄
+	//도착지점에서 역추적. 하나의 좌표만
 	if (parent[y][x]._x != x || parent[y][x]._y != y) {
-		_positions.push(Pos(x, y));
 		x = parent[y][x]._x;
 		y = parent[y][x]._y;
+		_positions.push(Pos(x, y));
 	}
-	_positions.push(Pos(x, y));
+
 }
 
 void Pos::setPos(int x, int y) { _x = x; _y = y; }
