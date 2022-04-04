@@ -1,6 +1,7 @@
 #include "Player.h"
 
 int Player::itemCount = 0;
+MyItem* Player::inventory[MineralMax] = {nullptr,}; //inventory는 player가 다시 생성될 때 초기화됨
 
 Player::Player(char* id, unsigned long money) {
 	this->id = id;
@@ -40,7 +41,6 @@ bool Player::decreaseMoney(long money) {
 void Player::increaseMoney(long money) {
 	this->money += money;
 }
-
 void Player::AddMineral(char* mineralName) {
 	//광물 이름이 같은 myMineral의 count를 1 증가시킨다.
 	for (int i = 0; i < itemCount; i++) {
@@ -50,9 +50,9 @@ void Player::AddMineral(char* mineralName) {
 			return; //함수를 빠져나간다..
 		}
 	}
-	
 	//지금 추가한 아이템이 처음 들어온 아이템이다. 그래서 생성한다. 그럼 그 아이템이 하나 추가된다.
-	this->inventory[itemCount++] = new MyItem(mineralName);
+	
+	inventory[itemCount++] = new MyItem(mineralName);
 }
 
 bool Player::RemoveMineral(char* mineralName) { //삭제할 미네랄 이름
