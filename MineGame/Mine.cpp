@@ -11,69 +11,71 @@ Mine::Mine(Player* player, int id) {
 
 	this->id = id;
 
-	//
-	////광산 이름
-	//this->mineName = new char[strlen(mineName) + 1];
-	//strcpy(this->mineName, mineName);
-	//if (!strcmp(mineName, "일반 광산")) {
-	//	produceMineralSec = 2;
-	//	deleteMineralSec = 3;
-	//	//광물 색에 따른 확률.
-	//	mineralPercentage[YELLOW] = 45.0f;
-	//	mineralPercentage[DARK_VIOLET] = 45.0f;
-	//	mineralPercentage[DARK_RED] = 4.9f;
-	//	mineralPercentage[DARK_GREEN] = 2.5f;
-	//	mineralPercentage[DARK_BLUE] = 2.5f;
-	//	mineralPercentage[DARK_SKYBLUE] = 0.1f;
-	//	fileName = "test1.txt";
-	//}
-	//else if (!strcmp(mineName, "중급 광산")) {
-	//	produceMineralSec = 4;
-	//	deleteMineralSec = 4;
-	//	mineralPercentage[YELLOW] = 35.0f;
-	//	mineralPercentage[DARK_VIOLET] = 35.0f;
-	//	mineralPercentage[DARK_RED] = 23.5f;
-	//	mineralPercentage[DARK_GREEN] = 3.0f;
-	//	mineralPercentage[DARK_BLUE] = 3.0f;
-	//	mineralPercentage[DARK_SKYBLUE] = 0.5f;
-	//	fileName = "test2.txt";
-	//}
-	//else if (!strcmp(mineName, "고급 광산")) {
-	//	produceMineralSec = 5;
-	//	deleteMineralSec = 5;
-	//	mineralPercentage[YELLOW] = 30.0f;
-	//	mineralPercentage[DARK_VIOLET] = 30.0f;
-	//	mineralPercentage[DARK_RED] = 29.0f;
-	//	mineralPercentage[DARK_GREEN] = 5.0f;
-	//	mineralPercentage[DARK_BLUE] = 5.0f;
-	//	mineralPercentage[DARK_SKYBLUE] = 1.0f;
-	//	fileName = "test3.txt";
-	//}
-	//else if (!strcmp(mineName, "테스트1 광산")) {
-	//	produceMineralSec = 5;
-	//	deleteMineralSec = 5;
-	//	mineralPercentage[YELLOW] = 30.0f;
-	//	mineralPercentage[DARK_VIOLET] = 30.0f;
-	//	mineralPercentage[DARK_RED] = 29.0f;
-	//	mineralPercentage[DARK_GREEN] = 5.0f;
-	//	mineralPercentage[DARK_BLUE] = 5.0f;
-	//	mineralPercentage[DARK_SKYBLUE] = 1.0f;
-	//	fileName = "test3.txt";
-	//}
-	//else if (!strcmp(mineName, "테스트2 광산")) {
-	//	produceMineralSec = 5;
-	//	deleteMineralSec = 5;
-	//	mineralPercentage[YELLOW] = 30.0f;
-	//	mineralPercentage[DARK_VIOLET] = 30.0f;
-	//	mineralPercentage[DARK_RED] = 29.0f;
-	//	mineralPercentage[DARK_GREEN] = 5.0f;
-	//	mineralPercentage[DARK_BLUE] = 5.0f;
-	//	mineralPercentage[DARK_SKYBLUE] = 1.0f;
-	//	fileName = "test3.txt";
-	//}
+	//광산 이름
+	this->mineName = new char[strlen("일반 광산") + 1];
+	strcpy(this->mineName, "일반 광산");
+	if (!strcmp(mineName, "일반 광산")) {
+		produceMineralSec = 2;
+		deleteMineralSec = 3;
+		//광물 색에 따른 확률.
+		mineralPercentage[YELLOW] = 45.0f;
+		mineralPercentage[DARK_VIOLET] = 45.0f;
+		mineralPercentage[DARK_RED] = 4.9f;
+		mineralPercentage[DARK_GREEN] = 2.5f;
+		mineralPercentage[DARK_BLUE] = 2.5f;
+		mineralPercentage[DARK_SKYBLUE] = 0.1f;
+		//fileName = new char[strlen("test1.txt") + 1];
+		strcpy(fileName, "test1.txt");
+		//fileName = "test1.txt";
+	}
+	else if (!strcmp(mineName, "중급 광산")) {
+		produceMineralSec = 4;
+		deleteMineralSec = 4;
+		mineralPercentage[YELLOW] = 35.0f;
+		mineralPercentage[DARK_VIOLET] = 35.0f;
+		mineralPercentage[DARK_RED] = 23.5f;
+		mineralPercentage[DARK_GREEN] = 3.0f;
+		mineralPercentage[DARK_BLUE] = 3.0f;
+		mineralPercentage[DARK_SKYBLUE] = 0.5f;
+		strcpy(fileName, "test2.txt");
+	}
+	else if (!strcmp(mineName, "고급 광산")) {
+		produceMineralSec = 5;
+		deleteMineralSec = 5;
+		mineralPercentage[YELLOW] = 30.0f;
+		mineralPercentage[DARK_VIOLET] = 30.0f;
+		mineralPercentage[DARK_RED] = 29.0f;
+		mineralPercentage[DARK_GREEN] = 5.0f;
+		mineralPercentage[DARK_BLUE] = 5.0f;
+		mineralPercentage[DARK_SKYBLUE] = 1.0f;
+		strcpy(fileName, "test3.txt");
+	}
+	else if (!strcmp(mineName, "테스트1 광산")) {
+		produceMineralSec = 5;
+		deleteMineralSec = 5;
+		mineralPercentage[YELLOW] = 30.0f;
+		mineralPercentage[DARK_VIOLET] = 30.0f;
+		mineralPercentage[DARK_RED] = 29.0f;
+		mineralPercentage[DARK_GREEN] = 5.0f;
+		mineralPercentage[DARK_BLUE] = 5.0f;
+		mineralPercentage[DARK_SKYBLUE] = 1.0f;
+		strcpy(fileName, "test3.txt");
+	}
+	else if (!strcmp(mineName, "테스트2 광산")) {
+		produceMineralSec = 5;
+		deleteMineralSec = 5;
+		mineralPercentage[YELLOW] = 30.0f;
+		mineralPercentage[DARK_VIOLET] = 30.0f;
+		mineralPercentage[DARK_RED] = 29.0f;
+		mineralPercentage[DARK_GREEN] = 5.0f;
+		mineralPercentage[DARK_BLUE] = 5.0f;
+		mineralPercentage[DARK_SKYBLUE] = 1.0f;
+		strcpy(fileName, "test3.txt");
+	}
 }
 Mine::~Mine() {
 	delete mineName;
+	mineName = nullptr;
 }
  
 //초기화 & player money
@@ -93,57 +95,57 @@ void Mine::MineInit() {
 
 	////광산을 세팅한다.
 
-	////광산의 배경을 불러온다.
-	////파일 불러오기
-	//fstream readfile(filename);
-	//char* filecontent = nullptr;
-	//if (readfile.is_open()) {
-	//	//파일 읽어오기 성공
+	//광산의 배경을 불러온다.
+	//파일 불러오기
+	fstream readfile(fileName);
+	char* filecontent = nullptr;
+	if (readfile.is_open()) {
+		//파일 읽어오기 성공
 
-	//	//맨끝으로 위치 이동
-	//	readfile.seekg(0, ios::end);
-	//	//맨 처음 위치부터 현재위치(파일 맨 끝)까지의 크기를 반환
-	//	int size = readfile.tellg();
-	//	//size만큼 문자열의 공간을 정해줌
-	//	filecontent = new char[size + 1];
-	//	//파일의 맨 처음 위치로 이동
-	//	readfile.seekg(0, ios::beg);
-	//	//파일의 전체 내용을 filecontent에 저장
-	//	readfile.read(&filecontent[0], size);
-	//	//이부분은 게임 관련 텍스트 이미지를 위한 부분이다.
-	//	if (true) {
-	//		gotoxy(0, 0);
-	//		cout << "수확한 광물>>" << endl << endl;
-	//		int cnt = 0;
-	//		for (int i = 0; i < gameplay_ground_height; i++) {
-	//			for (int j = 0; j < gameplay_ground_width; j++) {
-	//				if (filecontent[i] == '0') {
-	//					//c9a1
-	//					ground[i][j] = "▼";
-	//				}
-	//				else if (filecontent[i] == '1') {
-	//					ground[i][j] = "◇";
-	//				}
-	//				else if (filecontent[i] == '2') {
-	//					ground[i][j] = road;
-	//				}
-	//			}
-	//			cout << endl;
-	//		}
-	//		for (int i = 0; i < gameplay_ground_height; i++) {
-	//			for (int j = 0; j < gameplay_ground_width; j++) {
-	//				gotoxy(j*2, i + coordinate_top);
-	//				cout << ground[i][j];
-	//			}
-	//		}
-	//	}
-	//}
-	//else {
-	//	//파일 읽어오기 실패
-	//	strcpy(filecontent, "파일을 찾을 수 없습니다.");
-	//	return;
-	//}
-	//readfile.close();
+		//맨끝으로 위치 이동
+		readfile.seekg(0, ios::end);
+		//맨 처음 위치부터 현재위치(파일 맨 끝)까지의 크기를 반환
+		int size = readfile.tellg();
+		//size만큼 문자열의 공간을 정해줌
+		filecontent = new char[size + 1];
+		//파일의 맨 처음 위치로 이동
+		readfile.seekg(0, ios::beg);
+		//파일의 전체 내용을 filecontent에 저장
+		readfile.read(&filecontent[0], size);
+		//이부분은 게임 관련 텍스트 이미지를 위한 부분이다.
+		if (true) {
+			gotoXY(0, 0);
+			cout << "수확한 광물>>" << endl << endl;
+			int cnt = 0;
+			for (int i = 0; i < GAMEPLAY_GROUND_HEIGHT; i++) {
+				for (int j = 0; j < GAMEPLAY_GROUND_WIDTH; j++) {
+					if (filecontent[i] == '0') {
+						//c9a1
+						ground[i][j] = "▼";
+					}
+					else if (filecontent[i] == '1') {
+						ground[i][j] = "◇";
+					}
+					else if (filecontent[i] == '2') {
+						ground[i][j] = ROAD;
+					}
+				}
+				cout << endl;
+			}
+			for (int i = 0; i < GAMEPLAY_GROUND_HEIGHT; i++) {
+				for (int j = 0; j < GAMEPLAY_GROUND_WIDTH; j++) {
+					gotoXY(j*2, i + COORDINATE_TOP);
+					cout << ground[i][j];
+				}
+			}
+		}
+	}
+	else {
+		//파일 읽어오기 실패
+		
+		return;
+	}
+	readfile.close();
 
 #pragma endregion
 

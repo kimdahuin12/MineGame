@@ -52,7 +52,7 @@ private:
 	clock_t renderTime_delete;
 	int renderTimeCheck_delete;
 	//¸Ê °ü·Ã
-	char fileName[10];
+	char fileName[30];
 public:
 
 	bool mineBool;//±¤»ê 

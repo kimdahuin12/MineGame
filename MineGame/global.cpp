@@ -26,7 +26,7 @@ void reverseScene() {
 	gotoXY(0, 38);
 	cout << endl;
 	system("pause"); system("cls");
-	playingShuffleSound();
+	//playingShuffleSound();
 }
 
 void soundPlay() {

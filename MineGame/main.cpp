@@ -111,15 +111,15 @@ int main() {
 		case 2:														//로그인
 			reverseScene();
 			//로그인 성공하면 게임 시작
-			char id[50];
-			unsigned long money;
-			StartGame();
+			//char id[50]
+			//unsigned long money ;
+			
 			//if (MysqlDatabase::login(id, money)) { //로그인을 했다면 로그인된 아이디와 money 저장후 true, 아니면 false를 return 
-			//	//로그인 성공
-			//	player = new Player(id, money);
-			//	MysqlDatabase::playerInit(player); //플레이어 아이템, 돈, 등등 설정하기
-			//	StartGame();
-			//	LogOut();
+				//로그인 성공
+			player = new Player(new char[] {"DH"}, 10000);//임시
+				//MysqlDatabase::playerInit(player); //플레이어 아이템, 돈, 등등 설정하기
+				StartGame();
+				LogOut();
 			//}
 			break;
 		case 3:														//랭킹
@@ -342,31 +342,28 @@ void GoMining()
 		//들어갈 수 있는지 확인
 
 		//고른 번호에 맞게 db에서 조회해서 필요한 광물의 갯수를 가져온다.
- 	//	int mineral_condision = MysqlDatabase::MineralCondition(sel);
+ 		//int mineral_condision = MysqlDatabase::MineralCondition(sel);
+		int mineral_condision = 0;
+  		if (player->MineAuthorityCheck(mineral_condision) ) {//&& player->decreaseMoney(MysqlDatabase::GetEntrancePrice(sel))
+			//광산에 들어갈 수 있다면
+			//Mine객체를 만들고 초기화
+			mine = nullptr;
+			mine = new Mine(player, sel);
+			mine->SetMineInfo(new char[] {"일반 광산"}, 1, 5, new float[6]{ 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f });
+			//MysqlDatabase::MineInfoSave(*mine, sel);			//db에서 mine의 정보를 불러와서 mine객체의 변수에 저장
 
-  //		if (player->MineAuthorityCheck(mineral_condision) && player->decreaseMoney(MysqlDatabase::GetEntrancePrice(sel))) {
-		//	//광산에 들어갈 수 있다면
-		//	//Mine객체를 만들고 초기화
-		//	mine = nullptr;
-		//	mine = new Mine(player, sel);
-		//	MysqlDatabase::MineInfoSave(*mine, sel);			//db에서 mine의 정보를 불러와서 mine객체의 변수에 저장
-
-		//	break;
-		//}
-		//else {
-		//	//광산에 들어갈 수 없다면
-		//	reverseScene();
-		//	gotoXY(50, 50);
-		//	cout << "들어갈 수 없는 광산" << endl;
-		//	reverseScene();
-		//}
+			break;
+		}
+		else {
+			//광산에 들어갈 수 없다면
+			reverseScene();
+			gotoXY(50, 50);
+			cout << "들어갈 수 없는 광산" << endl;
+			reverseScene();
+		}
 
 
-		mine = nullptr;
-		mine = new Mine(player, sel);
-		char* name = new char[strlen("일반 광산") + 1];
-		strcpy(name, "일반 광산");
-		mine->SetMineInfo(name, 1, 5, new float[6]{0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f});
+		
 		break;
 		//price
 	//name
