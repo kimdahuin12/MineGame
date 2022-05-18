@@ -219,6 +219,7 @@ void Enemy::Direction(Pos start, Pos dest, const char* ground[GAMEPLAY_GROUND_HE
 			if (found[nextY][nextX]) { continue; }
 			found[nextY][nextX] = true;
 			parent[nextY][nextX].setPos(nowX, nowY);
+			if (nextX == dest._x && nextY == dest._y) { q = queue<Pos>(); break; } //적을 만나면 while문을 빠져나오도록
 			q.push(Pos(nextX, nextY));
 		}
 	}

@@ -124,7 +124,7 @@ int main() {
 			break;
 		case 3:														//·©Å·
 			reverseScene();
-			MysqlDatabase::ranking_print();
+			//MysqlDatabase::ranking_print();
 			reverseScene();
 			break;
 		case 4:														//¼³Á¤
